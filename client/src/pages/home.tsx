@@ -22,7 +22,7 @@ export default function Home() {
       const a = document.createElement("a");
       a.style.display = "none";
       a.href = url;
-      a.download = "alex-morgan-contact.vcf";
+      a.download = "bobby-contact.vcf";
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
@@ -145,13 +145,10 @@ export default function Home() {
                         WebkitBackgroundClip: 'text', 
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text'}}>
-              Alex Morgan
+              Bobby
             </h1>
-            <p className="text-gray-300 mb-4 text-lg font-medium">
-              Content Creator & Influencer
-            </p>
-            <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto">
-              Connecting with amazing people and sharing exclusive content. Follow me across platforms for updates and special offers.
+            <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
+              Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
             </p>
 
             {/* Contact Card Button */}
