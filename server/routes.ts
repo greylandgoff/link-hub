@@ -7,17 +7,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/contact-card", (req, res) => {
     const vCardData = `BEGIN:VCARD
 VERSION:3.0
-FN:Alex Morgan
-ORG:Content Creator
-TITLE:Influencer
-EMAIL:alex@alexmorgan.com
+FN:Bobby
+ORG:Personal Companion
+TITLE:Companion
+EMAIL:bobby@contact.com
 TEL:+1-555-0123
-URL:https://alexmorgan.com
-NOTE:Content Creator & Influencer - Follow me for exclusive content and updates
+URL:https://bobby.com
+NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
 END:VCARD`;
 
     res.setHeader('Content-Type', 'text/vcard');
-    res.setHeader('Content-Disposition', 'attachment; filename="alex-morgan-contact.vcf"');
+    res.setHeader('Content-Disposition', 'attachment; filename="bobby-contact.vcf"');
     res.send(vCardData);
   });
 
