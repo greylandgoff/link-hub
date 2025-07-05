@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/contact-modal";
-import { User, Calendar, MessageCircle, DollarSign, Twitter, Users } from "lucide-react";
+import { QRModal } from "@/components/qr-modal";
+import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [isQRModalOpen, setIsQRModalOpen] = useState(false);
 
   const handleSaveContact = async () => {
     try {
@@ -112,13 +114,21 @@ export default function Home() {
                            backgroundClip: 'text'}}>
                 Digital Hub
               </div>
-              <Button 
-                onClick={() => setIsContactModalOpen(true)}
-                className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
-              >
-                <MessageCircle className="w-4 h-4 mr-2" />
-                Contact
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={() => setIsQRModalOpen(true)}
+                  className="glass-effect px-3 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
+                >
+                  <QrCode className="w-4 h-4" />
+                </Button>
+                <Button 
+                  onClick={() => setIsContactModalOpen(true)}
+                  className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Contact
+                </Button>
+              </div>
             </nav>
           </div>
         </header>
@@ -151,14 +161,23 @@ export default function Home() {
               Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
             </p>
 
-            {/* Contact Card Button */}
-            <Button 
-              onClick={handleSaveContact}
-              className="glass-effect px-6 py-3 rounded-full font-medium hover-lift mb-8 inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
-            >
-              <User className="w-4 h-4" />
-              Save Contact Card
-            </Button>
+            {/* Contact Card & QR Code Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+              <Button 
+                onClick={handleSaveContact}
+                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
+              >
+                <User className="w-4 h-4" />
+                Save Contact
+              </Button>
+              <Button 
+                onClick={() => setIsQRModalOpen(true)}
+                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
+              >
+                <QrCode className="w-4 h-4 animate-neon-pulse" style={{color: 'hsl(280, 100%, 60%)'}} />
+                Share QR Code
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -240,6 +259,11 @@ export default function Home() {
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={() => setIsContactModalOpen(false)} 
+      />
+      
+      <QRModal 
+        isOpen={isQRModalOpen} 
+        onClose={() => setIsQRModalOpen(false)} 
       />
     </div>
   );

@@ -22,13 +22,16 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 ## Recent Changes
 - Initial project setup (July 5, 2025)
 - Implemented parallax scrolling effects
-- Added earth-tone color scheme
+- Enhanced with vibrant neon MSN butterfly aesthetic
 - Created contact card sharing functionality
 - Integrated social media links
+- Updated branding to "Bobby" with laid-back companion messaging
+- Added QR code generation for easy profile sharing (July 5, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
 2. **Contact Card Sharing**: Save contact information to phone
 3. **Contact Form**: Send text or email through contact tab
-4. **Parallax Effects**: Apple-inspired scrolling animations
-5. **Earth-tone Design**: Muted, sophisticated color palette
+4. **QR Code Sharing**: Generate and share QR codes for easy profile access
+5. **Neon MSN Butterfly Design**: Vibrant colors on black background with frosted glass
+6. **Parallax Effects**: Apple-inspired scrolling animations
