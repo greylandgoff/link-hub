@@ -46,7 +46,7 @@ export default function Home() {
       description: "Exclusive content & behind the scenes",
       url: "https://onlyfans.com/username",
       icon: User,
-      gradient: "from-blue-500 to-cyan-400"
+      neonColor: "hsl(320, 100%, 60%)"
     },
     {
       platform: "rentmen",
@@ -54,7 +54,7 @@ export default function Home() {
       description: "Professional services & bookings", 
       url: "https://rentmen.com/username",
       icon: Calendar,
-      gradient: "from-red-500 to-pink-500"
+      neonColor: "hsl(30, 100%, 50%)"
     },
     {
       platform: "twitter",
@@ -62,7 +62,7 @@ export default function Home() {
       description: "Daily updates & thoughts",
       url: "https://twitter.com/username", 
       icon: Twitter,
-      gradient: "from-sky-400 to-blue-500"
+      neonColor: "hsl(200, 100%, 50%)"
     }
   ];
 
@@ -73,7 +73,7 @@ export default function Home() {
       handle: "$alexmorgan",
       url: "https://cash.app/$alexmorgan",
       icon: SiCashapp,
-      gradient: "from-green-400 to-emerald-500"
+      neonColor: "hsl(120, 100%, 50%)"
     },
     {
       platform: "apple-cash", 
@@ -81,17 +81,22 @@ export default function Home() {
       handle: "Quick payments",
       url: "tel:+1234567890",
       icon: SiApple,
-      gradient: "from-gray-400 to-gray-600"
+      neonColor: "hsl(180, 100%, 50%)"
     }
   ];
 
   return (
     <div className="min-h-screen relative">
-      {/* Animated Background */}
-      <div className="fixed inset-0 opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-gradient-to-r from-purple-500 to-purple-600 rounded-full mix-blend-multiply filter blur-xl animate-float"></div>
-        <div className="absolute top-1/3 right-1/4 w-72 h-72 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full mix-blend-multiply filter blur-xl animate-float" style={{animationDelay: "1s"}}></div>
-        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-gradient-to-r from-red-400 to-red-500 rounded-full mix-blend-multiply filter blur-xl animate-float" style={{animationDelay: "2s"}}></div>
+      {/* Neon MSN Butterfly Background */}
+      <div className="fixed inset-0 opacity-40">
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full mix-blend-screen filter blur-xl animate-butterfly"
+             style={{background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(280, 100%, 60%))'}}></div>
+        <div className="absolute top-1/3 right-1/4 w-72 h-72 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
+             style={{background: 'radial-gradient(circle, hsl(200, 100%, 50%), hsl(210, 100%, 60%))', animationDelay: "1s"}}></div>
+        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
+             style={{background: 'radial-gradient(circle, hsl(180, 100%, 50%), hsl(120, 100%, 50%))', animationDelay: "2s"}}></div>
+        <div className="absolute top-1/2 left-1/2 w-48 h-48 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
+             style={{background: 'radial-gradient(circle, hsl(30, 100%, 50%), hsl(330, 100%, 65%))', animationDelay: "3s"}}></div>
       </div>
 
       {/* Main Container */}
@@ -100,7 +105,11 @@ export default function Home() {
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
             <nav className="flex justify-between items-center">
-              <div className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
+              <div className="text-xl font-bold animate-neon-pulse" 
+                   style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%))', 
+                           WebkitBackgroundClip: 'text', 
+                           WebkitTextFillColor: 'transparent',
+                           backgroundClip: 'text'}}>
                 Digital Hub
               </div>
               <Button 
@@ -120,23 +129,28 @@ export default function Home() {
             {/* Profile Avatar */}
             <div className="relative mb-6">
               <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&h=200" 
+                src="@assets/IMG_9267_1751755763247.jpg" 
                 alt="Profile Avatar" 
-                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
+                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl neon-glow"
               />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-400 rounded-full border-4 border-gray-800 flex items-center justify-center">
+              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full border-4 border-black flex items-center justify-center animate-neon-pulse"
+                   style={{background: 'radial-gradient(circle, hsl(120, 100%, 50%), hsl(180, 100%, 50%))'}}>
                 <div className="w-3 h-3 bg-white rounded-full animate-pulse-slow"></div>
               </div>
             </div>
 
             {/* Profile Info */}
-            <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold mb-2 animate-neon-pulse" 
+                style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%), hsl(280, 100%, 60%))', 
+                        WebkitBackgroundClip: 'text', 
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'}}>
               Alex Morgan
             </h1>
-            <p className="text-gray-400 mb-4 text-lg">
+            <p className="text-gray-300 mb-4 text-lg font-medium">
               Content Creator & Influencer
             </p>
-            <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto">
+            <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto">
               Connecting with amazing people and sharing exclusive content. Follow me across platforms for updates and special offers.
             </p>
 
@@ -166,14 +180,17 @@ export default function Home() {
                     className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
                   >
                     <div className="flex items-center gap-4">
-                      <div className={`w-12 h-12 bg-gradient-to-r ${link.gradient} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                        <IconComponent className="text-white text-xl w-6 h-6" />
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform animate-neon-pulse"
+                           style={{background: `radial-gradient(circle, ${link.neonColor}, ${link.neonColor}80)`, 
+                                   boxShadow: `0 0 20px ${link.neonColor}60`}}>
+                        <IconComponent className="text-white text-xl w-6 h-6 neon-glow" />
                       </div>
                       <div className="flex-1 text-left">
                         <h3 className="font-semibold text-white">{link.name}</h3>
-                        <p className="text-gray-400 text-sm">{link.description}</p>
+                        <p className="text-gray-300 text-sm">{link.description}</p>
                       </div>
-                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all">
+                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all animate-neon-pulse"
+                           style={{color: link.neonColor}}>
                         →
                       </div>
                     </div>
@@ -192,11 +209,13 @@ export default function Home() {
                       className="block glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
                     >
                       <div className="text-center">
-                        <div className={`w-12 h-12 bg-gradient-to-r ${payment.gradient} rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform`}>
-                          <IconComponent className="text-white text-xl w-6 h-6" />
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform animate-neon-pulse"
+                             style={{background: `radial-gradient(circle, ${payment.neonColor}, ${payment.neonColor}80)`, 
+                                     boxShadow: `0 0 20px ${payment.neonColor}60`}}>
+                          <IconComponent className="text-white text-xl w-6 h-6 neon-glow" />
                         </div>
                         <h3 className="font-semibold text-white text-sm">{payment.name}</h3>
-                        <p className="text-gray-400 text-xs">{payment.handle}</p>
+                        <p className="text-gray-300 text-xs">{payment.handle}</p>
                       </div>
                     </button>
                   );
