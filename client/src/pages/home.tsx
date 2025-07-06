@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
@@ -8,6 +8,13 @@ import { SiApple, SiCashapp } from "react-icons/si";
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSaveContact = async () => {
     try {
@@ -89,16 +96,31 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Neon MSN Butterfly Background */}
+      {/* Neon MSN Butterfly Background with Parallax */}
       <div className="fixed inset-0 opacity-40">
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full mix-blend-screen filter blur-xl animate-butterfly"
-             style={{background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(280, 100%, 60%))'}}></div>
+             style={{
+               background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(280, 100%, 60%))',
+               transform: `translateY(${scrollY * 0.2}px)`
+             }}></div>
         <div className="absolute top-1/3 right-1/4 w-72 h-72 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
-             style={{background: 'radial-gradient(circle, hsl(200, 100%, 50%), hsl(210, 100%, 60%))', animationDelay: "1s"}}></div>
+             style={{
+               background: 'radial-gradient(circle, hsl(200, 100%, 50%), hsl(210, 100%, 60%))', 
+               animationDelay: "1s",
+               transform: `translateY(${scrollY * -0.1}px)`
+             }}></div>
         <div className="absolute bottom-1/4 left-1/3 w-80 h-80 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
-             style={{background: 'radial-gradient(circle, hsl(180, 100%, 50%), hsl(120, 100%, 50%))', animationDelay: "2s"}}></div>
+             style={{
+               background: 'radial-gradient(circle, hsl(180, 100%, 50%), hsl(120, 100%, 50%))', 
+               animationDelay: "2s",
+               transform: `translateY(${scrollY * 0.15}px)`
+             }}></div>
         <div className="absolute top-1/2 left-1/2 w-48 h-48 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
-             style={{background: 'radial-gradient(circle, hsl(30, 100%, 50%), hsl(330, 100%, 65%))', animationDelay: "3s"}}></div>
+             style={{
+               background: 'radial-gradient(circle, hsl(30, 100%, 50%), hsl(330, 100%, 65%))', 
+               animationDelay: "3s",
+               transform: `translateY(${scrollY * -0.05}px)`
+             }}></div>
       </div>
 
       {/* Main Container */}
@@ -107,7 +129,7 @@ export default function Home() {
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
             <nav className="flex justify-between items-center">
-              <div className="text-xl font-bold animate-neon-pulse" 
+              <div className="text-xl font-bold" 
                    style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%))', 
                            WebkitBackgroundClip: 'text', 
                            WebkitTextFillColor: 'transparent',
@@ -134,23 +156,20 @@ export default function Home() {
         </header>
 
         {/* Profile Section */}
-        <section className="py-8 px-4">
+        <section className="py-8 px-4" 
+                 style={{transform: `translateY(${scrollY * 0.1}px)`}}>
           <div className="max-w-md mx-auto text-center">
             {/* Profile Avatar */}
             <div className="relative mb-6">
               <img 
-                src="@assets/IMG_9267_1751755763247.jpg" 
+                src="/attached_assets/IMG_9267_1751755763247.jpg" 
                 alt="Profile Avatar" 
-                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl neon-glow"
+                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
               />
-              <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full border-4 border-black flex items-center justify-center animate-neon-pulse"
-                   style={{background: 'radial-gradient(circle, hsl(120, 100%, 50%), hsl(180, 100%, 50%))'}}>
-                <div className="w-3 h-3 bg-white rounded-full animate-pulse-slow"></div>
-              </div>
             </div>
 
             {/* Profile Info */}
-            <h1 className="text-3xl font-bold mb-2 animate-neon-pulse" 
+            <h1 className="text-3xl font-bold mb-2" 
                 style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%), hsl(280, 100%, 60%))', 
                         WebkitBackgroundClip: 'text', 
                         WebkitTextFillColor: 'transparent',
@@ -174,7 +193,7 @@ export default function Home() {
                 onClick={() => setIsQRModalOpen(true)}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
               >
-                <QrCode className="w-4 h-4 animate-neon-pulse" style={{color: 'hsl(280, 100%, 60%)'}} />
+                <QrCode className="w-4 h-4" style={{color: 'hsl(280, 100%, 60%)'}} />
                 Share QR Code
               </Button>
             </div>
@@ -182,7 +201,8 @@ export default function Home() {
         </section>
 
         {/* Social Links */}
-        <section className="py-8 px-4">
+        <section className="py-8 px-4"
+                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
           <div className="max-w-md mx-auto">
             <h2 className="text-xl font-semibold mb-6 text-center text-gray-200">Connect With Me</h2>
             
@@ -196,16 +216,16 @@ export default function Home() {
                     className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform animate-neon-pulse"
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
                            style={{background: `radial-gradient(circle, ${link.neonColor}, ${link.neonColor}80)`, 
                                    boxShadow: `0 0 20px ${link.neonColor}60`}}>
-                        <IconComponent className="text-white text-xl w-6 h-6 neon-glow" />
+                        <IconComponent className="text-white text-xl w-6 h-6" />
                       </div>
                       <div className="flex-1 text-left">
                         <h3 className="font-semibold text-white">{link.name}</h3>
                         <p className="text-gray-300 text-sm">{link.description}</p>
                       </div>
-                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all animate-neon-pulse"
+                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
                            style={{color: link.neonColor}}>
                         →
                       </div>
@@ -225,10 +245,10 @@ export default function Home() {
                       className="block glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
                     >
                       <div className="text-center">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform animate-neon-pulse"
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform"
                              style={{background: `radial-gradient(circle, ${payment.neonColor}, ${payment.neonColor}80)`, 
                                      boxShadow: `0 0 20px ${payment.neonColor}60`}}>
-                          <IconComponent className="text-white text-xl w-6 h-6 neon-glow" />
+                          <IconComponent className="text-white text-xl w-6 h-6" />
                         </div>
                         <h3 className="font-semibold text-white text-sm">{payment.name}</h3>
                         <p className="text-gray-300 text-xs">{payment.handle}</p>
@@ -241,11 +261,40 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Spacer for parallax effect */}
+        <section className="py-16 px-4">
+          <div className="max-w-md mx-auto text-center">
+            <div className="glass-effect p-8 rounded-3xl border border-white/20">
+              <h3 className="text-xl font-semibold text-white mb-4">Ready to Connect?</h3>
+              <p className="text-gray-300 mb-6">
+                Whether you're looking for engaging conversation, thoughtful companionship, or just someone to share good vibes with - I'm here for it all.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <Button 
+                  onClick={() => setIsContactModalOpen(true)}
+                  className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Get in Touch
+                </Button>
+                <Button 
+                  onClick={() => setIsQRModalOpen(true)}
+                  className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
+                >
+                  <QrCode className="w-4 h-4 mr-2" style={{color: 'hsl(280, 100%, 60%)'}} />
+                  Share Profile
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Footer */}
-        <footer className="py-8 px-4 text-center">
+        <footer className="py-8 px-4 text-center"
+                style={{transform: `translateY(${scrollY * -0.02}px)`}}>
           <div className="max-w-md mx-auto">
             <p className="text-gray-500 text-sm mb-4">
-              © 2024 Alex Morgan. All rights reserved.
+              © 2024 Bobby. All rights reserved.
             </p>
             <div className="flex justify-center gap-6 text-gray-400">
               <a href="#" className="hover:text-white transition-colors">Privacy</a>
