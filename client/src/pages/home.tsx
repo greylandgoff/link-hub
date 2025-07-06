@@ -54,7 +54,7 @@ export default function Home() {
     {
       platform: "onlyfans",
       name: "OnlyFans", 
-      description: "Exclusive content & behind the scenes",
+      description: "NSFW exclusive content",
       url: "https://onlyfans.com/bobbyatx",
       icon: User,
       neonColor: "hsl(320, 100%, 60%)"
@@ -69,8 +69,8 @@ export default function Home() {
     },
     {
       platform: "twitter",
-      name: "Twitter/X",
-      description: "Daily updates & thoughts",
+      name: "X",
+      description: "NSFW",
       url: "https://twitter.com/graydoutx", 
       icon: Twitter,
       neonColor: "hsl(200, 100%, 50%)"
