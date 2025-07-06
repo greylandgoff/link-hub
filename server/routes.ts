@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
 import { sendSMS, isSMSConfigured } from "./sms-service";
+import { sendSMSViaTextBelt, isTextBeltConfigured } from "./textbelt-service";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -127,29 +128,35 @@ END:VCARD`;
         timestamp: new Date().toISOString()
       });
 
-      // Try to send real SMS if Twilio is configured
-      if (isSMSConfigured()) {
-        const smsText = `New contact from ${name} (${email}):\n\n${message}`;
-        const smsSent = await sendSMS({
+      // Try TextBelt first (simpler, no business verification needed)
+      const smsText = `New contact from ${name} (${email}):\n\n${message}`;
+      let smsSent = false;
+
+      if (isTextBeltConfigured()) {
+        smsSent = await sendSMSViaTextBelt({
           to: "+17372972747", // Your personal phone number for receiving messages
           message: smsText
         });
+      }
 
-        if (smsSent) {
-          res.json({ 
-            message: "Text message sent successfully",
-            success: true 
-          });
-        } else {
-          res.status(500).json({ 
-            message: "Failed to send text message" 
-          });
-        }
-      } else {
-        // Fallback when Twilio is not configured
-        console.log("Twilio not configured, SMS logged only");
+      // Fallback to Twilio if TextBelt fails and Twilio is configured
+      if (!smsSent && isSMSConfigured()) {
+        smsSent = await sendSMS({
+          to: "+17372972747",
+          message: smsText
+        });
+      }
+
+      if (smsSent) {
         res.json({ 
-          message: "Message logged (Twilio not configured)",
+          message: "Text message sent successfully",
+          success: true 
+        });
+      } else {
+        // Log message even if SMS fails
+        console.log("SMS services not available, message logged only");
+        res.json({ 
+          message: "Message logged (SMS services unavailable)",
           success: true 
         });
       }
