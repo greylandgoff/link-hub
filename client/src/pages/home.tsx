@@ -4,6 +4,7 @@ import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
+import profileImage from "@assets/IMG_9267_1751755763247.jpg";
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -53,7 +54,7 @@ export default function Home() {
       platform: "onlyfans",
       name: "OnlyFans", 
       description: "Exclusive content & behind the scenes",
-      url: "https://onlyfans.com/username",
+      url: "https://onlyfans.com/bobbyatx",
       icon: User,
       neonColor: "hsl(320, 100%, 60%)"
     },
@@ -61,15 +62,15 @@ export default function Home() {
       platform: "rentmen",
       name: "Rentmen",
       description: "Professional services & bookings", 
-      url: "https://rentmen.com/username",
+      url: "https://rent.men/BobbyAtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
     },
     {
       platform: "twitter",
-      name: "Twitter",
+      name: "Twitter/X",
       description: "Daily updates & thoughts",
-      url: "https://twitter.com/username", 
+      url: "https://twitter.com/graydoutx", 
       icon: Twitter,
       neonColor: "hsl(200, 100%, 50%)"
     }
@@ -154,8 +155,8 @@ export default function Home() {
             {/* Profile Avatar */}
             <div className="relative mb-6">
               <img 
-                src="/attached_assets/IMG_9267_1751755763247.jpg" 
-                alt="Profile Avatar" 
+                src={profileImage} 
+                alt="Bobby's Profile" 
                 className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
               />
             </div>
