@@ -6,6 +6,10 @@ import { sendEmail, isEmailConfigured } from "./email-service";
 import { sendSMS, isSMSConfigured } from "./sms-service";
 import * as fs from "fs";
 import * as path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact card generation endpoint
@@ -24,7 +28,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 VERSION:3.0
 FN:Bobby
 ORG:Personal Companion
-TITLE:Companion
+TITLE:Personal Companion
 EMAIL:bobby@rentbobby.com
 TEL:+17372972747
 URL:https://rentbobby.com
@@ -41,7 +45,7 @@ END:VCARD`;
 VERSION:3.0
 FN:Bobby
 ORG:Personal Companion
-TITLE:Companion
+TITLE:Personal Companion
 EMAIL:bobby@rentbobby.com
 TEL:+17372972747
 URL:https://rentbobby.com
