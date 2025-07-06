@@ -79,6 +79,8 @@ export function BackgroundTextureGenerator({ onMoodChange }: BackgroundTextureGe
   const [showControls, setShowControls] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isMouseActive, setIsMouseActive] = useState(false);
+  const [moodIndex, setMoodIndex] = useState(0);
+  const [autoShuffle, setAutoShuffle] = useState(true);
 
   // Initialize particles
   const createParticles = (mood: MoodPalette) => {
@@ -213,10 +215,16 @@ export function BackgroundTextureGenerator({ onMoodChange }: BackgroundTextureGe
     onMoodChange?.(mood);
   };
 
-  // Random mood
-  const randomMood = () => {
-    const randomIndex = Math.floor(Math.random() * MOOD_PALETTES.length);
-    changeMood(MOOD_PALETTES[randomIndex]);
+  // Auto shuffle to next mood
+  const nextMood = () => {
+    const nextIndex = (moodIndex + 1) % MOOD_PALETTES.length;
+    setMoodIndex(nextIndex);
+    changeMood(MOOD_PALETTES[nextIndex]);
+  };
+
+  // Toggle auto shuffle
+  const toggleAutoShuffle = () => {
+    setAutoShuffle(!autoShuffle);
   };
 
   // Toggle animation
@@ -233,6 +241,17 @@ export function BackgroundTextureGenerator({ onMoodChange }: BackgroundTextureGe
   const handleMouseLeave = () => {
     setIsMouseActive(false);
   };
+
+  // Auto shuffle timer
+  useEffect(() => {
+    if (!autoShuffle || !isPlaying) return;
+    
+    const interval = setInterval(() => {
+      nextMood();
+    }, 8000); // Change mood every 8 seconds
+    
+    return () => clearInterval(interval);
+  }, [autoShuffle, isPlaying, moodIndex]);
 
   // Initialize
   useEffect(() => {
@@ -299,10 +318,10 @@ export function BackgroundTextureGenerator({ onMoodChange }: BackgroundTextureGe
                   {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                 </Button>
                 <Button
-                  onClick={randomMood}
+                  onClick={toggleAutoShuffle}
                   size="sm"
                   variant="ghost"
-                  className="p-1 h-8 w-8 hover:bg-white/10"
+                  className={`p-1 h-8 w-8 hover:bg-white/10 ${autoShuffle ? 'bg-white/20' : ''}`}
                 >
                   <Shuffle className="w-4 h-4" />
                 </Button>
@@ -311,29 +330,22 @@ export function BackgroundTextureGenerator({ onMoodChange }: BackgroundTextureGe
               <div className="text-xs text-white/70 mb-2">
                 Current: {currentMood.name}
               </div>
+              <div className="text-xs text-white/50 mb-3">
+                {autoShuffle ? '🔄 Auto-shuffling themes' : '⏸️ Manual mode'}
+              </div>
               
-              <div className="space-y-2">
-                {MOOD_PALETTES.map((mood) => (
-                  <button
-                    key={mood.name}
-                    onClick={() => changeMood(mood)}
-                    className={`w-full text-left p-2 rounded text-xs hover:bg-white/10 transition-colors ${
-                      currentMood.name === mood.name ? 'bg-white/20' : ''
-                    }`}
-                  >
-                    <div className="font-medium text-white">{mood.name}</div>
-                    <div className="text-white/60 text-xs">{mood.description}</div>
-                    <div className="flex gap-1 mt-1">
-                      {mood.colors.slice(0, 3).map((color, i) => (
-                        <div
-                          key={i}
-                          className="w-3 h-3 rounded-full border border-white/20"
-                          style={{ backgroundColor: color }}
-                        />
-                      ))}
-                    </div>
-                  </button>
-                ))}
+              <div className="p-2 bg-white/10 rounded">
+                <div className="font-medium text-white text-xs">{currentMood.name}</div>
+                <div className="text-white/60 text-xs mb-2">{currentMood.description}</div>
+                <div className="flex gap-1">
+                  {currentMood.colors.slice(0, 5).map((color, i) => (
+                    <div
+                      key={i}
+                      className="w-4 h-4 rounded-full border border-white/20"
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
