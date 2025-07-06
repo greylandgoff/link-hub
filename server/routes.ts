@@ -97,7 +97,7 @@ END:VCARD`;
       if (isSMSConfigured()) {
         const smsText = `New contact from ${name} (${email}):\n\n${message}`;
         const smsSent = await sendSMS({
-          to: process.env.YOUR_PHONE_NUMBER || "+1234567890", // Your personal phone number for receiving messages
+          to: "+17372972747", // Your personal phone number for receiving messages
           message: smsText
         });
 
