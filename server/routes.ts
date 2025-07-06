@@ -2,6 +2,8 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import QRCode from "qrcode";
+import { sendEmail, isEmailConfigured } from "./email-service";
+import { sendSMS, isSMSConfigured } from "./sms-service";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact card generation endpoint
@@ -33,21 +35,39 @@ END:VCARD`;
         });
       }
 
-      // In a real application, you would use a service like Nodemailer
-      // to send the actual email. For now, we'll log it and return success.
       console.log("Email contact request:", {
         from: `${name} <${email}>`,
         message: message,
         timestamp: new Date().toISOString()
       });
 
-      // Simulate email sending
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Try to send real email if SendGrid is configured
+      if (isEmailConfigured()) {
+        const emailSent = await sendEmail({
+          from: "your-verified-email@example.com", // Must be verified in SendGrid first
+          to: "your-verified-email@example.com", // Same verified email to receive messages
+          subject: `New Contact Form Message from ${name}`,
+          text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\nReply to: ${email}`
+        });
 
-      res.json({ 
-        message: "Email sent successfully",
-        success: true 
-      });
+        if (emailSent) {
+          res.json({ 
+            message: "Email sent successfully",
+            success: true 
+          });
+        } else {
+          res.status(500).json({ 
+            message: "Failed to send email" 
+          });
+        }
+      } else {
+        // Fallback when SendGrid is not configured
+        console.log("SendGrid not configured, email logged only");
+        res.json({ 
+          message: "Email logged (SendGrid not configured)",
+          success: true 
+        });
+      }
     } catch (error) {
       console.error("Error processing email contact:", error);
       res.status(500).json({ 
@@ -59,7 +79,7 @@ END:VCARD`;
   // Text message contact endpoint  
   app.post("/api/contact/text", async (req, res) => {
     try {
-      const { name, email, message } = req.body;
+      const { name, email, message, phone } = req.body;
 
       if (!name || !email || !message) {
         return res.status(400).json({ 
@@ -67,21 +87,38 @@ END:VCARD`;
         });
       }
 
-      // In a real application, you would use a service like Twilio
-      // to send the actual SMS. For now, we'll log it and return success.
       console.log("Text contact request:", {
         from: `${name} <${email}>`,
         message: message,
         timestamp: new Date().toISOString()
       });
 
-      // Simulate SMS sending
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Try to send real SMS if Twilio is configured
+      if (isSMSConfigured()) {
+        const smsText = `New contact from ${name} (${email}):\n\n${message}`;
+        const smsSent = await sendSMS({
+          to: "+1234567890", // Your actual phone number where you want to receive messages
+          message: smsText
+        });
 
-      res.json({ 
-        message: "Text message sent successfully",
-        success: true 
-      });
+        if (smsSent) {
+          res.json({ 
+            message: "Text message sent successfully",
+            success: true 
+          });
+        } else {
+          res.status(500).json({ 
+            message: "Failed to send text message" 
+          });
+        }
+      } else {
+        // Fallback when Twilio is not configured
+        console.log("Twilio not configured, SMS logged only");
+        res.json({ 
+          message: "Message logged (Twilio not configured)",
+          success: true 
+        });
+      }
     } catch (error) {
       console.error("Error processing text contact:", error);
       res.status(500).json({ 
