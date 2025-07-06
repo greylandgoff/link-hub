@@ -122,12 +122,12 @@ export default function Home() {
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
             <nav className="flex justify-between items-center">
-              <div className="text-xl font-bold" 
+              <div className="text-xl font-bold tracking-tight" 
                    style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%))', 
                            WebkitBackgroundClip: 'text', 
                            WebkitTextFillColor: 'transparent',
                            backgroundClip: 'text'}}>
-                Digital Hub
+                Bobby
               </div>
               <div className="flex gap-2">
                 <Button 
@@ -162,11 +162,12 @@ export default function Home() {
             </div>
 
             {/* Profile Info */}
-            <h1 className="text-3xl font-bold mb-2" 
+            <h1 className="text-3xl font-bold mb-2 tracking-tight" 
                 style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%), hsl(280, 100%, 60%))', 
                         WebkitBackgroundClip: 'text', 
                         WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text'}}>
+                        backgroundClip: 'text',
+                        fontWeight: '700'}}>
               Bobby
             </h1>
             <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
