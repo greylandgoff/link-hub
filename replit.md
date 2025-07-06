@@ -24,9 +24,12 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - Implemented parallax scrolling effects
 - Enhanced with vibrant neon MSN butterfly aesthetic
 - Created contact card sharing functionality
-- Integrated social media links
+- Integrated social media links with actual Bobby's handles
 - Updated branding to "Bobby" with laid-back companion messaging
 - Added QR code generation for easy profile sharing (July 5, 2025)
+- Fixed profile photo display with proper Vite asset imports (July 6, 2025)
+- Updated font to Inter for Apple/NYC subway aesthetic (July 6, 2025)
+- Removed "Digital Hub" text per user preference (July 6, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
