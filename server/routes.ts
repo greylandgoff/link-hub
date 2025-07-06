@@ -15,7 +15,7 @@ ORG:Personal Companion
 TITLE:Companion
 EMAIL:bobby@rentbobby.com
 TEL:+17372972747
-URL:https://onlyfans.com/rentbobby
+URL:https://rentbobby.com
 NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
 END:VCARD`;
 
