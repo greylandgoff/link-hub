@@ -44,8 +44,8 @@ END:VCARD`;
       // Try to send real email if SendGrid is configured
       if (isEmailConfigured()) {
         const emailSent = await sendEmail({
-          from: "me@greyland.io", // Your verified SendGrid email
-          to: "me@greyland.io", // Where you want to receive contact messages
+          from: "bobby@rentbobby.com", // Your verified SendGrid email
+          to: "bobby@rentbobby.com", // Where you want to receive contact messages
           subject: `New Contact Form Message from ${name}`,
           text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\nReply to: ${email}`
         });
@@ -97,7 +97,7 @@ END:VCARD`;
       if (isSMSConfigured()) {
         const smsText = `New contact from ${name} (${email}):\n\n${message}`;
         const smsSent = await sendSMS({
-          to: "+1234567890", // Your actual phone number where you want to receive messages
+          to: process.env.YOUR_PHONE_NUMBER || "+1234567890", // Your personal phone number for receiving messages
           message: smsText
         });
 
