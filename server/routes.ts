@@ -4,11 +4,40 @@ import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
 import { sendSMS, isSMSConfigured } from "./sms-service";
+import * as fs from "fs";
+import * as path from "path";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Contact card generation endpoint
   app.get("/api/contact-card", (req, res) => {
-    const vCardData = `BEGIN:VCARD
+    try {
+      // Read and encode the profile photo
+      const photoPath = path.join(__dirname, "..", "attached_assets", "IMG_9267_1751755763247.jpg");
+      let photoBase64 = '';
+      
+      if (fs.existsSync(photoPath)) {
+        const photoBuffer = fs.readFileSync(photoPath);
+        photoBase64 = photoBuffer.toString('base64');
+      }
+
+      const vCardData = `BEGIN:VCARD
+VERSION:3.0
+FN:Bobby
+ORG:Personal Companion
+TITLE:Companion
+EMAIL:bobby@rentbobby.com
+TEL:+17372972747
+URL:https://rentbobby.com
+NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.${photoBase64 ? `\nPHOTO;ENCODING=BASE64;TYPE=JPEG:${photoBase64}` : ''}
+END:VCARD`;
+
+      res.setHeader('Content-Type', 'text/vcard');
+      res.setHeader('Content-Disposition', 'attachment; filename="bobby-contact.vcf"');
+      res.send(vCardData);
+    } catch (error) {
+      console.error("Error generating contact card:", error);
+      // Fallback without photo
+      const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:Bobby
 ORG:Personal Companion
@@ -19,9 +48,10 @@ URL:https://rentbobby.com
 NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
 END:VCARD`;
 
-    res.setHeader('Content-Type', 'text/vcard');
-    res.setHeader('Content-Disposition', 'attachment; filename="bobby-contact.vcf"');
-    res.send(vCardData);
+      res.setHeader('Content-Type', 'text/vcard');
+      res.setHeader('Content-Disposition', 'attachment; filename="bobby-contact.vcf"');
+      res.send(vCardData);
+    }
   });
 
   // Email contact endpoint
