@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
+import { BackgroundTextureGenerator } from "@/components/background-texture-generator";
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 import profileImage from "@assets/IMG_9267_1751755763247.jpg";
@@ -89,8 +90,11 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      {/* Dynamic Background Texture Generator */}
+      <BackgroundTextureGenerator />
+      
       {/* Neon MSN Butterfly Background with Parallax */}
-      <div className="fixed inset-0 opacity-40">
+      <div className="fixed inset-0 opacity-40" style={{ zIndex: 2 }}>
         <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full mix-blend-screen filter blur-xl animate-butterfly"
              style={{
                background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(280, 100%, 60%))',
@@ -117,7 +121,7 @@ export default function Home() {
       </div>
 
       {/* Main Container */}
-      <div className="relative z-10">
+      <div className="relative" style={{ zIndex: 10 }}>
         {/* Header */}
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
