@@ -44,8 +44,8 @@ END:VCARD`;
       // Try to send real email if SendGrid is configured
       if (isEmailConfigured()) {
         const emailSent = await sendEmail({
-          from: "your-verified-email@example.com", // Must be verified in SendGrid first
-          to: "your-verified-email@example.com", // Same verified email to receive messages
+          from: "me@greyland.io", // Your verified SendGrid email
+          to: "me@greyland.io", // Where you want to receive contact messages
           subject: `New Contact Form Message from ${name}`,
           text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\nReply to: ${email}`
         });
