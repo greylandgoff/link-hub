@@ -79,18 +79,10 @@ export default function Home() {
     {
       platform: "cashapp",
       name: "CashApp",
-      handle: "$alexmorgan",
-      url: "https://cash.app/$alexmorgan",
+      handle: "@grey1and",
+      url: "https://cash.app/$grey1and",
       icon: SiCashapp,
       neonColor: "hsl(120, 100%, 50%)"
-    },
-    {
-      platform: "apple-cash", 
-      name: "Apple Cash",
-      handle: "Quick payments",
-      url: "tel:+1234567890",
-      icon: SiApple,
-      neonColor: "hsl(180, 100%, 50%)"
     }
   ];
 
@@ -235,27 +227,39 @@ export default function Home() {
               })}
 
               {/* Payment Options */}
-              <div className="grid grid-cols-2 gap-4 mt-8">
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-gray-200 mb-4 text-center">Support & Tips</h3>
                 {paymentLinks.map((payment) => {
                   const IconComponent = payment.icon;
                   return (
                     <button
                       key={payment.platform}
                       onClick={() => handleLinkClick(payment.platform, payment.url)}
-                      className="block glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
+                      className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20 mb-4"
                     >
-                      <div className="text-center">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform"
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
                              style={{background: `radial-gradient(circle, ${payment.neonColor}, ${payment.neonColor}80)`, 
                                      boxShadow: `0 0 20px ${payment.neonColor}60`}}>
                           <IconComponent className="text-white text-xl w-6 h-6" />
                         </div>
-                        <h3 className="font-semibold text-white text-sm">{payment.name}</h3>
-                        <p className="text-gray-300 text-xs">{payment.handle}</p>
+                        <div className="flex-1 text-left">
+                          <h3 className="font-semibold text-white">{payment.name}</h3>
+                          <p className="text-gray-300 text-sm">{payment.handle}</p>
+                        </div>
+                        <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
+                             style={{color: payment.neonColor}}>
+                          →
+                        </div>
                       </div>
                     </button>
                   );
                 })}
+                <div className="text-center mt-4">
+                  <p className="text-gray-400 text-xs">
+                    Apple Cash available via text/contact form
+                  </p>
+                </div>
               </div>
             </div>
           </div>
