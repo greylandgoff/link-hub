@@ -13,9 +13,9 @@ VERSION:3.0
 FN:Bobby
 ORG:Personal Companion
 TITLE:Companion
-EMAIL:bobby@contact.com
-TEL:+1-555-0123
-URL:https://bobby.com
+EMAIL:bobby@rentbobby.com
+TEL:+17372972747
+URL:https://onlyfans.com/rentbobby
 NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
 END:VCARD`;
 
