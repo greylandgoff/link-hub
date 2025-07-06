@@ -12,7 +12,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/contact-card", (req, res) => {
     try {
       // Read and encode the profile photo
-      const photoPath = path.join(__dirname, "..", "attached_assets", "IMG_9267_1751755763247.jpg");
+      const photoPath = path.join(__dirname, "..", "attached_assets", "IMG_1261_1751811219428.jpg");
       let photoBase64 = '';
       
       if (fs.existsSync(photoPath)) {
