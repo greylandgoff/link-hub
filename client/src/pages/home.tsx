@@ -5,7 +5,7 @@ import { QRModal } from "@/components/qr-modal";
 import { BackgroundTextureGenerator } from "@/components/background-texture-generator";
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
-import profileImage from "@assets/IMG_9267_1751755763247.jpg";
+import profileImage from "@assets/IMG_2889_1751926502403.jpg";
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
