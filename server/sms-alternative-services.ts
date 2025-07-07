@@ -3,6 +3,7 @@
 interface SMSParams {
   to: string;
   message: string;
+  from?: string;  // Contact person's name and email
 }
 
 // SMS.to - Simple API, no business verification needed
@@ -76,7 +77,7 @@ export async function sendSMSViaVonage(params: SMSParams): Promise<boolean> {
   }
 }
 
-// Simple webhook-based SMS (for services like Zapier, Make.com)
+// IFTTT webhook SMS (for free SMS notifications)
 export async function sendSMSViaWebhook(params: SMSParams): Promise<boolean> {
   if (!process.env.SMS_WEBHOOK_URL) {
     return false;
@@ -89,21 +90,26 @@ export async function sendSMSViaWebhook(params: SMSParams): Promise<boolean> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        phone: params.to,
-        message: params.message,
-        timestamp: new Date().toISOString()
+        value1: params.from || "New contact",
+        value2: params.message,
+        value3: new Date().toLocaleString('en-US', { 
+          month: 'short', 
+          day: 'numeric', 
+          hour: '2-digit', 
+          minute: '2-digit' 
+        })
       })
     });
 
     if (response.ok) {
-      console.log('SMS sent successfully via webhook');
+      console.log('SMS sent successfully via IFTTT webhook');
       return true;
     } else {
-      console.error('Webhook SMS error:', response.statusText);
+      console.error('IFTTT webhook SMS error:', response.statusText);
       return false;
     }
   } catch (error) {
-    console.error('Webhook request failed:', error);
+    console.error('IFTTT webhook request failed:', error);
     return false;
   }
 }
