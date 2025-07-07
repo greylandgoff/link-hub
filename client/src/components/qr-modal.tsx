@@ -21,7 +21,8 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
   const generateQRCode = async () => {
     setIsLoading(true);
     try {
-      const currentUrl = window.location.href;
+      // Force the canonical URL without www
+      const currentUrl = "https://rentbobby.com";
       const response = await fetch("/api/generate-qr", {
         method: "POST",
         headers: {
@@ -70,11 +71,11 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
       } catch (error) {
         console.error("Error sharing QR code:", error);
         // Fallback to copying URL
-        navigator.clipboard.writeText(window.location.href);
+        navigator.clipboard.writeText("https://rentbobby.com");
       }
     } else {
       // Fallback to copying URL
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText("https://rentbobby.com");
     }
   };
 
