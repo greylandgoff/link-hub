@@ -77,7 +77,7 @@ export async function sendSMSViaVonage(params: SMSParams): Promise<boolean> {
   }
 }
 
-// IFTTT webhook SMS (for free SMS notifications)
+// IFTTT webhook notifications (for free rich notifications)
 export async function sendSMSViaWebhook(params: SMSParams): Promise<boolean> {
   if (!process.env.SMS_WEBHOOK_URL) {
     return false;
@@ -101,11 +101,14 @@ export async function sendSMSViaWebhook(params: SMSParams): Promise<boolean> {
       })
     });
 
+    const responseText = await response.text();
+    console.log('IFTTT webhook response:', responseText);
+
     if (response.ok) {
-      console.log('SMS sent successfully via IFTTT webhook');
+      console.log('Notification sent successfully via IFTTT webhook');
       return true;
     } else {
-      console.error('IFTTT webhook SMS error:', response.statusText);
+      console.error('IFTTT webhook error:', response.status, responseText);
       return false;
     }
   } catch (error) {
