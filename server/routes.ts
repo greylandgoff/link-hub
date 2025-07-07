@@ -133,9 +133,17 @@ END:VCARD`;
       const smsText = `New contact from ${name} (${email}):\n\n${message}`;
       let smsSent = false;
 
-      // Try SMS services in order of preference (no business verification needed)
+      // Try SMS services in order of preference (FREE webhook first!)
       
-      // 1. Try SMS.to first
+      // 1. Try webhook service FIRST (FREE!)
+      if (!smsSent && isWebhookConfigured()) {
+        smsSent = await sendSMSViaWebhook({
+          to: "+17372972747",
+          message: smsText
+        });
+      }
+
+      // 2. Try SMS.to if webhook fails
       if (!smsSent && isSMSToConfigured()) {
         smsSent = await sendSMSViaSMSTo({
           to: "+17372972747",
@@ -143,17 +151,9 @@ END:VCARD`;
         });
       }
 
-      // 2. Try Vonage if SMS.to fails
+      // 3. Try Vonage if SMS.to fails
       if (!smsSent && isVonageConfigured()) {
         smsSent = await sendSMSViaVonage({
-          to: "+17372972747",
-          message: smsText
-        });
-      }
-
-      // 3. Try webhook service
-      if (!smsSent && isWebhookConfigured()) {
-        smsSent = await sendSMSViaWebhook({
           to: "+17372972747",
           message: smsText
         });
