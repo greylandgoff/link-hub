@@ -168,8 +168,9 @@ END:VCARD`;
         });
       }
 
-      // 5. Fallback to Twilio if all else fails
+      // 5. Fallback to Twilio if webhook fails
       if (!smsSent && isSMSConfigured()) {
+        console.log('IFTTT webhook failed, trying Twilio fallback...');
         smsSent = await sendSMS({
           to: "+17372972747",
           message: smsText
