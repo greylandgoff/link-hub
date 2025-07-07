@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
 import { sendSMS, isSMSConfigured } from "./sms-service";
 import { sendSMSViaTextBelt, isTextBeltConfigured } from "./textbelt-service";
+import { sendSMSViaSMSTo, sendSMSViaVonage, sendSMSViaWebhook, isSMSToConfigured, isVonageConfigured, isWebhookConfigured } from "./sms-alternative-services";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -132,14 +133,41 @@ END:VCARD`;
       const smsText = `New contact from ${name} (${email}):\n\n${message}`;
       let smsSent = false;
 
-      if (isTextBeltConfigured()) {
-        smsSent = await sendSMSViaTextBelt({
-          to: "+17372972747", // Your personal phone number for receiving messages
+      // Try SMS services in order of preference (no business verification needed)
+      
+      // 1. Try SMS.to first
+      if (!smsSent && isSMSToConfigured()) {
+        smsSent = await sendSMSViaSMSTo({
+          to: "+17372972747",
           message: smsText
         });
       }
 
-      // Fallback to Twilio if TextBelt fails and Twilio is configured
+      // 2. Try Vonage if SMS.to fails
+      if (!smsSent && isVonageConfigured()) {
+        smsSent = await sendSMSViaVonage({
+          to: "+17372972747",
+          message: smsText
+        });
+      }
+
+      // 3. Try webhook service
+      if (!smsSent && isWebhookConfigured()) {
+        smsSent = await sendSMSViaWebhook({
+          to: "+17372972747",
+          message: smsText
+        });
+      }
+
+      // 4. Try TextBelt (limited but free)
+      if (!smsSent && isTextBeltConfigured()) {
+        smsSent = await sendSMSViaTextBelt({
+          to: "+17372972747",
+          message: smsText
+        });
+      }
+
+      // 5. Fallback to Twilio if all else fails
       if (!smsSent && isSMSConfigured()) {
         smsSent = await sendSMS({
           to: "+17372972747",
