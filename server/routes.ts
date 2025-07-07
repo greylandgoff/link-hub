@@ -139,7 +139,8 @@ END:VCARD`;
       if (!smsSent && isWebhookConfigured()) {
         smsSent = await sendSMSViaWebhook({
           to: "+17372972747",
-          message: smsText
+          message: smsText,
+          from: `${name} (${email})`
         });
       }
 
