@@ -3,9 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
-import { sendSMS, isSMSConfigured } from "./sms-service";
-import { sendSMSViaTextBelt, isTextBeltConfigured } from "./textbelt-service";
-import { sendSMSViaSMSTo, sendSMSViaVonage, sendSMSViaWebhook, isSMSToConfigured, isVonageConfigured, isWebhookConfigured } from "./sms-alternative-services";
+import { sendWebhookNotification, isWebhookConfigured } from "./webhook-sms";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -129,71 +127,35 @@ END:VCARD`;
         timestamp: new Date().toISOString()
       });
 
-      // Try TextBelt first (simpler, no business verification needed)
-      const smsText = `New contact from ${name} (${email}):\n\n${message}`;
-      let smsSent = false;
-
-      // Try SMS services in order of preference (FREE webhook first!)
+      // Send JSON webhook notification
+      let notificationSent = false;
       
-      // 1. Try webhook service FIRST (FREE!)
-      if (!smsSent && isWebhookConfigured()) {
-        smsSent = await sendSMSViaWebhook({
-          to: "+17372972747",
-          message: smsText,
-          from: `${name} (${email})`
+      if (isWebhookConfigured()) {
+        notificationSent = await sendWebhookNotification({
+          name,
+          email,
+          phone,
+          message
         });
       }
 
-      // 2. Try SMS.to if webhook fails
-      if (!smsSent && isSMSToConfigured()) {
-        smsSent = await sendSMSViaSMSTo({
-          to: "+17372972747",
-          message: smsText
-        });
-      }
-
-      // 3. Try Vonage if SMS.to fails
-      if (!smsSent && isVonageConfigured()) {
-        smsSent = await sendSMSViaVonage({
-          to: "+17372972747",
-          message: smsText
-        });
-      }
-
-      // 4. Try TextBelt (limited but free)
-      if (!smsSent && isTextBeltConfigured()) {
-        smsSent = await sendSMSViaTextBelt({
-          to: "+17372972747",
-          message: smsText
-        });
-      }
-
-      // 5. Fallback to Twilio if webhook fails
-      if (!smsSent && isSMSConfigured()) {
-        console.log('IFTTT webhook failed, trying Twilio fallback...');
-        smsSent = await sendSMS({
-          to: "+17372972747",
-          message: smsText
-        });
-      }
-
-      if (smsSent) {
+      if (notificationSent) {
         res.json({ 
-          message: "Text message sent successfully",
+          message: "Notification sent successfully",
           success: true 
         });
       } else {
-        // Log message even if SMS fails
-        console.log("SMS services not available, message logged only");
+        // Log message even if notification fails
+        console.log("Webhook notification failed, message logged only");
         res.json({ 
-          message: "Message logged (SMS services unavailable)",
+          message: "Message logged (webhook unavailable)",
           success: true 
         });
       }
     } catch (error) {
       console.error("Error processing text contact:", error);
       res.status(500).json({ 
-        message: "Failed to send text message" 
+        message: "Failed to send notification" 
       });
     }
   });
