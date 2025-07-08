@@ -14,16 +14,19 @@ export async function sendWebhookNotification(contactData: ContactData): Promise
   }
 
   try {
+    // Create human-readable message
+    const contact = contactData.phone || contactData.email;
+    const timestamp = new Date().toLocaleString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    
+    const readableMessage = `New Message from ${contactData.name} (${contact}) at ${timestamp}:\n\n${contactData.message}`;
+    
     const jsonPayload = {
-      name: contactData.name,
-      contact: contactData.phone || contactData.email,
-      message: contactData.message,
-      timestamp: new Date().toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      })
+      value1: readableMessage
     };
 
     const response = await fetch(process.env.SMS_WEBHOOK_URL, {
