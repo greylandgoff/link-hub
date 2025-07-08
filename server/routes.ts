@@ -27,8 +27,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:Bobby
-ORG:Personal Companion
-TITLE:Personal Companion
 EMAIL:bobby@rentbobby.com
 TEL:+17372972747
 URL:https://rentbobby.com
@@ -44,8 +42,6 @@ END:VCARD`;
       const vCardData = `BEGIN:VCARD
 VERSION:3.0
 FN:Bobby
-ORG:Personal Companion
-TITLE:Personal Companion
 EMAIL:bobby@rentbobby.com
 TEL:+17372972747
 URL:https://rentbobby.com
