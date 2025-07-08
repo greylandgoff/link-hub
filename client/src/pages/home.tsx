@@ -91,20 +91,34 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Fixed Background Image with Parallax */}
+      {/* Background Image with Parallax - Extended Height */}
       <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+        className="fixed bg-cover bg-center"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          transform: `translateY(${scrollY * 0.5}px)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'repeat-y',
+          imageRendering: 'crisp-edges',
+          transform: `translateY(${scrollY * 0.2}px)`,
+          top: '-50vh',
+          left: 0,
+          right: 0,
+          height: '200vh',
           zIndex: 1
         }}
       />
       
-      {/* Frosted Glass Overlay */}
+      {/* Subtle Dark Overlay - Extended */}
       <div 
-        className="fixed inset-0 backdrop-blur-sm bg-black/40"
-        style={{ zIndex: 2 }}
+        className="fixed bg-black/30"
+        style={{ 
+          top: '-50vh',
+          left: 0,
+          right: 0,
+          height: '200vh',
+          zIndex: 2 
+        }}
       />
       
       {/* Subtle Accent Overlays */}
