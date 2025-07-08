@@ -54,7 +54,7 @@ export default function Home() {
     {
       platform: "onlyfans",
       name: "OnlyFans", 
-      description: "NSFW exclusive content",
+      description: "Exclusive content & personal updates",
       url: "https://onlyfans.com/bobbyatx",
       icon: User,
       neonColor: "hsl(320, 100%, 60%)"
@@ -62,7 +62,7 @@ export default function Home() {
     {
       platform: "rentmen",
       name: "Rentmen",
-      description: "Professional services & bookings", 
+      description: "Professional companion services", 
       url: "https://rent.men/BobbyAtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
@@ -70,7 +70,7 @@ export default function Home() {
     {
       platform: "twitter",
       name: "X",
-      description: "NSFW",
+      description: "Daily thoughts & lifestyle",
       url: "https://twitter.com/graydoutx", 
       icon: Twitter,
       neonColor: "hsl(200, 100%, 50%)"
@@ -176,7 +176,7 @@ export default function Home() {
               Bobby
             </h1>
             <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
-              Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
+              Authentic companion for meaningful connections and genuine moments. Here to make your day a little brighter.
             </p>
 
             {/* Contact Card & QR Code Buttons */}
@@ -301,16 +301,39 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="py-8 px-4 text-center"
+        <footer className="py-12 px-4 text-left border-t border-white/10 mt-16"
                 style={{transform: `translateY(${scrollY * -0.02}px)`}}>
-          <div className="max-w-md mx-auto">
-            <p className="text-gray-500 text-sm mb-4">
-              © 2024 Bobby. All rights reserved.
-            </p>
-            <div className="flex justify-center gap-6 text-gray-400">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Support</a>
+          <div className="max-w-4xl mx-auto space-y-8">
+            
+            {/* Privacy Policy */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Privacy Policy</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                This site does not collect personal information or track users beyond essential, non-identifying functionality. External links may direct you to third-party content with their own privacy practices. By using this site, you acknowledge and accept those terms. Discretion is encouraged when viewing or sharing adult-oriented content.
+              </p>
+            </div>
+
+            {/* Terms of Use */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Terms of Use</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                By accessing this site, you confirm that you are of legal age in your jurisdiction and understand that some content may be intended for mature audiences. All materials are for personal, non-commercial use only. Redistribution, impersonation, or harassment of any kind is strictly prohibited. Use at your own discretion.
+              </p>
+            </div>
+
+            {/* Support */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">Support</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                For general questions or link-related issues, you're welcome to reach out via the contact method provided. This site is independently maintained, so response times may vary — but respectful communication is always appreciated.
+              </p>
+            </div>
+
+            {/* Copyright */}
+            <div className="pt-8 border-t border-white/10 text-center">
+              <p className="text-gray-500 text-sm">
+                © 2025 Bobby. All rights reserved.
+              </p>
             </div>
           </div>
         </footer>
