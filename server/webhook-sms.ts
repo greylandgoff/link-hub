@@ -14,7 +14,7 @@ export async function sendWebhookNotification(contactData: ContactData): Promise
   }
 
   try {
-    // Create human-readable message
+    // Create simple readable format for IFTTT
     const contact = contactData.phone || contactData.email;
     const timestamp = new Date().toLocaleString('en-US', {
       month: 'short',
@@ -23,10 +23,11 @@ export async function sendWebhookNotification(contactData: ContactData): Promise
       minute: '2-digit'
     });
     
-    const readableMessage = `New Message from ${contactData.name} (${contact}) at ${timestamp}:\n\n${contactData.message}`;
-    
+    // Send as individual values so IFTTT can format them properly
     const jsonPayload = {
-      value1: readableMessage
+      value1: `${contactData.name}`,
+      value2: `${contact}`,
+      value3: `${contactData.message}`
     };
 
     const response = await fetch(process.env.SMS_WEBHOOK_URL, {
