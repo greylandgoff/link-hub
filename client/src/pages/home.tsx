@@ -2,10 +2,11 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
-import { BackgroundTextureGenerator } from "@/components/background-texture-generator";
+
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 import profileImage from "@assets/IMG_2889_1751926502403.jpg";
+import backgroundImage from "@assets/IMG_2862_1751936715707.jpg";
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -90,33 +91,33 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Dynamic Background Texture Generator */}
-      <BackgroundTextureGenerator />
+      {/* Fixed Background Image with Parallax */}
+      <div 
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          transform: `translateY(${scrollY * 0.5}px)`,
+          zIndex: 1
+        }}
+      />
       
-      {/* Neon MSN Butterfly Background with Parallax */}
-      <div className="fixed inset-0 opacity-40" style={{ zIndex: 2 }}>
-        <div className="absolute top-1/4 left-1/4 w-64 h-64 rounded-full mix-blend-screen filter blur-xl animate-butterfly"
+      {/* Frosted Glass Overlay */}
+      <div 
+        className="fixed inset-0 backdrop-blur-sm bg-black/40"
+        style={{ zIndex: 2 }}
+      />
+      
+      {/* Subtle Accent Overlays */}
+      <div className="fixed inset-0 opacity-20" style={{ zIndex: 3 }}>
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full mix-blend-soft-light filter blur-2xl"
              style={{
-               background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(280, 100%, 60%))',
-               transform: `translateY(${scrollY * 0.2}px)`
+               background: 'radial-gradient(circle, hsl(320, 100%, 60%), transparent)',
+               transform: `translateY(${scrollY * 0.1}px)`
              }}></div>
-        <div className="absolute top-1/3 right-1/4 w-72 h-72 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
+        <div className="absolute bottom-1/3 right-1/4 w-40 h-40 rounded-full mix-blend-soft-light filter blur-2xl" 
              style={{
-               background: 'radial-gradient(circle, hsl(200, 100%, 50%), hsl(210, 100%, 60%))', 
-               animationDelay: "1s",
-               transform: `translateY(${scrollY * -0.1}px)`
-             }}></div>
-        <div className="absolute bottom-1/4 left-1/3 w-80 h-80 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
-             style={{
-               background: 'radial-gradient(circle, hsl(180, 100%, 50%), hsl(120, 100%, 50%))', 
-               animationDelay: "2s",
-               transform: `translateY(${scrollY * 0.15}px)`
-             }}></div>
-        <div className="absolute top-1/2 left-1/2 w-48 h-48 rounded-full mix-blend-screen filter blur-xl animate-butterfly" 
-             style={{
-               background: 'radial-gradient(circle, hsl(30, 100%, 50%), hsl(330, 100%, 65%))', 
-               animationDelay: "3s",
-               transform: `translateY(${scrollY * -0.05}px)`
+               background: 'radial-gradient(circle, hsl(200, 100%, 50%), transparent)', 
+               transform: `translateY(${scrollY * -0.08}px)`
              }}></div>
       </div>
 
