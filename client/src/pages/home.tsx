@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
@@ -315,37 +316,62 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-12 px-4 text-left border-t border-white/10 mt-16"
+        {/* Footer Tabs */}
+        <footer className="py-8 px-4 border-t border-white/10 mt-16"
                 style={{transform: `translateY(${scrollY * -0.02}px)`}}>
-          <div className="max-w-4xl mx-auto space-y-8">
-            
-            {/* Privacy Policy */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Privacy Policy</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                This site does not collect personal information or track users beyond essential, non-identifying functionality. External links may direct you to third-party content with their own privacy practices. By using this site, you acknowledge and accept those terms. Discretion is encouraged when viewing or sharing adult-oriented content.
-              </p>
-            </div>
+          <div className="max-w-4xl mx-auto">
+            <Tabs defaultValue="privacy" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 glass-effect bg-white/10 border border-white/20">
+                <TabsTrigger 
+                  value="privacy" 
+                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
+                >
+                  Privacy Policy
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="terms" 
+                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
+                >
+                  Terms of Use
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="support" 
+                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
+                >
+                  Support
+                </TabsTrigger>
+              </TabsList>
 
-            {/* Terms of Use */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Terms of Use</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                By accessing this site, you confirm that you are of legal age in your jurisdiction and understand that some content may be intended for mature audiences. All materials are for personal, non-commercial use only. Redistribution, impersonation, or harassment of any kind is strictly prohibited. Use at your own discretion.
-              </p>
-            </div>
+              <TabsContent value="privacy" className="mt-6">
+                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Privacy Policy</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    This site does not collect personal information or track users beyond essential, non-identifying functionality. External links may direct you to third-party content with their own privacy practices. By using this site, you acknowledge and accept those terms. Discretion is encouraged when viewing or sharing adult-oriented content.
+                  </p>
+                </div>
+              </TabsContent>
 
-            {/* Support */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Support</h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                For general questions or link-related issues, you're welcome to reach out via the contact method provided. This site is independently maintained, so response times may vary — but respectful communication is always appreciated.
-              </p>
-            </div>
+              <TabsContent value="terms" className="mt-6">
+                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Terms of Use</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    By accessing this site, you confirm that you are of legal age in your jurisdiction and understand that some content may be intended for mature audiences. All materials are for personal, non-commercial use only. Redistribution, impersonation, or harassment of any kind is strictly prohibited. Use at your own discretion.
+                  </p>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="support" className="mt-6">
+                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    For general questions or link-related issues, you're welcome to reach out via the contact method provided. This site is independently maintained, so response times may vary — but respectful communication is always appreciated.
+                  </p>
+                </div>
+              </TabsContent>
+            </Tabs>
 
             {/* Copyright */}
-            <div className="pt-8 border-t border-white/10 text-center">
+            <div className="pt-8 text-center">
               <p className="text-gray-500 text-sm">
                 © 2025 Bobby. All rights reserved.
               </p>
