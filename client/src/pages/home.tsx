@@ -142,12 +142,13 @@ export default function Home() {
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
             <nav className="flex justify-between items-center">
-              <div className="text-xl font-bold tracking-tight" 
+              <div className="text-xl font-bold tracking-tight glass-effect bg-white/10 border border-white/20 rounded-lg px-3 py-1" 
                    style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%))', 
                            WebkitBackgroundClip: 'text', 
                            WebkitTextFillColor: 'transparent',
-                           backgroundClip: 'text'}}>
-                Bobby
+                           backgroundClip: 'text',
+                           backdropFilter: 'blur(10px)'}}>
+                rentbobby.com
               </div>
               <div className="flex gap-2">
                 <Button 
