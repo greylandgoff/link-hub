@@ -198,21 +198,14 @@ export default function Home() {
               Authentic companion for meaningful connections and genuine moments. Here to make your day a little brighter.
             </p>
 
-            {/* Contact Card & QR Code Buttons */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
+            {/* Contact Card Button */}
+            <div className="flex justify-center mb-8">
               <Button 
                 onClick={handleSaveContact}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
               >
                 <User className="w-4 h-4" />
                 Save Contact
-              </Button>
-              <Button 
-                onClick={() => setIsQRModalOpen(true)}
-                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
-              >
-                <QrCode className="w-4 h-4" style={{color: 'hsl(280, 100%, 60%)'}} />
-                Share QR Code
               </Button>
             </div>
           </div>
