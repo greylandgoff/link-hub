@@ -23,11 +23,11 @@ export async function sendWebhookNotification(contactData: ContactData): Promise
       minute: '2-digit'
     });
     
-    // Send as individual values so IFTTT can format them properly
+    // Send simple message to test IFTTT handling
+    const simpleMessage = `New message from ${contactData.name} (${contact}): ${contactData.message}`;
+    
     const jsonPayload = {
-      value1: contactData.name,
-      value2: contact,
-      value3: contactData.message
+      message: simpleMessage
     };
 
     const response = await fetch(process.env.SMS_WEBHOOK_URL, {
