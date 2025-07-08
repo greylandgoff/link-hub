@@ -115,9 +115,15 @@ END:VCARD`;
     try {
       const { name, email, message, phone } = req.body;
 
-      if (!name || !email || !message) {
+      if (!name || !message) {
         return res.status(400).json({ 
-          message: "Name, email, and message are required" 
+          message: "Name and message are required" 
+        });
+      }
+
+      if (!email && !phone) {
+        return res.status(400).json({ 
+          message: "Either email or phone is required" 
         });
       }
 
