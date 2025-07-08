@@ -159,10 +159,10 @@ export default function Home() {
             {/* Profile Avatar */}
             <div className="relative mb-6">
               <img 
-                src={profileImage} 
+                src={`${profileImage}?t=${Date.now()}`} 
                 alt="Bobby's Profile" 
                 className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
-                key="profile-updated-2025-01-07"
+                key="profile-updated-2025-01-08"
               />
             </div>
 
