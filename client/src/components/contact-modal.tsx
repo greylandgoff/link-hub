@@ -15,6 +15,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "", 
+    phone: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,23 +30,34 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   };
 
   const validateForm = () => {
-    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    if (!formData.name.trim() || !formData.message.trim()) {
       toast({
         title: "Validation Error",
-        description: "Please fill in all fields.",
+        description: "Please fill in your name and message.",
+        variant: "destructive"
+      });
+      return false;
+    }
+
+    if (!formData.email.trim() && !formData.phone.trim()) {
+      toast({
+        title: "Validation Error",
+        description: "Please provide either an email or phone number.",
         variant: "destructive"
       });
       return false;
     }
     
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Validation Error", 
-        description: "Please enter a valid email address.",
-        variant: "destructive"
-      });
-      return false;
+    if (formData.email && formData.email.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        toast({
+          title: "Validation Error", 
+          description: "Please enter a valid email address.",
+          variant: "destructive"
+        });
+        return false;
+      }
     }
     
     return true;
@@ -73,7 +85,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         description: "Email sent successfully!",
       });
       
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", message: "" });
       onClose();
     } catch (error) {
       console.error("Error sending email:", error);
@@ -109,7 +121,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
         description: "Text message sent successfully!",
       });
       
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", phone: "", message: "" });
       onClose();
     } catch (error) {
       console.error("Error sending text:", error);
@@ -127,17 +139,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="glass-effect bg-gray-900/95 border border-white/20 text-white max-w-md mx-4">
         <DialogHeader>
-          <div className="flex justify-between items-center">
-            <DialogTitle className="text-2xl font-bold text-white">Get In Touch</DialogTitle>
-            <Button
-              onClick={onClose}
-              variant="ghost"
-              size="icon"
-              className="text-gray-400 hover:text-white h-8 w-8"
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
+          <DialogTitle className="text-2xl font-bold text-white">Get In Touch</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -160,6 +162,18 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="your@email.com"
+              className="bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/50"
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-300 text-sm font-medium mb-2">Phone (optional)</label>
+            <Input
+              type="tel"
+              name="phone"
+              value={formData.phone}
+              onChange={handleInputChange}
+              placeholder="(555) 123-4567"
               className="bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/50"
             />
           </div>
