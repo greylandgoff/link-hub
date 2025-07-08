@@ -39,6 +39,9 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - Added phone number field to contact form for flexible communication (July 8, 2025)
 - Updated profile descriptions to be less repetitive and more engaging (July 8, 2025)
 - Added comprehensive footer with Privacy Policy, Terms of Use, and Support sections (July 8, 2025)
+- Replaced dynamic background with custom shower photo and parallax effects (July 8, 2025)
+- Updated header to display "rentbobby.com" with frosted glass text effect (July 8, 2025)
+- Optimized SMS webhook format for clean, readable notifications via IFTTT (July 8, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
