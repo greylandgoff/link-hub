@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { trackEvent } from "@/lib/analytics";
 
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
@@ -22,6 +23,9 @@ export default function Home() {
 
   const handleSaveContact = async () => {
     try {
+      // Track analytics event
+      trackEvent('save_contact', 'engagement', 'contact_card');
+      
       const response = await fetch("/api/contact-card", {
         method: "GET",
       });
@@ -47,7 +51,8 @@ export default function Home() {
   };
 
   const handleLinkClick = (platform: string, url: string) => {
-    // Track analytics
+    // Track analytics event
+    trackEvent('social_link_click', 'engagement', platform);
     console.log(`Clicked: ${platform}`);
     window.open(url, "_blank");
   };
@@ -153,13 +158,19 @@ export default function Home() {
               </div>
               <div className="flex gap-2">
                 <Button 
-                  onClick={() => setIsQRModalOpen(true)}
+                  onClick={() => {
+                    trackEvent('qr_modal_open', 'engagement', 'header_qr');
+                    setIsQRModalOpen(true);
+                  }}
                   className="glass-effect px-3 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
                 >
                   <QrCode className="w-4 h-4" />
                 </Button>
                 <Button 
-                  onClick={() => setIsContactModalOpen(true)}
+                  onClick={() => {
+                    trackEvent('contact_modal_open', 'engagement', 'header_contact');
+                    setIsContactModalOpen(true);
+                  }}
                   className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
