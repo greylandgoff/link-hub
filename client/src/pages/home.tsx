@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,6 +14,7 @@ import backgroundImage from "@assets/IMG_2862_1751936715707.jpg";
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
@@ -192,17 +194,25 @@ export default function Home() {
           <div className="max-w-md mx-auto text-center">
             {/* Profile Avatar */}
             <div className="relative mb-6">
-              <img 
-                src={`${profileImage}?t=${Date.now()}`} 
-                alt="Bobby's Profile" 
-                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
-                key="profile-updated-2025-01-08"
-              />
+              <button
+                onClick={() => setIsPhotoModalOpen(true)}
+                className="block mx-auto group"
+              >
+                <img 
+                  src={`${profileImage}?t=${Date.now()}`} 
+                  alt="Bobby's Profile" 
+                  className="w-40 h-40 rounded-full object-cover border-4 border-white/20 shadow-2xl group-hover:scale-105 transition-transform cursor-pointer"
+                  key="profile-updated-2025-01-08"
+                />
+                <div className="absolute inset-0 rounded-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <span className="text-white text-sm font-medium">View Photo</span>
+                </div>
+              </button>
             </div>
 
             {/* Profile Info */}
             <h1 className="text-3xl font-bold mb-2 tracking-tight" 
-                style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%), hsl(280, 100%, 60%))', 
+                style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(280, 100%, 60%), hsl(320, 100%, 50%))', 
                         WebkitBackgroundClip: 'text', 
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
@@ -400,6 +410,19 @@ export default function Home() {
         isOpen={isQRModalOpen} 
         onClose={() => setIsQRModalOpen(false)} 
       />
+      
+      {/* Photo Modal */}
+      <Dialog open={isPhotoModalOpen} onOpenChange={setIsPhotoModalOpen}>
+        <DialogContent className="glass-effect bg-gray-900/95 border border-white/20 text-white max-w-2xl mx-4 p-0">
+          <div className="relative">
+            <img 
+              src={`${profileImage}?t=${Date.now()}`} 
+              alt="Bobby's Profile - Full Size" 
+              className="w-full h-auto rounded-lg"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
