@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { QrCode, Download, Share, X } from "lucide-react";
+import { QrCode, Download, Share } from "lucide-react";
 
 interface QRModalProps {
   isOpen: boolean;
@@ -83,20 +83,10 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="glass-effect bg-gray-900/95 border border-white/20 text-white max-w-sm mx-4">
         <DialogHeader>
-          <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl font-bold text-white flex items-center gap-2">
-              <QrCode className="w-5 h-5 animate-neon-pulse" style={{color: 'hsl(320, 100%, 60%)'}} />
-              Share Profile
-            </DialogTitle>
-            <Button
-              onClick={onClose}
-              variant="ghost"
-              size="icon"
-              className="text-gray-400 hover:text-white h-8 w-8"
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </div>
+          <DialogTitle className="text-xl font-bold text-white flex items-center gap-2">
+            <QrCode className="w-5 h-5 animate-neon-pulse" style={{color: 'hsl(320, 100%, 60%)'}} />
+            Share Profile
+          </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
