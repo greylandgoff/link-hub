@@ -66,7 +66,7 @@ export default function Home() {
     {
       platform: "onlyfans",
       name: "OnlyFans", 
-      description: "Exclusive content & personal updates",
+      description: "Extra spicy content",
       url: "https://onlyfans.com/bobbyatx",
       icon: User,
       neonColor: "hsl(320, 100%, 60%)"
@@ -74,7 +74,7 @@ export default function Home() {
     {
       platform: "rentmen",
       name: "Rentmen",
-      description: "Professional companion services", 
+      description: "Companion services", 
       url: "https://rent.men/BobbyAtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
@@ -82,7 +82,7 @@ export default function Home() {
     {
       platform: "twitter",
       name: "X",
-      description: "Daily thoughts & lifestyle",
+      description: "Mild spicy content, shower thoughts, and other nonsense",
       url: "https://twitter.com/graydoutx", 
       icon: Twitter,
       neonColor: "hsl(200, 100%, 50%)"
@@ -249,7 +249,7 @@ export default function Home() {
                       </div>
                       <div className="flex-1 text-left">
                         <h3 className="font-semibold text-white">{link.name}</h3>
-                        <p className="text-gray-300 text-sm">{link.description}</p>
+                        <p className="text-gray-400 text-xs opacity-80">{link.description}</p>
                       </div>
                       <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
                            style={{color: link.neonColor}}>
