@@ -211,14 +211,32 @@ export default function Home() {
             </div>
 
             {/* Profile Info */}
-            <h1 className="text-3xl font-bold mb-2 tracking-tight" 
-                style={{background: 'linear-gradient(45deg, hsl(120, 100%, 50%), hsl(160, 100%, 40%), hsl(180, 100%, 45%))', 
-                        WebkitBackgroundClip: 'text', 
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        fontWeight: '700',
-                        textShadow: '0 0 10px rgba(0, 255, 127, 0.3)'}}>
+            <h1 className="text-5xl font-black mb-4 tracking-widest relative overflow-hidden" 
+                style={{
+                  background: `linear-gradient(${45 + scrollY * 0.5}deg, 
+                    hsl(${120 + scrollY * 0.1}, 100%, ${50 + Math.sin(scrollY * 0.01) * 10}%), 
+                    hsl(${160 + scrollY * 0.15}, 100%, ${40 + Math.cos(scrollY * 0.008) * 15}%), 
+                    hsl(${180 + scrollY * 0.2}, 100%, ${45 + Math.sin(scrollY * 0.012) * 12}%))`,
+                  WebkitBackgroundClip: 'text', 
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  fontWeight: '900',
+                  textShadow: `0 0 ${15 + Math.sin(scrollY * 0.01) * 5}px rgba(0, 255, 127, 0.4)`,
+                  transform: `perspective(500px) rotateY(${Math.sin(scrollY * 0.005) * 3}deg) scale(${1 + Math.sin(scrollY * 0.008) * 0.05})`,
+                  filter: `brightness(${1.1 + Math.sin(scrollY * 0.01) * 0.2}) saturate(${1.2 + Math.cos(scrollY * 0.007) * 0.3})`,
+                  letterSpacing: `${0.15 + Math.sin(scrollY * 0.006) * 0.05}em`,
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}>
               Bobby
+              {/* Shimmer overlay effect */}
+              <div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 opacity-0 animate-pulse"
+                style={{
+                  animation: `shimmer 3s ease-in-out infinite`,
+                  animationDelay: `${scrollY * 0.01}s`,
+                  transform: `translateX(${-100 + (scrollY * 0.5) % 200}px) skewX(-12deg)`
+                }}
+              />
             </h1>
             <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
               Authentic companion for meaningful connections and genuine moments. Here to make your day a little brighter.

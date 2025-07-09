@@ -178,6 +178,27 @@
   animation: float 3s ease-in-out infinite;
 }
 
+@keyframes shimmer {
+  0% { 
+    transform: translateX(-100px) skewX(-12deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  50% { 
+    transform: translateX(0px) skewX(-12deg);
+    opacity: 0.8;
+  }
+  75% {
+    opacity: 0.3;
+  }
+  100% { 
+    transform: translateX(100px) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
 .animate-gradient {
   background: linear-gradient(-45deg, var(--neon-pink), var(--neon-blue), var(--neon-purple), var(--neon-cyan));
   background-size: 400% 400%;
