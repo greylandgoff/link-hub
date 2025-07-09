@@ -212,11 +212,12 @@ export default function Home() {
 
             {/* Profile Info */}
             <h1 className="text-3xl font-bold mb-2 tracking-tight" 
-                style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(280, 100%, 60%), hsl(320, 100%, 50%))', 
+                style={{background: 'linear-gradient(45deg, hsl(120, 100%, 50%), hsl(160, 100%, 40%), hsl(180, 100%, 45%))', 
                         WebkitBackgroundClip: 'text', 
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
-                        fontWeight: '700'}}>
+                        fontWeight: '700',
+                        textShadow: '0 0 10px rgba(0, 255, 127, 0.3)'}}>
               Bobby
             </h1>
             <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
