@@ -15,6 +15,13 @@ export const initGA = () => {
     return;
   }
 
+  // Check if user has consented to analytics
+  const hasConsented = localStorage.getItem('cookie-consent');
+  if (hasConsented !== 'accepted') {
+    console.log('Analytics disabled - user has not consented');
+    return;
+  }
+
   // Add Google Analytics script to the head
   const script1 = document.createElement('script');
   script1.async = true;
@@ -36,6 +43,10 @@ export const initGA = () => {
 export const trackPageView = (url: string) => {
   if (typeof window === 'undefined' || !window.gtag) return;
   
+  // Check consent before tracking
+  const hasConsented = localStorage.getItem('cookie-consent');
+  if (hasConsented !== 'accepted') return;
+  
   const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
   if (!measurementId) return;
   
@@ -52,6 +63,10 @@ export const trackEvent = (
   value?: number
 ) => {
   if (typeof window === 'undefined' || !window.gtag) return;
+  
+  // Check consent before tracking
+  const hasConsented = localStorage.getItem('cookie-consent');
+  if (hasConsented !== 'accepted') return;
   
   window.gtag('event', action, {
     event_category: category,

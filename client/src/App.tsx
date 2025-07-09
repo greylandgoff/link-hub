@@ -8,6 +8,7 @@ import NotFound from "@/pages/not-found";
 import { useEffect } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
+import { CookieConsent } from "@/components/cookie-consent";
 
 function Router() {
   // Track page views when routes change
@@ -24,11 +25,13 @@ function Router() {
 function App() {
   // Initialize Google Analytics when app loads
   useEffect(() => {
-    // Verify required environment variable is present
-    if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
-      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
-    } else {
+    // Check for user consent before initializing analytics
+    const hasConsented = localStorage.getItem('cookie-consent');
+    
+    if (hasConsented === 'accepted' && import.meta.env.VITE_GA_MEASUREMENT_ID) {
       initGA();
+    } else if (!import.meta.env.VITE_GA_MEASUREMENT_ID) {
+      console.warn('Missing required Google Analytics key: VITE_GA_MEASUREMENT_ID');
     }
   }, []);
 
@@ -37,6 +40,7 @@ function App() {
       <TooltipProvider>
         <Toaster />
         <Router />
+        <CookieConsent />
       </TooltipProvider>
     </QueryClientProvider>
   );
