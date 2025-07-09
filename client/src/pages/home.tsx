@@ -18,6 +18,11 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
+    
+    // Debug: Check if Google Analytics is loaded
+    console.log('Google Analytics loaded:', !!window.gtag);
+    console.log('Current URL:', window.location.href);
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
