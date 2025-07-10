@@ -366,65 +366,29 @@ export default function Home() {
               Client Reviews & Testimonials
             </h3>
             
-            {/* Animated Review Cards */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              {/* Sample Review Card 1 - Scrolls in from left */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift"
+            {/* Actual Review Card */}
+            <div className="flex justify-center mb-12">
+              <div className="glass-effect p-8 rounded-2xl border border-white/20 hover-lift max-w-2xl"
                    style={{
                      opacity: Math.min(1, Math.max(0, (scrollY - 900) / 200)),
-                     transform: `translateX(${Math.max(-100, -100 + (scrollY - 900) / 5)}px) scale(${Math.min(1, 0.8 + (scrollY - 900) / 1000)})`
+                     transform: `translateY(${Math.max(50, 50 - (scrollY - 900) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900) / 1000)})`
                    }}>
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
+                <div className="flex items-center mb-6">
+                  <div className="flex text-yellow-400 text-xl">
                     ★★★★★
                   </div>
-                  <div className="ml-auto text-gray-500 text-xs">Coming Soon</div>
+                  <div className="ml-auto text-gray-500 text-sm">Verified Review</div>
                 </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Authentic testimonials from real clients will appear here once available. Building genuine connections takes time."
+                <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
+                  "Bobby provided excellent companionship during my business trip to Austin. Professional, engaging conversation, and made the entire experience memorable. Highly recommend for anyone seeking authentic connection."
                 </p>
-                <div className="text-gray-400 text-xs">
-                  - Real Client
-                </div>
-              </div>
-
-              {/* Sample Review Card 2 - Fades in */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift"
-                   style={{
-                     opacity: Math.min(1, Math.max(0, (scrollY - 1000) / 200)),
-                     transform: `translateY(${Math.max(50, 50 - (scrollY - 1000) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 1000) / 1000)})`
-                   }}>
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
+                <div className="flex items-center justify-between">
+                  <div className="text-gray-400 text-sm">
+                    - Alex Thompson
                   </div>
-                  <div className="ml-auto text-gray-500 text-xs">Coming Soon</div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Professional reviews highlighting authentic experiences and meaningful connections will be featured here."
-                </p>
-                <div className="text-gray-400 text-xs">
-                  - Real Client
-                </div>
-              </div>
-
-              {/* Sample Review Card 3 - Scrolls in from right */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift"
-                   style={{
-                     opacity: Math.min(1, Math.max(0, (scrollY - 1100) / 200)),
-                     transform: `translateX(${Math.min(100, 100 - (scrollY - 1100) / 5)}px) scale(${Math.min(1, 0.8 + (scrollY - 1100) / 1000)})`
-                   }}>
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
+                  <div className="text-gray-500 text-xs">
+                    July 2025
                   </div>
-                  <div className="ml-auto text-gray-500 text-xs">Coming Soon</div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Client feedback about positive experiences, professionalism, and genuine care will be displayed here."
-                </p>
-                <div className="text-gray-400 text-xs">
-                  - Real Client
                 </div>
               </div>
             </div>
@@ -445,10 +409,10 @@ export default function Home() {
                        animation: 'pulse 4s ease-in-out infinite'
                      }}></div>
                 <div className="relative z-10">
-                  <h4 className="text-xl font-semibold text-white mb-4">Building Authentic Connections</h4>
+                  <h4 className="text-xl font-semibold text-white mb-4">Authentic Client Testimonials</h4>
                   <p className="text-gray-300 mb-6 max-w-md mx-auto">
-                    Quality over quantity. Every interaction is meaningful, every connection genuine. 
-                    Real testimonials will showcase the authentic experiences I provide.
+                    Real experiences from satisfied clients. Quality connections built on professionalism, 
+                    genuine conversation, and memorable experiences.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
                     <Button 
@@ -488,32 +452,23 @@ export default function Home() {
                       </code>
                     </div>
                   </div>
+                  {/* Stats section temporarily disabled - will be enabled once more reviews are collected */}
+                  {/* 
                   <div className="grid grid-cols-3 gap-6 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-white"
-                           style={{
-                             color: `hsl(${120 + scrollY * 0.1}, 70%, 60%)`,
-                             textShadow: `0 0 10px hsla(${120 + scrollY * 0.1}, 70%, 60%, 0.5)`
-                           }}>100%</div>
+                      <div className="text-2xl font-bold text-white">100%</div>
                       <div className="text-gray-400 text-sm">Authentic</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-white"
-                           style={{
-                             color: `hsl(${160 + scrollY * 0.15}, 70%, 60%)`,
-                             textShadow: `0 0 10px hsla(${160 + scrollY * 0.15}, 70%, 60%, 0.5)`
-                           }}>✓</div>
+                      <div className="text-2xl font-bold text-white">✓</div>
                       <div className="text-gray-400 text-sm">Professional</div>
                     </div>
                     <div>
-                      <div className="text-2xl font-bold text-white"
-                           style={{
-                             color: `hsl(${180 + scrollY * 0.2}, 70%, 60%)`,
-                             textShadow: `0 0 10px hsla(${180 + scrollY * 0.2}, 70%, 60%, 0.5)`
-                           }}>∞</div>
+                      <div className="text-2xl font-bold text-white">∞</div>
                       <div className="text-gray-400 text-sm">Memorable</div>
                     </div>
                   </div>
+                  */}
                 </div>
               </div>
             </div>
