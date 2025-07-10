@@ -13,8 +13,8 @@ interface Review {
   email: string;
   rating: number;
   message: string;
-  is_approved: boolean;
-  created_at: string;
+  isApproved: boolean;
+  createdAt: string;
 }
 
 export default function Admin() {
@@ -32,7 +32,7 @@ export default function Admin() {
 
   const approveMutation = useMutation({
     mutationFn: async (reviewId: number) => {
-      return apiRequest("/api/admin/reviews/approve", "POST", { reviewId });
+      return apiRequest("POST", "/api/admin/reviews/approve", { reviewId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
@@ -41,7 +41,7 @@ export default function Admin() {
 
   const rejectMutation = useMutation({
     mutationFn: async (reviewId: number) => {
-      return apiRequest("/api/admin/reviews/reject", "POST", { reviewId });
+      return apiRequest("POST", "/api/admin/reviews/reject", { reviewId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
@@ -50,7 +50,7 @@ export default function Admin() {
 
   const deleteMutation = useMutation({
     mutationFn: async (reviewId: number) => {
-      return apiRequest("/api/admin/reviews/delete", "DELETE", { reviewId });
+      return apiRequest("DELETE", "/api/admin/reviews/delete", { reviewId });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
@@ -58,11 +58,11 @@ export default function Admin() {
   });
 
   const filteredReviews = reviews.filter((review: Review) => 
-    showApproved ? review.is_approved : !review.is_approved
+    showApproved ? review.isApproved : !review.isApproved
   );
 
-  const pendingCount = reviews.filter((r: Review) => !r.is_approved).length;
-  const approvedCount = reviews.filter((r: Review) => r.is_approved).length;
+  const pendingCount = reviews.filter((r: Review) => !r.isApproved).length;
+  const approvedCount = reviews.filter((r: Review) => r.isApproved).length;
 
   if (isLoading) {
     return (
@@ -142,8 +142,8 @@ export default function Admin() {
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg">{review.name}</CardTitle>
                     <div className="flex items-center gap-2">
-                      <Badge variant={review.is_approved ? "default" : "secondary"}>
-                        {review.is_approved ? "Approved" : "Pending"}
+                      <Badge variant={review.isApproved ? "default" : "secondary"}>
+                        {review.isApproved ? "Approved" : "Pending"}
                       </Badge>
                       <div className="flex text-yellow-400">
                         {"★".repeat(review.rating)}
@@ -151,7 +151,7 @@ export default function Admin() {
                     </div>
                   </div>
                   <div className="text-sm text-gray-400">
-                    {review.email} • {new Date(review.created_at).toLocaleDateString()}
+                    {review.email} • {new Date(review.createdAt).toLocaleDateString()}
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -160,7 +160,7 @@ export default function Admin() {
                   <Separator className="my-4 bg-gray-800" />
                   
                   <div className="flex gap-2">
-                    {!review.is_approved && (
+                    {!review.isApproved && (
                       <Button
                         onClick={() => approveMutation.mutate(review.id)}
                         disabled={approveMutation.isPending}
@@ -172,7 +172,7 @@ export default function Admin() {
                       </Button>
                     )}
                     
-                    {review.is_approved && (
+                    {review.isApproved && (
                       <Button
                         onClick={() => rejectMutation.mutate(review.id)}
                         disabled={rejectMutation.isPending}
