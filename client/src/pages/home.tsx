@@ -41,6 +41,16 @@ export default function Home() {
     console.log('Google Analytics loaded:', !!window.gtag);
     console.log('Current URL:', window.location.href);
     
+    // Handle direct links to reviews section
+    if (window.location.hash === '#reviews') {
+      setTimeout(() => {
+        const reviewsSection = document.getElementById('reviews-section');
+        if (reviewsSection) {
+          reviewsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500); // Small delay to ensure page is loaded
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -345,7 +355,7 @@ export default function Home() {
         </section>
 
         {/* Reviews Section - Scroll-Triggered Showcase */}
-        <section className="py-16 px-4 relative overflow-hidden"
+        <section id="reviews-section" className="py-16 px-4 relative overflow-hidden"
                  style={{transform: `translateY(${scrollY * 0.02}px)`}}>
           <div className="max-w-6xl mx-auto">
             <h3 className="text-3xl font-bold text-center text-white mb-12"
@@ -440,12 +450,29 @@ export default function Home() {
                     Quality over quantity. Every interaction is meaningful, every connection genuine. 
                     Real testimonials will showcase the authentic experiences I provide.
                   </p>
-                  <Button 
-                    onClick={() => setIsReviewModalOpen(true)}
-                    className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none mb-4"
-                  >
-                    ⭐ Leave a Review
-                  </Button>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button 
+                      onClick={() => setIsReviewModalOpen(true)}
+                      className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none"
+                    >
+                      ⭐ Leave a Review
+                    </Button>
+                    <Button 
+                      onClick={() => {
+                        navigator.clipboard.writeText(`${window.location.origin}/#reviews`);
+                        // Show a brief feedback
+                        const btn = event?.target as HTMLButtonElement;
+                        const originalText = btn.textContent;
+                        btn.textContent = '✓ Link Copied!';
+                        setTimeout(() => {
+                          btn.textContent = originalText;
+                        }, 2000);
+                      }}
+                      className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10 text-white"
+                    >
+                      🔗 Share Reviews
+                    </Button>
+                  </div>
                   <div className="grid grid-cols-3 gap-6 text-center">
                     <div>
                       <div className="text-2xl font-bold text-white"
