@@ -35,7 +35,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
     setIsSubmitting(true);
     try {
-      await apiRequest('/api/reviews', 'POST', formData);
+      await apiRequest('POST', '/api/reviews', formData);
 
       toast({
         title: "Review Submitted!",
