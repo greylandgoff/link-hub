@@ -366,32 +366,65 @@ export default function Home() {
               Client Reviews & Testimonials
             </h3>
             
-            {/* Actual Review Card */}
-            <div className="flex justify-center mb-12">
-              <div className="glass-effect p-8 rounded-2xl border border-white/20 hover-lift max-w-2xl"
-                   style={{
-                     opacity: Math.min(1, Math.max(0, (scrollY - 900) / 200)),
-                     transform: `translateY(${Math.max(50, 50 - (scrollY - 900) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900) / 1000)})`
-                   }}>
-                <div className="flex items-center mb-6">
-                  <div className="flex text-yellow-400 text-xl">
-                    ★★★★★
-                  </div>
-                  <div className="ml-auto text-gray-500 text-sm">Verified Review</div>
-                </div>
-                <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
-                  "Bobby provided excellent companionship during my business trip to Austin. Professional, engaging conversation, and made the entire experience memorable. Highly recommend for anyone seeking authentic connection."
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="text-gray-400 text-sm">
-                    - Alex Thompson
-                  </div>
-                  <div className="text-gray-500 text-xs">
-                    July 2025
+            {/* Dynamic Reviews from Database */}
+            {reviewsLoading ? (
+              <div className="flex justify-center mb-12">
+                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl">
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-white/20 rounded mb-4"></div>
+                    <div className="h-20 bg-white/10 rounded mb-4"></div>
+                    <div className="h-4 bg-white/20 rounded w-1/2"></div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : reviews.length > 0 ? (
+              <div className="space-y-6 mb-12">
+                {reviews.slice(0, 3).map((review: any, index: number) => (
+                  <div key={review.id} className="flex justify-center">
+                    <div className="glass-effect p-8 rounded-2xl border border-white/20 hover-lift max-w-2xl"
+                         style={{
+                           opacity: Math.min(1, Math.max(0, (scrollY - 900 - index * 100) / 200)),
+                           transform: `translateY(${Math.max(50, 50 - (scrollY - 900 - index * 100) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900 - index * 100) / 1000)})`,
+                           animationDelay: `${index * 0.2}s`
+                         }}>
+                      <div className="flex items-center mb-6">
+                        <div className="flex text-yellow-400 text-xl">
+                          {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                        </div>
+                        <div className="ml-auto text-gray-500 text-sm">Verified Review</div>
+                      </div>
+                      <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
+                        "{review.message}"
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="text-gray-400 text-sm">
+                          - {review.name}
+                        </div>
+                        <div className="text-gray-500 text-xs">
+                          {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex justify-center mb-12">
+                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl text-center">
+                  <div className="text-yellow-400 text-xl mb-4">⭐⭐⭐⭐⭐</div>
+                  <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
+                    Be the first to share your experience with Bobby's professional companion services. 
+                    Your authentic feedback helps others discover quality connections and memorable experiences.
+                  </p>
+                  <Button 
+                    onClick={() => setIsReviewModalOpen(true)}
+                    className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-6 py-2 rounded-full"
+                  >
+                    ⭐ Write First Review
+                  </Button>
+                </div>
+              </div>
+            )}
 
             {/* Floating Stats Section */}
             <div className="text-center">
