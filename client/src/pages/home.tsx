@@ -450,7 +450,7 @@ export default function Home() {
                     Quality over quantity. Every interaction is meaningful, every connection genuine. 
                     Real testimonials will showcase the authentic experiences I provide.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
                     <Button 
                       onClick={() => setIsReviewModalOpen(true)}
                       className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none"
@@ -459,7 +459,12 @@ export default function Home() {
                     </Button>
                     <Button 
                       onClick={() => {
-                        navigator.clipboard.writeText(`${window.location.origin}/#reviews`);
+                        const reviewsUrl = `${window.location.origin}/#reviews`;
+                        navigator.clipboard.writeText(reviewsUrl);
+                        
+                        // Track analytics event
+                        trackEvent('share_reviews', 'engagement', 'reviews_link');
+                        
                         // Show a brief feedback
                         const btn = event?.target as HTMLButtonElement;
                         const originalText = btn.textContent;
@@ -472,6 +477,16 @@ export default function Home() {
                     >
                       🔗 Share Reviews
                     </Button>
+                  </div>
+                  
+                  {/* Direct Reviews Link Display */}
+                  <div className="text-center mb-6">
+                    <div className="glass-effect p-4 rounded-2xl border border-white/10 inline-block">
+                      <p className="text-gray-400 text-xs mb-2">Direct link to reviews:</p>
+                      <code className="text-green-400 text-sm font-mono bg-black/20 px-3 py-1 rounded">
+                        {window.location.origin}/#reviews
+                      </code>
+                    </div>
                   </div>
                   <div className="grid grid-cols-3 gap-6 text-center">
                     <div>
