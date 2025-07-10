@@ -328,126 +328,22 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Reviews Section */}
+        {/* Reviews Section - Ready for Real Testimonials */}
         <section className="py-16 px-4"
                  style={{transform: `translateY(${scrollY * 0.02}px)`}}>
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-center text-white mb-8">
-              What People Say
+              Client Testimonials
             </h2>
             
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {/* Review 1 */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift">
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Bobby is genuinely one of the most authentic and engaging people I've met. Great conversation, positive energy, and always makes you feel comfortable."
+            <div className="text-center">
+              <div className="glass-effect p-8 rounded-2xl border border-white/20 inline-block">
+                <p className="text-gray-300 text-lg mb-4">
+                  Building authentic connections one conversation at a time.
                 </p>
-                <div className="text-gray-400 text-xs">
-                  - M., Austin
-                </div>
-              </div>
-
-              {/* Review 2 */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift">
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Professional, reliable, and genuinely fun to be around. Bobby exceeded all expectations and made the experience memorable."
+                <p className="text-gray-400 text-sm">
+                  Real testimonials from satisfied clients coming soon.
                 </p>
-                <div className="text-gray-400 text-xs">
-                  - J., Dallas
-                </div>
-              </div>
-
-              {/* Review 3 */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift">
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Thoughtful, genuine, and has this amazing ability to make you feel like you've known each other forever. Highly recommend!"
-                </p>
-                <div className="text-gray-400 text-xs">
-                  - A., Houston
-                </div>
-              </div>
-
-              {/* Review 4 */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift">
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Bobby brings such positive vibes and genuine care to every interaction. Professional yet personal - exactly what I was looking for."
-                </p>
-                <div className="text-gray-400 text-xs">
-                  - R., San Antonio
-                </div>
-              </div>
-
-              {/* Review 5 */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift">
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Respectful, engaging, and genuinely cares about making sure you have a great experience. Would definitely connect again."
-                </p>
-                <div className="text-gray-400 text-xs">
-                  - K., Fort Worth
-                </div>
-              </div>
-
-              {/* Review 6 */}
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 hover-lift">
-                <div className="flex items-center mb-4">
-                  <div className="flex text-yellow-400 text-lg">
-                    ★★★★★
-                  </div>
-                </div>
-                <p className="text-gray-300 text-sm mb-4 italic">
-                  "Great energy, excellent communication, and makes everything feel natural and comfortable. Bobby is absolutely wonderful."
-                </p>
-                <div className="text-gray-400 text-xs">
-                  - T., Austin
-                </div>
-              </div>
-            </div>
-
-            {/* Review Stats */}
-            <div className="mt-12 text-center">
-              <div className="glass-effect p-6 rounded-2xl border border-white/20 inline-block">
-                <div className="flex items-center justify-center gap-8">
-                  <div>
-                    <div className="text-2xl font-bold text-white">5.0</div>
-                    <div className="text-yellow-400 text-lg">★★★★★</div>
-                    <div className="text-gray-400 text-sm">Average Rating</div>
-                  </div>
-                  <div className="h-12 w-px bg-white/20"></div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">100+</div>
-                    <div className="text-gray-400 text-sm">Happy Clients</div>
-                  </div>
-                  <div className="h-12 w-px bg-white/20"></div>
-                  <div>
-                    <div className="text-2xl font-bold text-white">2+ Years</div>
-                    <div className="text-gray-400 text-sm">Experience</div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
