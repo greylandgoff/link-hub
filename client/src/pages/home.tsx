@@ -5,17 +5,33 @@ import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trackEvent } from "@/lib/analytics";
+import { useQuery } from "@tanstack/react-query";
+import { Star } from "lucide-react";
 
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 import profileImage from "@assets/IMG_2889_1751926502403.jpg";
 import backgroundImage from "@assets/IMG_2862_1751936715707.jpg";
+import { ReviewModal } from "@/components/review-modal";
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+
+  // Fetch approved reviews
+  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
+    queryKey: ['/api/reviews'],
+    queryFn: async () => {
+      const response = await fetch('/api/reviews');
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+      return response.json();
+    },
+  });
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -424,6 +440,12 @@ export default function Home() {
                     Quality over quantity. Every interaction is meaningful, every connection genuine. 
                     Real testimonials will showcase the authentic experiences I provide.
                   </p>
+                  <Button 
+                    onClick={() => setIsReviewModalOpen(true)}
+                    className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none mb-4"
+                  >
+                    ⭐ Leave a Review
+                  </Button>
                   <div className="grid grid-cols-3 gap-6 text-center">
                     <div>
                       <div className="text-2xl font-bold text-white"
@@ -575,6 +597,11 @@ export default function Home() {
       <QRModal 
         isOpen={isQRModalOpen} 
         onClose={() => setIsQRModalOpen(false)} 
+      />
+
+      <ReviewModal 
+        isOpen={isReviewModalOpen} 
+        onClose={() => setIsReviewModalOpen(false)} 
       />
       
       {/* Photo Modal */}
