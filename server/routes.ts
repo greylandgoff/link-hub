@@ -196,6 +196,95 @@ END:VCARD`;
     }
   });
 
+  // Add review routes
+  const { db } = await import("./db");
+  const { reviews, insertReviewSchema } = await import("@shared/schema");
+  const { eq, desc } = await import("drizzle-orm");
+
+  // Submit a new review
+  app.post("/api/reviews", async (req, res) => {
+    try {
+      const result = insertReviewSchema.safeParse(req.body);
+      
+      if (!result.success) {
+        return res.status(400).json({ 
+          message: "Invalid review data",
+          errors: result.error.errors 
+        });
+      }
+
+      const { name, email, rating, message } = result.data;
+
+      // Insert review into database (not approved by default)
+      const [newReview] = await db.insert(reviews).values({
+        name,
+        email,
+        rating,
+        message,
+        isApproved: false
+      }).returning();
+
+      // Send email notification
+      if (isEmailConfigured()) {
+        await sendEmail({
+          from: "bobby@rentbobby.com",
+          to: "bobby@rentbobby.com",
+          subject: `New Review Submitted - ${rating} stars from ${name}`,
+          text: `New review submitted for approval:
+
+Name: ${name}
+Email: ${email}
+Rating: ${rating}/5 stars
+Message: ${message}
+
+Review ID: ${newReview.id}
+Submitted: ${new Date().toLocaleString()}
+
+To approve this review, you'll need to update it in your review management system.`,
+          html: `
+            <h2>New Review Submitted</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Rating:</strong> ${rating}/5 ⭐</p>
+            <p><strong>Message:</strong></p>
+            <blockquote>${message}</blockquote>
+            <hr>
+            <p><small>Review ID: ${newReview.id} | Submitted: ${new Date().toLocaleString()}</small></p>
+          `
+        });
+      }
+
+      res.json({ 
+        message: "Review submitted successfully! It will be reviewed before appearing on the site.",
+        success: true 
+      });
+
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      res.status(500).json({ 
+        message: "Failed to submit review" 
+      });
+    }
+  });
+
+  // Get approved reviews
+  app.get("/api/reviews", async (req, res) => {
+    try {
+      const approvedReviews = await db
+        .select()
+        .from(reviews)
+        .where(eq(reviews.isApproved, true))
+        .orderBy(desc(reviews.createdAt));
+
+      res.json(approvedReviews);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ 
+        message: "Failed to fetch reviews" 
+      });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
