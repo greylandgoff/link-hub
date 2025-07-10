@@ -1,0 +1,74 @@
+📌 On‑Page SEO Checklist
+
+Title Tags
+	•	Ensure every page has a unique title (Ideal length: up to 60 characters).
+	•	Position the primary keyword near the start of each title.
+	•	Keep them readable and natural—avoid jamming in too many terms.
+
+Meta Descriptions
+	•	Write a distinct meta description for each page (max 155 characters).
+	•	Include your primary keyword and, if possible, a relevant secondary keyword.
+	•	Write compelling text that promotes clicks, e.g., include benefit or a call to action.
+
+Keyword Density
+	•	Use your primary keyword around 1–2% of total text—about once every 100–200 words.
+	•	Sprinkle secondary keywords and synonyms naturally to support relevance.
+	•	Avoid over-optimization: steer clear of repetitive, awkward phrasing.
+
+Header Tags (H1–H6)
+	•	Confirm each page has exactly one H1 tag, containing the primary keyword.
+	•	Use H2/H3 headings to structure sections logically (benefits, features, FAQs).
+	•	Include keyword-rich subheaders where relevant—but keep them reader-focused.
+
+Content Optimization
+	•	Ensure content is well-written, authoritative and tailored to target users.
+	•	Match content length to intent: detailed guides for complex queries; shorter for quick info.
+	•	Break up blocks with short paragraphs, bullet lists, and subheads—improves readability.
+
+Internal Linking
+	•	Link to relevant pages using descriptive anchor text (avoid “click here”).
+	•	Ensure there are no broken or outdated links—fix any 404s.
+	•	Build a clear site structure so link equity flows to key target pages.
+
+Image Optimization
+	•	Rename images with descriptive, keyword-focused file names (e.g., rent-bobby-feature.jpg).
+	•	Add alt text that accurately describes the image and includes keywords where appropriate.
+	•	Compress images (using tools like TinyPNG or WebP format) to reduce load times.
+
+URL Structure
+	•	Use short, keyword-rich URLs, e.g., /services/rent-bobby, not ?id=123.
+	•	Avoid complex parameters—opt for static, readable URLs.
+	•	If changes are needed, implement 301 redirects from old URLs to new.
+
+Mobile Responsiveness
+	•	Test the site on mobile using tools like Google’s Mobile-Friendly Test.
+	•	Ensure fonts, buttons, and images scale and adapt to smaller screens.
+	•	Improve mobile load speed: optimize CSS/JS, leverage lazy loading.
+
+⸻
+
+🔧 Tailored Recommendations for rentbobby.com
+
+Given your content and audience focus (renting Bobby?), here are the highest-impact actions:
+	1.	Home & Services Page Titles
+	•	E.g., change from generic “Home” to something like:
+“Rent Bobby – Affordable Equipment Rentals | RentBobby.com”
+	2.	Meta Descriptions Example
+	•	For service page:
+“Need rental equipment fast? Rent Bobby offers reliable machines at great rates—reserve yours today!”
+	3.	Content & Keywords
+	•	Ensure your key terms (e.g., “equipment rental,” “Bobby rentals”) appear in the first 100 words, headings, and anchor text linking to deeper pages.
+	4.	Internal Linking Flow
+	•	Link from blog content or service descriptions back to main rental categories, using anchor text like “see full rental catalog.”
+	5.	Images
+	•	Check every photo—make sure they’re renamed and compressed. Each should have an alt describing the item (e.g., “Bobby cement mixer side view”).
+	6.	URL Audit
+	•	Check whether URLs are friendly. If yours are dynamic, plan a redirect map to transition to static URLs without losing page authority.
+	7.	Mobile Speed Boost
+	•	Run mobile speed tests (e.g., PageSpeed Insights), and follow their specific recommendations—often around image compression, caching, or reducing JavaScript.
+
+⸻
+
+✅ Prioritization
+
+Start with the title tags, meta descriptions, H1 tags, and URL structure, as these provide the biggest immediate SEO lift. Next, tackle content optimization and image SEO. Finally, verify internal linking and mobile performance to round out the improvements.
