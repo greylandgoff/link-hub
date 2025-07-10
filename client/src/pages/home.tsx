@@ -483,8 +483,8 @@ export default function Home() {
                   <div className="text-center mb-6">
                     <div className="glass-effect p-4 rounded-2xl border border-white/10 inline-block">
                       <p className="text-gray-400 text-xs mb-2">Direct link to reviews:</p>
-                      <code className="text-green-400 text-sm font-mono bg-black/20 px-3 py-1 rounded">
-                        {window.location.origin}/#reviews
+                      <code className="text-green-400 text-sm font-mono bg-black/20 px-3 py-1 rounded break-all">
+                        {typeof window !== 'undefined' ? `${window.location.origin}/#reviews` : 'Loading...'}
                       </code>
                     </div>
                   </div>
