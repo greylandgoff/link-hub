@@ -200,7 +200,7 @@ export default function Home() {
               >
                 <img 
                   src={`${profileImage}?t=${Date.now()}`} 
-                  alt="Bobby's Profile" 
+                  alt="Bobby - Professional Companion Austin TX - Premium companion services" 
                   className="w-40 h-40 rounded-full object-cover border-4 border-white/20 shadow-2xl group-hover:scale-105 transition-transform cursor-pointer"
                   key="profile-updated-2025-01-08"
                 />
@@ -238,9 +238,9 @@ export default function Home() {
                 }}
               />
             </h1>
-            <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
-              Authentic companion for meaningful connections and genuine moments. Here to make your day a little brighter.
-            </p>
+            <h2 className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg font-normal">
+              Professional companion services in Austin, TX for authentic connections and meaningful experiences. Available for premium companion services and genuine moments.
+            </h2>
 
             {/* Contact Card Button */}
             <div className="flex justify-center mb-8">
@@ -259,7 +259,7 @@ export default function Home() {
         <section className="py-8 px-4"
                  style={{transform: `translateY(${scrollY * 0.05}px)`}}>
           <div className="max-w-md mx-auto">
-            <h2 className="text-xl font-semibold mb-6 text-center text-gray-200">Connect With Me</h2>
+            <h3 className="text-xl font-semibold mb-6 text-center text-gray-200">Premium Companion Services & Platforms</h3>
             
             <div className="space-y-4">
               {socialLinks.map((link) => {
@@ -291,7 +291,7 @@ export default function Home() {
 
               {/* Payment Options */}
               <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-200 mb-4 text-center">Support & Tips</h3>
+                <h4 className="text-lg font-semibold text-gray-200 mb-4 text-center">Payment Options & Tips</h4>
                 {paymentLinks.map((payment) => {
                   const IconComponent = payment.icon;
                   return (
@@ -332,9 +332,9 @@ export default function Home() {
         <section className="py-16 px-4"
                  style={{transform: `translateY(${scrollY * 0.02}px)`}}>
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-center text-white mb-8">
-              Client Testimonials
-            </h2>
+            <h3 className="text-2xl font-bold text-center text-white mb-8">
+              Client Reviews & Testimonials
+            </h3>
             
             <div className="text-center">
               <div className="glass-effect p-8 rounded-2xl border border-white/20 inline-block">
@@ -353,9 +353,9 @@ export default function Home() {
         <section className="py-16 px-4">
           <div className="max-w-md mx-auto text-center">
             <div className="glass-effect p-8 rounded-3xl border border-white/20">
-              <h3 className="text-xl font-semibold text-white mb-4">Ready to Connect?</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">Book Premium Companion Services</h3>
               <p className="text-gray-300 mb-6">
-                Whether you're looking for engaging conversation, thoughtful companionship, or just someone to share good vibes with - I'm here for it all.
+                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections in Austin, TX. Available for premium companion experiences tailored to your needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button 
