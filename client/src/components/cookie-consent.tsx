@@ -52,7 +52,7 @@ export function CookieConsent() {
                 <Button
                   onClick={handleDecline}
                   variant="outline"
-                  className="px-6 py-2 border-white/20 text-white hover:bg-white/10 rounded-full text-sm font-medium"
+                  className="px-6 py-2 border-white/40 text-white hover:bg-white/10 rounded-full text-sm font-medium bg-black/20 backdrop-blur-sm"
                 >
                   Decline
                 </Button>
