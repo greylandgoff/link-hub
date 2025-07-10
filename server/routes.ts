@@ -285,6 +285,72 @@ To approve this review, you'll need to update it in your review management syste
     }
   });
 
+  // Admin routes for review management
+  app.get("/api/admin/reviews", async (req, res) => {
+    try {
+      const allReviews = await db.select().from(reviews).orderBy(desc(reviews.createdAt));
+      res.json(allReviews);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ error: "Failed to fetch reviews" });
+    }
+  });
+
+  app.post("/api/admin/reviews/approve", async (req, res) => {
+    try {
+      const { reviewId } = req.body;
+      
+      if (!reviewId) {
+        return res.status(400).json({ error: "Review ID is required" });
+      }
+      
+      await db.update(reviews)
+        .set({ isApproved: true })
+        .where(eq(reviews.id, reviewId));
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error approving review:", error);
+      res.status(500).json({ error: "Failed to approve review" });
+    }
+  });
+
+  app.post("/api/admin/reviews/reject", async (req, res) => {
+    try {
+      const { reviewId } = req.body;
+      
+      if (!reviewId) {
+        return res.status(400).json({ error: "Review ID is required" });
+      }
+      
+      await db.update(reviews)
+        .set({ isApproved: false })
+        .where(eq(reviews.id, reviewId));
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error rejecting review:", error);
+      res.status(500).json({ error: "Failed to reject review" });
+    }
+  });
+
+  app.delete("/api/admin/reviews/delete", async (req, res) => {
+    try {
+      const { reviewId } = req.body;
+      
+      if (!reviewId) {
+        return res.status(400).json({ error: "Review ID is required" });
+      }
+      
+      await db.delete(reviews).where(eq(reviews.id, reviewId));
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      res.status(500).json({ error: "Failed to delete review" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
