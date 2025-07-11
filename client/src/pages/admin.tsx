@@ -11,8 +11,17 @@ interface Review {
   id: number;
   name: string;
   email: string;
-  rating: number;
-  message: string;
+  appearance: number;
+  punctuality: number;
+  communication: number;
+  professionalism: number;
+  chemistry: number;
+  discretion: number;
+  wouldBookAgain: boolean;
+  bookingProcessSmooth: boolean;
+  matchedDescription: boolean;
+  serviceTypes: string[];
+  additionalComments: string | null;
   isApproved: boolean;
   createdAt: string;
 }
@@ -145,8 +154,8 @@ export default function Admin() {
                       <Badge variant={review.isApproved ? "default" : "secondary"}>
                         {review.isApproved ? "Approved" : "Pending"}
                       </Badge>
-                      <div className="flex text-yellow-400">
-                        {"★".repeat(review.rating)}
+                      <div className="text-yellow-400 text-sm font-medium">
+                        {Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6)}/5 ★ avg
                       </div>
                     </div>
                   </div>
@@ -155,7 +164,69 @@ export default function Admin() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-300 mb-4 italic">"{review.message}"</p>
+                  {/* Rating Breakdown */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
+                    <div className="text-sm">
+                      <span className="text-gray-400">Appearance:</span> <span className="text-yellow-400">{review.appearance}/5</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Punctuality:</span> <span className="text-yellow-400">{review.punctuality}/5</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Communication:</span> <span className="text-yellow-400">{review.communication}/5</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Professionalism:</span> <span className="text-yellow-400">{review.professionalism}/5</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Chemistry:</span> <span className="text-yellow-400">{review.chemistry}/5</span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Discretion:</span> <span className="text-yellow-400">{review.discretion}/5</span>
+                    </div>
+                  </div>
+
+                  {/* Yes/No Questions */}
+                  <div className="flex flex-wrap gap-4 mb-4">
+                    <div className="text-sm">
+                      <span className="text-gray-400">Would book again:</span> 
+                      <span className={review.wouldBookAgain ? "text-green-400 ml-1" : "text-red-400 ml-1"}>
+                        {review.wouldBookAgain ? "Yes" : "No"}
+                      </span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Booking smooth:</span> 
+                      <span className={review.bookingProcessSmooth ? "text-green-400 ml-1" : "text-red-400 ml-1"}>
+                        {review.bookingProcessSmooth ? "Yes" : "No"}
+                      </span>
+                    </div>
+                    <div className="text-sm">
+                      <span className="text-gray-400">Matched description:</span> 
+                      <span className={review.matchedDescription ? "text-green-400 ml-1" : "text-red-400 ml-1"}>
+                        {review.matchedDescription ? "Yes" : "No"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Service Types */}
+                  <div className="mb-4">
+                    <span className="text-gray-400 text-sm">Service Types: </span>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {review.serviceTypes.map((type, index) => (
+                        <Badge key={index} variant="outline" className="text-xs">
+                          {type}
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Additional Comments */}
+                  {review.additionalComments && (
+                    <div className="mb-4">
+                      <span className="text-gray-400 text-sm">Additional Comments:</span>
+                      <p className="text-gray-300 mt-1 italic">"{review.additionalComments}"</p>
+                    </div>
+                  )}
                   
                   <Separator className="my-4 bg-gray-800" />
                   
