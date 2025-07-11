@@ -1,0 +1,70 @@
+2025-07-11T17:35:39.641165Z	Cloning repository...
+2025-07-11T17:35:43.246588Z	From https://github.com/greylandgoff/link-hub
+2025-07-11T17:35:43.247013Z	 * branch            cb4241c02eca5c8b4328ed67b02adf876bd7cdd0 -> FETCH_HEAD
+2025-07-11T17:35:43.247156Z	
+2025-07-11T17:35:43.332082Z	HEAD is now at cb4241c Enhance review system with structured feedback for better insights
+2025-07-11T17:35:43.332468Z	
+2025-07-11T17:35:43.417001Z	
+2025-07-11T17:35:43.417566Z	Using v2 root directory strategy
+2025-07-11T17:35:43.438816Z	Success: Finished cloning repository files
+2025-07-11T17:35:45.1947Z	Checking for configuration in a Wrangler configuration file (BETA)
+2025-07-11T17:35:45.195533Z	
+2025-07-11T17:35:45.197085Z	Found wrangler.toml file. Reading build configuration...
+2025-07-11T17:35:46.315077Z	A wrangler.toml file was found but it does not appear to be valid. Did you mean to use wrangler.toml to configure Pages? If so, then make sure the file is valid and contains the `pages_build_output_dir` property. Skipping file and continuing.
+2025-07-11T17:35:46.385471Z	Detected the following tools from environment: npm@10.9.2, nodejs@22.16.0
+2025-07-11T17:35:46.386392Z	Installing project dependencies: npm clean-install --progress=false
+2025-07-11T17:35:51.26347Z	npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+2025-07-11T17:35:51.304154Z	npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+2025-07-11T17:35:58.079259Z	
+2025-07-11T17:35:58.079544Z	added 595 packages, and audited 596 packages in 11s
+2025-07-11T17:35:58.079693Z	
+2025-07-11T17:35:58.079984Z	77 packages are looking for funding
+2025-07-11T17:35:58.080155Z	  run `npm fund` for details
+2025-07-11T17:35:58.109706Z	
+2025-07-11T17:35:58.110066Z	9 vulnerabilities (1 low, 8 moderate)
+2025-07-11T17:35:58.110242Z	
+2025-07-11T17:35:58.11037Z	To address issues that do not require attention, run:
+2025-07-11T17:35:58.110512Z	  npm audit fix
+2025-07-11T17:35:58.110725Z	
+2025-07-11T17:35:58.110855Z	To address all issues (including breaking changes), run:
+2025-07-11T17:35:58.110979Z	  npm audit fix --force
+2025-07-11T17:35:58.111116Z	
+2025-07-11T17:35:58.111337Z	Run `npm audit` for details.
+2025-07-11T17:35:58.14169Z	Executing user command: npm run build
+2025-07-11T17:35:58.542363Z	
+2025-07-11T17:35:58.542622Z	> rest-express@1.0.0 build
+2025-07-11T17:35:58.542771Z	> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+2025-07-11T17:35:58.54295Z	
+2025-07-11T17:35:58.814396Z	[36mvite v5.4.19 [32mbuilding for production...[36m[39m
+2025-07-11T17:35:58.87302Z	transforming...
+2025-07-11T17:35:59.212654Z	Browserslist: browsers data (caniuse-lite) is 9 months old. Please run:
+2025-07-11T17:35:59.213232Z	  npx update-browserslist-db@latest
+2025-07-11T17:35:59.213479Z	  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+2025-07-11T17:36:02.607842Z	[32m✓[39m 1729 modules transformed.
+2025-07-11T17:36:02.821745Z	rendering chunks...
+2025-07-11T17:36:02.831907Z	computing gzip size...
+2025-07-11T17:36:02.843902Z	[2m../dist/public/[22m[32mindex.html                                  [39m[1m[2m    4.02 kB[22m[1m[22m[2m │ gzip:   1.38 kB[22m
+2025-07-11T17:36:02.844244Z	[2m../dist/public/[22m[2massets/[22m[32mIMG_2889_1751926502403-BOk3kdVS.jpg  [39m[1m[2m1,521.02 kB[22m[1m[22m
+2025-07-11T17:36:02.844601Z	[2m../dist/public/[22m[2massets/[22m[32mIMG_2862_1751936715707-BEjYH7OE.jpg  [39m[1m[2m2,111.54 kB[22m[1m[22m
+2025-07-11T17:36:02.845172Z	[2m../dist/public/[22m[2massets/[22m[35mindex-BzN2b7u1.css                   [39m[1m[2m   71.06 kB[22m[1m[22m[2m │ gzip:  12.55 kB[22m
+2025-07-11T17:36:02.845333Z	[2m../dist/public/[22m[2massets/[22m[36mindex-CwSZ2yUc.js                    [39m[1m[2m  358.66 kB[22m[1m[22m[2m │ gzip: 112.14 kB[22m
+2025-07-11T17:36:02.845446Z	[32m✓ built in 4.01s[39m
+2025-07-11T17:36:02.897283Z	
+2025-07-11T17:36:02.897565Z	  dist/index.js  21.0kb
+2025-07-11T17:36:02.897719Z	
+2025-07-11T17:36:02.897819Z	⚡ Done in 9ms
+2025-07-11T17:36:02.917294Z	Finished
+2025-07-11T17:36:03.855247Z	Checking for configuration in a Wrangler configuration file (BETA)
+2025-07-11T17:36:03.855875Z	
+2025-07-11T17:36:03.856581Z	Found wrangler.toml file. Reading build configuration...
+2025-07-11T17:36:04.956313Z	A wrangler.toml file was found but it does not appear to be valid. Did you mean to use wrangler.toml to configure Pages? If so, then make sure the file is valid and contains the `pages_build_output_dir` property. Skipping file and continuing.
+2025-07-11T17:36:04.957049Z	Found Functions directory at /functions. Uploading.
+2025-07-11T17:36:04.96308Z	 ⛅️ wrangler 3.101.0
+2025-07-11T17:36:04.963261Z	-------------------
+2025-07-11T17:36:05.886554Z	
+2025-07-11T17:36:05.973955Z	[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mInvalid Pages function route parameter - "[...path]". Parameter names must only contain alphanumeric and underscore characters.[0m
+2025-07-11T17:36:05.974313Z	
+2025-07-11T17:36:05.974524Z	
+2025-07-11T17:36:06.041418Z	🪵  Logs were written to "/root/.config/.wrangler/logs/wrangler-2025-07-11_17-36-05_600.log"
+2025-07-11T17:36:06.053331Z	Failed building Pages Functions.
+2025-07-11T17:36:07.21903Z	Failed: generating Pages Functions failed. Check the logs above for more information. If this continues for an unknown reason, contact support: https://cfl.re/3WgEyrH
