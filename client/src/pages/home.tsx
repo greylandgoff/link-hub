@@ -268,14 +268,24 @@ export default function Home() {
               Professional companion services in Austin, TX for authentic connections and meaningful experiences. Available for premium companion services and genuine moments.
             </h2>
 
-            {/* Contact Card Button */}
-            <div className="flex justify-center mb-8">
+            {/* Action Buttons */}
+            <div className="flex justify-center gap-3 mb-8">
               <Button 
                 onClick={handleSaveContact}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
               >
                 <User className="w-4 h-4" />
                 Save Contact
+              </Button>
+              <Button 
+                onClick={() => {
+                  trackEvent('review_modal_open', 'engagement', 'profile_review');
+                  setIsReviewModalOpen(true);
+                }}
+                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/30 hover:from-purple-600/30 hover:to-blue-600/30"
+              >
+                <Star className="w-4 h-4" />
+                Leave Review
               </Button>
             </div>
           </div>
