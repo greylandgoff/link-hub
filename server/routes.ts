@@ -213,41 +213,105 @@ END:VCARD`;
         });
       }
 
-      const { name, email, rating, message } = result.data;
+      const { 
+        name, 
+        email, 
+        appearance,
+        punctuality,
+        communication,
+        professionalism,
+        chemistry,
+        discretion,
+        wouldBookAgain,
+        bookingProcessSmooth,
+        matchedDescription,
+        serviceTypes,
+        additionalComments
+      } = result.data;
 
       // Insert review into database (not approved by default)
       const [newReview] = await db.insert(reviews).values({
         name,
         email,
-        rating,
-        message,
+        appearance,
+        punctuality,
+        communication,
+        professionalism,
+        chemistry,
+        discretion,
+        wouldBookAgain,
+        bookingProcessSmooth,
+        matchedDescription,
+        serviceTypes,
+        additionalComments,
         isApproved: false
       }).returning();
+
+      // Calculate average rating from all categories
+      const avgRating = Math.round((appearance + punctuality + communication + professionalism + chemistry + discretion) / 6);
 
       // Send email notification
       if (isEmailConfigured()) {
         await sendEmail({
           from: "bobby@rentbobby.com",
           to: "bobby@rentbobby.com",
-          subject: `New Review Submitted - ${rating} stars from ${name}`,
-          text: `New review submitted for approval:
+          subject: `New Review Submitted - ${avgRating}/5 avg from ${name}`,
+          text: `New structured review submitted for approval:
 
 Name: ${name}
 Email: ${email}
-Rating: ${rating}/5 stars
-Message: ${message}
+
+RATINGS (1-5):
+• Appearance: ${appearance}/5
+• Punctuality: ${punctuality}/5
+• Communication: ${communication}/5
+• Professionalism: ${professionalism}/5
+• Chemistry: ${chemistry}/5
+• Discretion: ${discretion}/5
+Average: ${avgRating}/5
+
+YES/NO QUESTIONS:
+• Would book again: ${wouldBookAgain ? 'Yes' : 'No'}
+• Booking process smooth: ${bookingProcessSmooth ? 'Yes' : 'No'}
+• Matched description: ${matchedDescription ? 'Yes' : 'No'}
+
+SERVICE TYPES: ${serviceTypes.join(', ')}
+
+ADDITIONAL COMMENTS: ${additionalComments || 'None'}
 
 Review ID: ${newReview.id}
 Submitted: ${new Date().toLocaleString()}
 
-To approve this review, you'll need to update it in your review management system.`,
+To approve this review, visit your admin panel.`,
           html: `
-            <h2>New Review Submitted</h2>
+            <h2>New Structured Review Submitted</h2>
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
-            <p><strong>Rating:</strong> ${rating}/5 ⭐</p>
-            <p><strong>Message:</strong></p>
-            <blockquote>${message}</blockquote>
+            
+            <h3>Ratings (1-5):</h3>
+            <ul>
+              <li>Appearance: ${appearance}/5 ⭐</li>
+              <li>Punctuality: ${punctuality}/5 ⭐</li>
+              <li>Communication: ${communication}/5 ⭐</li>
+              <li>Professionalism: ${professionalism}/5 ⭐</li>
+              <li>Chemistry: ${chemistry}/5 ⭐</li>
+              <li>Discretion: ${discretion}/5 ⭐</li>
+              <li><strong>Average: ${avgRating}/5 ⭐</strong></li>
+            </ul>
+            
+            <h3>Quick Questions:</h3>
+            <ul>
+              <li>Would book again: ${wouldBookAgain ? '✅ Yes' : '❌ No'}</li>
+              <li>Booking process smooth: ${bookingProcessSmooth ? '✅ Yes' : '❌ No'}</li>
+              <li>Matched description: ${matchedDescription ? '✅ Yes' : '❌ No'}</li>
+            </ul>
+            
+            <h3>Service Types:</h3>
+            <p>${serviceTypes.join(', ')}</p>
+            
+            <h3>Additional Comments:</h3>
+            <blockquote>${additionalComments || 'None provided'}</blockquote>
+            
             <hr>
             <p><small>Review ID: ${newReview.id} | Submitted: ${new Date().toLocaleString()}</small></p>
           `
