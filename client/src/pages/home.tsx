@@ -389,34 +389,81 @@ export default function Home() {
               </div>
             ) : reviews.length > 0 ? (
               <div className="space-y-6 mb-12">
-                {reviews.slice(0, 3).map((review: any, index: number) => (
-                  <div key={review.id} className="flex justify-center">
-                    <div className="glass-effect p-8 rounded-2xl border border-white/20 hover-lift max-w-2xl"
-                         style={{
-                           opacity: Math.min(1, Math.max(0, (scrollY - 900 - index * 100) / 200)),
-                           transform: `translateY(${Math.max(50, 50 - (scrollY - 900 - index * 100) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900 - index * 100) / 1000)})`,
-                           animationDelay: `${index * 0.2}s`
-                         }}>
-                      <div className="flex items-center mb-6">
-                        <div className="flex text-yellow-400 text-xl">
-                          {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+                {reviews.slice(0, 3).map((review: any, index: number) => {
+                  // Calculate average rating from individual categories
+                  const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
+                  
+                  return (
+                    <div key={review.id} className="flex justify-center">
+                      <div className="glass-effect p-8 rounded-2xl border border-white/20 hover-lift max-w-2xl"
+                           style={{
+                             opacity: Math.min(1, Math.max(0, (scrollY - 900 - index * 100) / 200)),
+                             transform: `translateY(${Math.max(50, 50 - (scrollY - 900 - index * 100) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900 - index * 100) / 1000)})`,
+                             animationDelay: `${index * 0.2}s`
+                           }}>
+                        <div className="flex items-center mb-6">
+                          <div className="flex text-yellow-400 text-xl">
+                            {"★".repeat(avgRating)}{"☆".repeat(5 - avgRating)}
+                          </div>
+                          <div className="ml-auto text-gray-500 text-sm">Verified Review</div>
                         </div>
-                        <div className="ml-auto text-gray-500 text-sm">Verified Review</div>
-                      </div>
-                      <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
-                        "{review.message}"
-                      </p>
-                      <div className="flex items-center justify-between">
-                        <div className="text-gray-400 text-sm">
-                          - {review.name}
+                        
+                        {/* Rating Categories */}
+                        <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Appearance:</span>
+                            <span className="text-yellow-400">{"★".repeat(review.appearance)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Punctuality:</span>
+                            <span className="text-yellow-400">{"★".repeat(review.punctuality)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Communication:</span>
+                            <span className="text-yellow-400">{"★".repeat(review.communication)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Professionalism:</span>
+                            <span className="text-yellow-400">{"★".repeat(review.professionalism)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Chemistry:</span>
+                            <span className="text-yellow-400">{"★".repeat(review.chemistry)}</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-400">Discretion:</span>
+                            <span className="text-yellow-400">{"★".repeat(review.discretion)}</span>
+                          </div>
                         </div>
-                        <div className="text-gray-500 text-xs">
-                          {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+
+                        {/* Service Types */}
+                        <div className="flex flex-wrap gap-2 mb-4">
+                          {review.serviceTypes.map((service: string, idx: number) => (
+                            <span key={idx} className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300">
+                              {service}
+                            </span>
+                          ))}
+                        </div>
+
+                        {/* Additional Comments */}
+                        {review.additionalComments && (
+                          <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
+                            "{review.additionalComments}"
+                          </p>
+                        )}
+                        
+                        <div className="flex items-center justify-between">
+                          <div className="text-gray-400 text-sm">
+                            - {review.name}
+                          </div>
+                          <div className="text-gray-500 text-xs">
+                            {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className="flex justify-center mb-12">
