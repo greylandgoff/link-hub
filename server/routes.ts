@@ -356,8 +356,8 @@ To approve this review, visit your admin panel.`,
       const { username, password } = req.body;
       
       // Check against environment variables or default credentials
-      const adminUsername = process.env.ADMIN_USERNAME || "admin";
-      const adminPassword = process.env.ADMIN_PASSWORD || "rentbobby2025";
+      const adminUsername = process.env.ADMIN_USERNAME || "greylandgoff";
+      const adminPassword = process.env.ADMIN_PASSWORD || "Myc@t$n@m31!";
       
       if (username === adminUsername && password === adminPassword) {
         res.json({ success: true, message: "Login successful" });
