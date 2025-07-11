@@ -1,0 +1,11 @@
+name = "rentbobby-com"
+compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "rentbobby-production"
+database_id = "your-d1-database-id"
+
+[vars]
+NODE_ENV = "production"
