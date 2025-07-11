@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Check, X, Trash2, Eye, EyeOff } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Check, X, Trash2, Eye, EyeOff, Lock } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
 interface Review {
@@ -28,9 +30,107 @@ interface Review {
 
 export default function Admin() {
   const [showApproved, setShowApproved] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [authError, setAuthError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  const { data: reviews = [], isLoading } = useQuery({
+  // Check if already authenticated on mount
+  useEffect(() => {
+    const authToken = sessionStorage.getItem('admin_auth');
+    if (authToken === 'authenticated') {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setAuthError("");
+
+    try {
+      const response = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        setIsAuthenticated(true);
+        sessionStorage.setItem('admin_auth', 'authenticated');
+        setUsername("");
+        setPassword("");
+      } else {
+        setAuthError("Invalid credentials");
+      }
+    } catch (error) {
+      setAuthError("Login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem('admin_auth');
+  };
+
+  // Show login form if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md bg-gray-800/50 border-gray-700">
+          <CardHeader className="text-center">
+            <div className="flex justify-center mb-4">
+              <Lock className="w-12 h-12 text-gray-400" />
+            </div>
+            <CardTitle className="text-white">Admin Access</CardTitle>
+            <p className="text-gray-400 text-sm">Please login to access the review dashboard</p>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <Label htmlFor="username" className="text-gray-300">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="bg-gray-700 border-gray-600 text-white"
+                  required
+                />
+              </div>
+              <div>
+                <Label htmlFor="password" className="text-gray-300">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="bg-gray-700 border-gray-600 text-white"
+                  required
+                />
+              </div>
+              {authError && (
+                <p className="text-red-400 text-sm">{authError}</p>
+              )}
+              <Button 
+                type="submit" 
+                className="w-full bg-blue-600 hover:bg-blue-700"
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging in..." : "Login"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
     queryKey: ["/api/admin/reviews"],
     queryFn: async () => {
       const response = await fetch("/api/admin/reviews");
@@ -73,7 +173,7 @@ export default function Admin() {
   const pendingCount = reviews.filter((r: Review) => !r.isApproved).length;
   const approvedCount = reviews.filter((r: Review) => r.isApproved).length;
 
-  if (isLoading) {
+  if (reviewsLoading) {
     return (
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
@@ -87,9 +187,18 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Review Management</h1>
-          <p className="text-gray-400">Manage client reviews and testimonials</p>
+        <div className="mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">Review Management</h1>
+            <p className="text-gray-400">Manage client reviews and testimonials</p>
+          </div>
+          <Button 
+            onClick={handleLogout}
+            variant="outline"
+            className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+          >
+            Logout
+          </Button>
         </div>
 
         {/* Stats */}

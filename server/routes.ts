@@ -350,6 +350,26 @@ To approve this review, visit your admin panel.`,
   });
 
   // Admin routes for review management
+  // Admin login endpoint
+  app.post("/api/admin/login", async (req, res) => {
+    try {
+      const { username, password } = req.body;
+      
+      // Check against environment variables or default credentials
+      const adminUsername = process.env.ADMIN_USERNAME || "admin";
+      const adminPassword = process.env.ADMIN_PASSWORD || "rentbobby2025";
+      
+      if (username === adminUsername && password === adminPassword) {
+        res.json({ success: true, message: "Login successful" });
+      } else {
+        res.status(401).json({ success: false, message: "Invalid credentials" });
+      }
+    } catch (error) {
+      console.error("Admin login error:", error);
+      res.status(500).json({ success: false, message: "Login failed" });
+    }
+  });
+
   app.get("/api/admin/reviews", async (req, res) => {
     try {
       const allReviews = await db.select().from(reviews).orderBy(desc(reviews.createdAt));
