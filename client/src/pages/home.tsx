@@ -265,7 +265,7 @@ export default function Home() {
               />
             </h1>
             <h2 className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg font-normal">
-              Professional companion services in Austin, TX for authentic connections and meaningful experiences. Available for premium companion services and genuine moments.
+              Professional companion services based in Austin, TX. Available for domestic or international travel for authentic connections and meaningful experiences.
             </h2>
 
             {/* Action Buttons */}
@@ -646,7 +646,7 @@ export default function Home() {
             <div className="glass-effect p-8 rounded-3xl border border-white/20">
               <h3 className="text-xl font-semibold text-white mb-4">Book Premium Companion Services</h3>
               <p className="text-gray-300 mb-6">
-                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections in Austin, TX. Available for premium companion experiences tailored to your needs.
+                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections. Based in Austin, TX and available for domestic or international travel for premium companion experiences tailored to your needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button 
