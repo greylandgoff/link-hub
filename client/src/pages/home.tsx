@@ -395,68 +395,113 @@ export default function Home() {
                   
                   return (
                     <div key={review.id} className="flex justify-center">
-                      <div className="glass-effect p-8 rounded-2xl border border-white/20 hover-lift max-w-2xl"
+                      <div className="bg-black/70 backdrop-blur-md p-10 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-3xl w-full"
                            style={{
+                             background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(20,20,20,0.9) 100%)',
+                             boxShadow: '0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
                              opacity: Math.min(1, Math.max(0, (scrollY - 900 - index * 100) / 200)),
                              transform: `translateY(${Math.max(50, 50 - (scrollY - 900 - index * 100) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900 - index * 100) / 1000)})`,
                              animationDelay: `${index * 0.2}s`
                            }}>
-                        <div className="flex items-center mb-6">
-                          <div className="flex text-yellow-400 text-xl">
-                            {"★".repeat(avgRating)}{"☆".repeat(5 - avgRating)}
+                        
+                        {/* Header with overall rating */}
+                        <div className="flex items-center justify-between mb-8 pb-4 border-b border-yellow-500/20">
+                          <div className="flex items-center gap-4">
+                            <div className="flex text-yellow-400 text-2xl">
+                              {"★".repeat(avgRating)}{"☆".repeat(5 - avgRating)}
+                            </div>
+                            <div className="text-yellow-300 font-semibold text-lg">{avgRating}/5 Overall</div>
                           </div>
-                          <div className="ml-auto text-gray-500 text-sm">Verified Review</div>
+                          <div className="bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-full">
+                            <span className="text-green-300 text-sm font-medium">✓ Verified Review</span>
+                          </div>
                         </div>
                         
                         {/* Rating Categories */}
-                        <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Appearance:</span>
-                            <span className="text-yellow-400">{"★".repeat(review.appearance)}</span>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                            <h4 className="text-white font-semibold mb-3 text-base">Service Quality</h4>
+                            <div className="space-y-3">
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Appearance:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.appearance)}</span>
+                                  <span className="text-white font-medium">{review.appearance}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Professionalism:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.professionalism)}</span>
+                                  <span className="text-white font-medium">{review.professionalism}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Chemistry:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.chemistry)}</span>
+                                  <span className="text-white font-medium">{review.chemistry}</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Punctuality:</span>
-                            <span className="text-yellow-400">{"★".repeat(review.punctuality)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Communication:</span>
-                            <span className="text-yellow-400">{"★".repeat(review.communication)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Professionalism:</span>
-                            <span className="text-yellow-400">{"★".repeat(review.professionalism)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Chemistry:</span>
-                            <span className="text-yellow-400">{"★".repeat(review.chemistry)}</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-gray-400">Discretion:</span>
-                            <span className="text-yellow-400">{"★".repeat(review.discretion)}</span>
+                          
+                          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                            <h4 className="text-white font-semibold mb-3 text-base">Experience</h4>
+                            <div className="space-y-3">
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Punctuality:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.punctuality)}</span>
+                                  <span className="text-white font-medium">{review.punctuality}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Communication:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.communication)}</span>
+                                  <span className="text-white font-medium">{review.communication}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Discretion:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.discretion)}</span>
+                                  <span className="text-white font-medium">{review.discretion}</span>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
 
                         {/* Service Types */}
-                        <div className="flex flex-wrap gap-2 mb-4">
-                          {review.serviceTypes.map((service: string, idx: number) => (
-                            <span key={idx} className="px-3 py-1 bg-white/10 rounded-full text-xs text-gray-300">
-                              {service}
-                            </span>
-                          ))}
+                        <div className="mb-6">
+                          <h4 className="text-white font-semibold mb-3 text-base">Services</h4>
+                          <div className="flex flex-wrap gap-3">
+                            {review.serviceTypes.map((service: string, idx: number) => (
+                              <span key={idx} className="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-200 text-sm font-medium">
+                                {service}
+                              </span>
+                            ))}
+                          </div>
                         </div>
 
                         {/* Additional Comments */}
                         {review.additionalComments && (
-                          <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
-                            "{review.additionalComments}"
-                          </p>
+                          <div className="bg-yellow-500/10 border border-yellow-500/20 p-6 rounded-xl mb-6">
+                            <h4 className="text-yellow-300 font-semibold mb-3 text-base">Client Feedback</h4>
+                            <p className="text-white text-lg leading-relaxed italic">
+                              "{review.additionalComments}"
+                            </p>
+                          </div>
                         )}
                         
-                        <div className="flex items-center justify-between">
-                          <div className="text-gray-400 text-sm">
-                            - {review.name}
+                        {/* Footer */}
+                        <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                          <div className="text-white font-semibold text-base">
+                            {review.name}
                           </div>
-                          <div className="text-gray-500 text-xs">
+                          <div className="text-gray-300 text-sm">
                             {new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                           </div>
                         </div>
@@ -467,17 +512,22 @@ export default function Home() {
               </div>
             ) : (
               <div className="flex justify-center mb-12">
-                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl text-center">
-                  <div className="text-yellow-400 text-xl mb-4">⭐⭐⭐⭐⭐</div>
-                  <p className="text-gray-300 text-base mb-6 italic leading-relaxed">
-                    Be the first to share your experience with Bobby's professional companion services. 
+                <div className="bg-black/80 backdrop-blur-md p-12 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-3xl w-full text-center"
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(30,30,30,0.95) 100%)',
+                       boxShadow: '0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1)'
+                     }}>
+                  <div className="text-yellow-400 text-4xl mb-6">⭐⭐⭐⭐⭐</div>
+                  <h3 className="text-white text-2xl font-bold mb-4">Be the First to Review</h3>
+                  <p className="text-gray-200 text-lg mb-8 leading-relaxed max-w-2xl mx-auto">
+                    Share your experience with Bobby's professional companion services. 
                     Your authentic feedback helps others discover quality connections and memorable experiences.
                   </p>
                   <Button 
                     onClick={() => setIsReviewModalOpen(true)}
-                    className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-6 py-2 rounded-full"
+                    className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-8 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   >
-                    ⭐ Write First Review
+                    ⭐ Write Your Review
                   </Button>
                 </div>
               </div>
@@ -533,15 +583,6 @@ export default function Home() {
                     </Button>
                   </div>
                   
-                  {/* Direct Reviews Link Display */}
-                  <div className="text-center mb-6">
-                    <div className="glass-effect p-4 rounded-2xl border border-white/10 inline-block">
-                      <p className="text-gray-400 text-xs mb-2">Direct link to reviews:</p>
-                      <code className="text-green-400 text-sm font-mono bg-black/20 px-3 py-1 rounded break-all">
-                        {typeof window !== 'undefined' ? `${window.location.origin}/#reviews` : 'Loading...'}
-                      </code>
-                    </div>
-                  </div>
                   {/* Stats section temporarily disabled - will be enabled once more reviews are collected */}
                   {/* 
                   <div className="grid grid-cols-3 gap-6 text-center">

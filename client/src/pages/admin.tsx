@@ -226,22 +226,26 @@ export default function Admin() {
         </div>
 
         {/* Toggle View */}
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-4 mb-6">
           <Button
             onClick={() => setShowApproved(false)}
             variant={!showApproved ? "default" : "outline"}
-            className={!showApproved ? "bg-yellow-600 hover:bg-yellow-700" : ""}
+            className={!showApproved ? 
+              "bg-orange-600 hover:bg-orange-700 text-white border-orange-600" : 
+              "border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white"
+            }
           >
-            <Eye className="w-4 h-4 mr-2" />
-            Pending ({pendingCount})
+            🟠 Pending Reviews ({pendingCount})
           </Button>
           <Button
             onClick={() => setShowApproved(true)}
             variant={showApproved ? "default" : "outline"}
-            className={showApproved ? "bg-green-600 hover:bg-green-700" : ""}
+            className={showApproved ? 
+              "bg-green-600 hover:bg-green-700 text-white border-green-600" : 
+              "border-green-600 text-green-600 hover:bg-green-600 hover:text-white"
+            }
           >
-            <EyeOff className="w-4 h-4 mr-2" />
-            Approved ({approvedCount})
+            ✅ Approved Reviews ({approvedCount})
           </Button>
         </div>
 
