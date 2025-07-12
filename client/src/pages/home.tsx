@@ -1,27 +1,69 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// Analytics tracking placeholder
+const trackEvent = (event: string, category: string, label: string) => {
+  console.log('Analytics:', event, category, label);
+};
+import { useQuery } from "@tanstack/react-query";
+import { Star } from "lucide-react";
 
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 import profileImage from "@assets/IMG_2889_1751926502403.jpg";
 import backgroundImage from "@assets/IMG_2862_1751936715707.jpg";
+// Note: ReviewModal component needs to be created
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+
+  // Fetch approved reviews
+  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
+    queryKey: ['/api/reviews'],
+    queryFn: async () => {
+      const response = await fetch('/api/reviews');
+      if (!response.ok) {
+        throw new Error('Failed to fetch reviews');
+      }
+      const data = await response.json();
+      console.log('Reviews fetched:', data); // Debug log
+      return data;
+    },
+  });
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
+    
+    // Debug: Check if Google Analytics is loaded
+    console.log('Google Analytics loaded:', !!window.gtag);
+    console.log('Current URL:', window.location.href);
+    
+    // Handle direct links to reviews section
+    if (window.location.hash === '#reviews') {
+      setTimeout(() => {
+        const reviewsSection = document.getElementById('reviews-section');
+        if (reviewsSection) {
+          reviewsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 500); // Small delay to ensure page is loaded
+    }
+    
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleSaveContact = async () => {
     try {
+      // Track analytics event
+      trackEvent('save_contact', 'engagement', 'contact_card');
+      
       const response = await fetch("/api/contact-card", {
         method: "GET",
       });
@@ -47,7 +89,8 @@ export default function Home() {
   };
 
   const handleLinkClick = (platform: string, url: string) => {
-    // Track analytics
+    // Track analytics event
+    trackEvent('social_link_click', 'engagement', platform);
     console.log(`Clicked: ${platform}`);
     window.open(url, "_blank");
   };
@@ -56,7 +99,7 @@ export default function Home() {
     {
       platform: "onlyfans",
       name: "OnlyFans", 
-      description: "Exclusive content & personal updates",
+      description: "Extra spicy content",
       url: "https://onlyfans.com/bobbyatx",
       icon: User,
       neonColor: "hsl(320, 100%, 60%)"
@@ -64,7 +107,7 @@ export default function Home() {
     {
       platform: "rentmen",
       name: "Rentmen",
-      description: "Professional companion services", 
+      description: "Companion services", 
       url: "https://rent.men/BobbyAtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
@@ -72,7 +115,7 @@ export default function Home() {
     {
       platform: "twitter",
       name: "X",
-      description: "Daily thoughts & lifestyle",
+      description: "Mild spicy content, shower thoughts, and other nonsense",
       url: "https://twitter.com/graydoutx", 
       icon: Twitter,
       neonColor: "hsl(200, 100%, 50%)"
@@ -193,18 +236,28 @@ export default function Home() {
                         fontWeight: '700'}}>
               Bobby
             </h1>
-            <p className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg">
-              Authentic companion for meaningful connections and genuine moments. Here to make your day a little brighter.
-            </p>
+            <h2 className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg font-normal">
+              Professional companion services based in Austin, TX. Available for domestic or international travel for authentic connections and meaningful experiences.
+            </h2>
 
-            {/* Contact Card Button */}
-            <div className="flex justify-center mb-8">
+            {/* Action Buttons */}
+            <div className="flex justify-center gap-3 mb-8">
               <Button 
                 onClick={handleSaveContact}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
               >
                 <User className="w-4 h-4" />
                 Save Contact
+              </Button>
+              <Button 
+                onClick={() => {
+                  trackEvent('review_modal_open', 'engagement', 'profile_review');
+                  setIsReviewModalOpen(true);
+                }}
+                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/30 hover:from-purple-600/30 hover:to-blue-600/30"
+              >
+                <Star className="w-4 h-4" />
+                Leave Review
               </Button>
             </div>
           </div>
@@ -283,13 +336,214 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Spacer for parallax effect */}
+        {/* Reviews Section - Scroll-Triggered Showcase */}
+        <section id="reviews-section" className="py-16 px-4 relative overflow-hidden"
+                 style={{transform: `translateY(${scrollY * 0.02}px)`}}>
+          <div className="max-w-6xl mx-auto">
+            <h3 className="text-3xl font-bold text-center text-white mb-8"
+                style={{
+                  opacity: Math.min(1, (scrollY - 800) / 300),
+                  transform: `translateY(${Math.max(0, 50 - (scrollY - 800) / 10)}px)`
+                }}>
+              Client Reviews & Testimonials
+            </h3>
+            
+            {/* Leave a Review Section - Above existing reviews */}
+            <div className="flex justify-center mb-12">
+              <div className="bg-black/80 backdrop-blur-md p-8 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-2xl w-full text-center"
+                   style={{
+                     background: 'linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(30,30,30,0.95) 100%)',
+                     boxShadow: '0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1)'
+                   }}>
+                <div className="text-yellow-400 text-3xl mb-4">⭐⭐⭐⭐⭐</div>
+                <h4 className="text-white text-xl font-bold mb-3">Share Your Experience</h4>
+                <p className="text-gray-200 text-base mb-6 leading-relaxed">
+                  Help others discover quality companion services by sharing your authentic experience locally and during travel.
+                </p>
+                <Button 
+                  onClick={() => setIsReviewModalOpen(true)}
+                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  ⭐ Leave Your Review
+                </Button>
+              </div>
+            </div>
+            
+            {/* Dynamic Reviews from Database */}
+            {reviewsLoading ? (
+              <div className="flex justify-center mb-12">
+                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl">
+                  <div className="animate-pulse">
+                    <div className="h-4 bg-white/20 rounded mb-4"></div>
+                    <div className="h-20 bg-white/10 rounded mb-4"></div>
+                    <div className="h-4 bg-white/20 rounded w-1/2"></div>
+                  </div>
+                </div>
+              </div>
+            ) : reviews.length > 0 ? (
+              <div className="space-y-6 mb-12">
+                {console.log('Displaying reviews:', reviews)}
+                {reviews.slice(0, 3).map((review: any, index: number) => {
+                  // Calculate average rating from individual categories
+                  const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
+                  
+                  return (
+                    <div key={review.id} className="flex justify-center">
+                      <div className="bg-black/70 backdrop-blur-md p-10 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-3xl w-full"
+                           style={{
+                             background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(20,20,20,0.9) 100%)',
+                             boxShadow: '0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
+                             opacity: Math.min(1, Math.max(0, (scrollY - 900 - index * 100) / 200)),
+                             transform: `translateY(${Math.max(50, 50 - (scrollY - 900 - index * 100) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900 - index * 100) / 1000)})`,
+                             animationDelay: `${index * 0.2}s`
+                           }}>
+                        
+                        {/* Header with overall rating */}
+                        <div className="flex items-center justify-between mb-8 pb-4 border-b border-yellow-500/20">
+                          <div className="flex items-center gap-4">
+                            <div className="flex text-yellow-400 text-2xl">
+                              {"★".repeat(avgRating)}{"☆".repeat(5 - avgRating)}
+                            </div>
+                            <div className="text-yellow-300 font-semibold text-lg">{avgRating}/5 Overall</div>
+                          </div>
+                          <div className="bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-full">
+                            <span className="text-green-300 text-sm font-medium">✓ Verified Review</span>
+                          </div>
+                        </div>
+                        
+                        {/* Rating Categories */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                            <h4 className="text-white font-semibold mb-3 text-base">Service Quality</h4>
+                            <div className="space-y-3">
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Appearance:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.appearance)}</span>
+                                  <span className="text-white font-medium">{review.appearance}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Professionalism:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.professionalism)}</span>
+                                  <span className="text-white font-medium">{review.professionalism}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Chemistry:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.chemistry)}</span>
+                                  <span className="text-white font-medium">{review.chemistry}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                            <h4 className="text-white font-semibold mb-3 text-base">Experience</h4>
+                            <div className="space-y-3">
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Punctuality:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.punctuality)}</span>
+                                  <span className="text-white font-medium">{review.punctuality}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Communication:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.communication)}</span>
+                                  <span className="text-white font-medium">{review.communication}</span>
+                                </div>
+                              </div>
+                              <div className="flex justify-between items-center">
+                                <span className="text-gray-200 text-sm">Discretion:</span>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.discretion)}</span>
+                                  <span className="text-white font-medium">{review.discretion}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Yes/No Questions */}
+                        <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
+                          <h4 className="text-white font-semibold mb-3 text-base">Quick Questions</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="flex items-center gap-2">
+                              <span className={`text-lg ${review.wouldBookAgain ? 'text-green-400' : 'text-red-400'}`}>
+                                {review.wouldBookAgain ? '✓' : '✗'}
+                              </span>
+                              <span className="text-gray-200 text-sm">Would book again</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className={`text-lg ${review.bookingProcessSmooth ? 'text-green-400' : 'text-red-400'}`}>
+                                {review.bookingProcessSmooth ? '✓' : '✗'}
+                              </span>
+                              <span className="text-gray-200 text-sm">Smooth booking</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className={`text-lg ${review.matchedDescription ? 'text-green-400' : 'text-red-400'}`}>
+                                {review.matchedDescription ? '✓' : '✗'}
+                              </span>
+                              <span className="text-gray-200 text-sm">Matched description</span>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Service Types */}
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {review.serviceTypes.map((serviceType: string, i: number) => (
+                            <span key={i} className="bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-full text-blue-300 text-sm">
+                              {serviceType}
+                            </span>
+                          ))}
+                        </div>
+                        
+                        {/* Comments and Client Info */}
+                        {review.additionalComments && (
+                          <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
+                            <h4 className="text-white font-semibold mb-2 text-base">Additional Comments</h4>
+                            <p className="text-gray-200 italic text-base leading-relaxed">"{review.additionalComments}"</p>
+                          </div>
+                        )}
+                        
+                        <div className="flex justify-between items-center pt-4 border-t border-white/10">
+                          <div className="text-white font-medium text-lg">{review.name}</div>
+                          <div className="text-gray-400 text-sm">{new Date(review.createdAt).toLocaleDateString()}</div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="flex justify-center mb-12">
+                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl text-center">
+                  <h4 className="text-white text-lg font-semibold mb-4">No Reviews Yet</h4>
+                  <p className="text-gray-300 mb-6">Be the first to share your experience!</p>
+                  <Button 
+                    onClick={() => setIsReviewModalOpen(true)}
+                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-6 py-3 rounded-full"
+                  >
+                    <Star className="w-4 h-4 mr-2" />
+                    Leave First Review
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Call to Action */}
         <section className="py-16 px-4">
           <div className="max-w-md mx-auto text-center">
             <div className="glass-effect p-8 rounded-3xl border border-white/20">
-              <h3 className="text-xl font-semibold text-white mb-4">Ready to Connect?</h3>
+              <h3 className="text-xl font-semibold text-white mb-4">Book Premium Companion Services</h3>
               <p className="text-gray-300 mb-6">
-                Whether you're looking for engaging conversation, thoughtful companionship, or just someone to share good vibes with - I'm here for it all.
+                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections. Based in Austin, TX and available for domestic or international travel for premium companion experiences tailored to your needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button 
@@ -384,6 +638,33 @@ export default function Home() {
         isOpen={isQRModalOpen} 
         onClose={() => setIsQRModalOpen(false)} 
       />
+
+      {/* Review Modal - Temporary placeholder */}
+      <Dialog open={isReviewModalOpen} onOpenChange={setIsReviewModalOpen}>
+        <DialogContent className="max-w-2xl bg-black/90 border border-white/20">
+          <div className="p-6 text-center">
+            <h3 className="text-white text-xl font-bold mb-4">Leave a Review</h3>
+            <p className="text-gray-300 mb-4">Review functionality coming soon!</p>
+            <Button 
+              onClick={() => setIsReviewModalOpen(false)}
+              className="bg-blue-600 hover:bg-blue-700 text-white"
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Photo Modal */}
+      <Dialog open={isPhotoModalOpen} onOpenChange={setIsPhotoModalOpen}>
+        <DialogContent className="max-w-2xl bg-black/90 border border-white/20">
+          <img 
+            src={profileImage} 
+            alt="Bobby - Professional Companion" 
+            className="w-full h-auto rounded-lg"
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
