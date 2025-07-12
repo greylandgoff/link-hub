@@ -29,7 +29,9 @@ export default function Home() {
       if (!response.ok) {
         throw new Error('Failed to fetch reviews');
       }
-      return response.json();
+      const data = await response.json();
+      console.log('Reviews fetched:', data); // Debug log
+      return data;
     },
   });
 
@@ -410,6 +412,7 @@ export default function Home() {
               </div>
             ) : reviews.length > 0 ? (
               <div className="space-y-6 mb-12">
+                {console.log('Displaying reviews:', reviews)}
                 {reviews.slice(0, 3).map((review: any, index: number) => {
                   // Calculate average rating from individual categories
                   const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
