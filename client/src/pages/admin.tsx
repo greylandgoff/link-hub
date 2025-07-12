@@ -77,6 +77,44 @@ export default function Admin() {
     sessionStorage.removeItem('admin_auth');
   };
 
+  // Fetch reviews only when authenticated
+  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
+    queryKey: ["/api/admin/reviews"],
+    queryFn: async () => {
+      const response = await fetch("/api/admin/reviews");
+      if (!response.ok) throw new Error("Failed to fetch reviews");
+      return response.json();
+    },
+    enabled: isAuthenticated,
+  });
+
+  const approveMutation = useMutation({
+    mutationFn: async (reviewId: number) => {
+      return apiRequest("POST", "/api/admin/reviews/approve", { reviewId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
+    },
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: async (reviewId: number) => {
+      return apiRequest("POST", "/api/admin/reviews/reject", { reviewId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
+    },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (reviewId: number) => {
+      return apiRequest("DELETE", "/api/admin/reviews/delete", { reviewId });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
+    },
+  });
+
   // Show login form if not authenticated
   if (!isAuthenticated) {
     return (
@@ -129,42 +167,6 @@ export default function Admin() {
       </div>
     );
   }
-
-  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
-    queryKey: ["/api/admin/reviews"],
-    queryFn: async () => {
-      const response = await fetch("/api/admin/reviews");
-      if (!response.ok) throw new Error("Failed to fetch reviews");
-      return response.json();
-    },
-  });
-
-  const approveMutation = useMutation({
-    mutationFn: async (reviewId: number) => {
-      return apiRequest("POST", "/api/admin/reviews/approve", { reviewId });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
-    },
-  });
-
-  const rejectMutation = useMutation({
-    mutationFn: async (reviewId: number) => {
-      return apiRequest("POST", "/api/admin/reviews/reject", { reviewId });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
-    },
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: async (reviewId: number) => {
-      return apiRequest("DELETE", "/api/admin/reviews/delete", { reviewId });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
-    },
-  });
 
   const filteredReviews = reviews.filter((review: Review) => 
     showApproved ? review.isApproved : !review.isApproved
@@ -223,23 +225,23 @@ export default function Admin() {
           </Card>
         </div>
 
-        {/* Filter Toggle */}
-        <div className="flex gap-4 mb-6">
-          <Button
-            onClick={() => setShowApproved(true)}
-            variant={showApproved ? "default" : "outline"}
-            className="flex items-center gap-2"
-          >
-            <Eye className="w-4 h-4" />
-            Show Approved ({approvedCount})
-          </Button>
+        {/* Toggle View */}
+        <div className="flex gap-2 mb-6">
           <Button
             onClick={() => setShowApproved(false)}
             variant={!showApproved ? "default" : "outline"}
-            className="flex items-center gap-2"
+            className={!showApproved ? "bg-yellow-600 hover:bg-yellow-700" : ""}
           >
-            <EyeOff className="w-4 h-4" />
-            Show Pending ({pendingCount})
+            <Eye className="w-4 h-4 mr-2" />
+            Pending ({pendingCount})
+          </Button>
+          <Button
+            onClick={() => setShowApproved(true)}
+            variant={showApproved ? "default" : "outline"}
+            className={showApproved ? "bg-green-600 hover:bg-green-700" : ""}
+          >
+            <EyeOff className="w-4 h-4 mr-2" />
+            Approved ({approvedCount})
           </Button>
         </div>
 
@@ -249,7 +251,7 @@ export default function Admin() {
             <Card className="bg-gray-900 border-gray-800">
               <CardContent className="p-8 text-center">
                 <p className="text-gray-400">
-                  {showApproved ? "No approved reviews yet" : "No pending reviews"}
+                  {showApproved ? "No approved reviews found." : "No pending reviews found."}
                 </p>
               </CardContent>
             </Card>
@@ -258,124 +260,125 @@ export default function Admin() {
               <Card key={review.id} className="bg-gray-900 border-gray-800">
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{review.name}</CardTitle>
+                    <div>
+                      <CardTitle className="text-white">{review.name}</CardTitle>
+                      <p className="text-gray-400 text-sm">{review.email}</p>
+                    </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={review.isApproved ? "default" : "secondary"}>
                         {review.isApproved ? "Approved" : "Pending"}
                       </Badge>
-                      <div className="text-yellow-400 text-sm font-medium">
-                        {Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6)}/5 ★ avg
-                      </div>
+                      <span className="text-gray-500 text-xs">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </span>
                     </div>
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    {review.email} • {new Date(review.createdAt).toLocaleDateString()}
                   </div>
                 </CardHeader>
                 <CardContent>
-                  {/* Rating Breakdown */}
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-4">
-                    <div className="text-sm">
-                      <span className="text-gray-400">Appearance:</span> <span className="text-yellow-400">{review.appearance}/5</span>
+                  {/* Rating breakdown */}
+                  <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Appearance:</span>
+                      <span className="text-yellow-400">{"★".repeat(review.appearance)}</span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Punctuality:</span> <span className="text-yellow-400">{review.punctuality}/5</span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Punctuality:</span>
+                      <span className="text-yellow-400">{"★".repeat(review.punctuality)}</span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Communication:</span> <span className="text-yellow-400">{review.communication}/5</span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Communication:</span>
+                      <span className="text-yellow-400">{"★".repeat(review.communication)}</span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Professionalism:</span> <span className="text-yellow-400">{review.professionalism}/5</span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Professionalism:</span>
+                      <span className="text-yellow-400">{"★".repeat(review.professionalism)}</span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Chemistry:</span> <span className="text-yellow-400">{review.chemistry}/5</span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Chemistry:</span>
+                      <span className="text-yellow-400">{"★".repeat(review.chemistry)}</span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Discretion:</span> <span className="text-yellow-400">{review.discretion}/5</span>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Discretion:</span>
+                      <span className="text-yellow-400">{"★".repeat(review.discretion)}</span>
                     </div>
                   </div>
 
-                  {/* Yes/No Questions */}
-                  <div className="flex flex-wrap gap-4 mb-4">
-                    <div className="text-sm">
-                      <span className="text-gray-400">Would book again:</span> 
-                      <span className={review.wouldBookAgain ? "text-green-400 ml-1" : "text-red-400 ml-1"}>
+                  <Separator className="my-4 bg-gray-700" />
+
+                  {/* Yes/No questions */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Would book again:</span>
+                      <span className={review.wouldBookAgain ? "text-green-400" : "text-red-400"}>
                         {review.wouldBookAgain ? "Yes" : "No"}
                       </span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Booking smooth:</span> 
-                      <span className={review.bookingProcessSmooth ? "text-green-400 ml-1" : "text-red-400 ml-1"}>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Process smooth:</span>
+                      <span className={review.bookingProcessSmooth ? "text-green-400" : "text-red-400"}>
                         {review.bookingProcessSmooth ? "Yes" : "No"}
                       </span>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-400">Matched description:</span> 
-                      <span className={review.matchedDescription ? "text-green-400 ml-1" : "text-red-400 ml-1"}>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Matched description:</span>
+                      <span className={review.matchedDescription ? "text-green-400" : "text-red-400"}>
                         {review.matchedDescription ? "Yes" : "No"}
                       </span>
                     </div>
                   </div>
 
-                  {/* Service Types */}
+                  <Separator className="my-4 bg-gray-700" />
+
+                  {/* Service types */}
                   <div className="mb-4">
                     <span className="text-gray-400 text-sm">Service Types: </span>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {review.serviceTypes.map((type, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {type}
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {review.serviceTypes.map((service, idx) => (
+                        <Badge key={idx} variant="outline" className="text-xs">
+                          {service}
                         </Badge>
                       ))}
                     </div>
                   </div>
 
-                  {/* Additional Comments */}
+                  {/* Comments */}
                   {review.additionalComments && (
                     <div className="mb-4">
-                      <span className="text-gray-400 text-sm">Additional Comments:</span>
+                      <span className="text-gray-400 text-sm">Comments:</span>
                       <p className="text-gray-300 mt-1 italic">"{review.additionalComments}"</p>
                     </div>
                   )}
-                  
-                  <Separator className="my-4 bg-gray-800" />
-                  
-                  <div className="flex gap-2">
+
+                  {/* Action buttons */}
+                  <div className="flex gap-2 mt-4">
                     {!review.isApproved && (
                       <Button
                         onClick={() => approveMutation.mutate(review.id)}
-                        disabled={approveMutation.isPending}
                         className="bg-green-600 hover:bg-green-700"
-                        size="sm"
+                        disabled={approveMutation.isPending}
                       >
-                        <Check className="w-4 h-4 mr-1" />
+                        <Check className="w-4 h-4 mr-2" />
                         Approve
                       </Button>
                     )}
-                    
                     {review.isApproved && (
                       <Button
                         onClick={() => rejectMutation.mutate(review.id)}
-                        disabled={rejectMutation.isPending}
                         variant="outline"
-                        size="sm"
+                        className="border-yellow-600 text-yellow-600 hover:bg-yellow-600 hover:text-white"
+                        disabled={rejectMutation.isPending}
                       >
-                        <X className="w-4 h-4 mr-1" />
+                        <X className="w-4 h-4 mr-2" />
                         Unapprove
                       </Button>
                     )}
-                    
                     <Button
-                      onClick={() => {
-                        if (confirm("Are you sure you want to delete this review?")) {
-                          deleteMutation.mutate(review.id);
-                        }
-                      }}
-                      disabled={deleteMutation.isPending}
+                      onClick={() => deleteMutation.mutate(review.id)}
                       variant="outline"
-                      size="sm"
-                      className="text-red-400 border-red-400 hover:bg-red-400 hover:text-white"
+                      className="border-red-600 text-red-600 hover:bg-red-600 hover:text-white"
+                      disabled={deleteMutation.isPending}
                     >
-                      <Trash2 className="w-4 h-4 mr-1" />
+                      <Trash2 className="w-4 h-4 mr-2" />
                       Delete
                     </Button>
                   </div>
