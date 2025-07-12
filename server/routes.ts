@@ -200,6 +200,70 @@ END:VCARD`;
     }
   });
 
+  // Review API endpoints
+  app.get("/api/reviews", async (req, res) => {
+    try {
+      const reviews = await storage.getApprovedReviews();
+      console.log('Serving reviews:', reviews.length);
+      res.json(reviews);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ message: "Failed to fetch reviews" });
+    }
+  });
+
+  app.post("/api/reviews", async (req, res) => {
+    try {
+      const reviewData = req.body;
+      
+      if (!reviewData.name || !reviewData.email) {
+        return res.status(400).json({ 
+          message: "Name and email are required" 
+        });
+      }
+
+      const review = await storage.createReview(reviewData);
+      console.log('Review created:', review);
+      res.json({ message: "Review submitted for approval", review });
+    } catch (error) {
+      console.error("Error creating review:", error);
+      res.status(500).json({ message: "Failed to submit review" });
+    }
+  });
+
+  // Admin routes for review management
+  app.get("/api/admin/reviews", async (req, res) => {
+    try {
+      const reviews = await storage.getAllReviews();
+      res.json(reviews);
+    } catch (error) {
+      console.error("Error fetching admin reviews:", error);
+      res.status(500).json({ message: "Failed to fetch reviews" });
+    }
+  });
+
+  app.patch("/api/admin/reviews/:id/approve", async (req, res) => {
+    try {
+      const reviewId = parseInt(req.params.id);
+      const review = await storage.approveReview(reviewId);
+      res.json(review);
+    } catch (error) {
+      console.error("Error approving review:", error);
+      res.status(500).json({ message: "Failed to approve review" });
+    }
+  });
+
+  app.delete("/api/admin/reviews/:id", async (req, res) => {
+    try {
+      const reviewId = parseInt(req.params.id);
+      await storage.deleteReview(reviewId);
+      res.json({ message: "Review deleted" });
+    } catch (error) {
+      console.error("Error deleting review:", error);
+      res.status(500).json({ message: "Failed to delete review" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
