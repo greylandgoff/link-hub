@@ -368,13 +368,34 @@ export default function Home() {
         <section id="reviews-section" className="py-16 px-4 relative overflow-hidden"
                  style={{transform: `translateY(${scrollY * 0.02}px)`}}>
           <div className="max-w-6xl mx-auto">
-            <h3 className="text-3xl font-bold text-center text-white mb-12"
+            <h3 className="text-3xl font-bold text-center text-white mb-8"
                 style={{
                   opacity: Math.min(1, (scrollY - 800) / 300),
                   transform: `translateY(${Math.max(0, 50 - (scrollY - 800) / 10)}px)`
                 }}>
               Client Reviews & Testimonials
             </h3>
+            
+            {/* Leave a Review Section - Above existing reviews */}
+            <div className="flex justify-center mb-12">
+              <div className="bg-black/80 backdrop-blur-md p-8 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-2xl w-full text-center"
+                   style={{
+                     background: 'linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(30,30,30,0.95) 100%)',
+                     boxShadow: '0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1)'
+                   }}>
+                <div className="text-yellow-400 text-3xl mb-4">⭐⭐⭐⭐⭐</div>
+                <h4 className="text-white text-xl font-bold mb-3">Share Your Experience</h4>
+                <p className="text-gray-200 text-base mb-6 leading-relaxed">
+                  Help others discover quality companion services by sharing your authentic experience.
+                </p>
+                <Button 
+                  onClick={() => setIsReviewModalOpen(true)}
+                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                >
+                  ⭐ Leave Your Review
+                </Button>
+              </div>
+            </div>
             
             {/* Dynamic Reviews from Database */}
             {reviewsLoading ? (
@@ -554,13 +575,7 @@ export default function Home() {
                     Real experiences from satisfied clients. Quality connections built on professionalism, 
                     genuine conversation, and memorable experiences.
                   </p>
-                  <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-                    <Button 
-                      onClick={() => setIsReviewModalOpen(true)}
-                      className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none"
-                    >
-                      ⭐ Leave a Review
-                    </Button>
+                  <div className="flex justify-center mb-4">
                     <Button 
                       onClick={() => {
                         const reviewsUrl = `${window.location.origin}/#reviews`;
