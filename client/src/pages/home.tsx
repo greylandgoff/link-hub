@@ -34,6 +34,8 @@ export default function Home() {
       }
       const data = await response.json();
       console.log('Reviews fetched:', data); // Debug log
+      console.log('Number of reviews:', data.length);
+      console.log('First review:', data[0]);
       return data;
     },
   });
