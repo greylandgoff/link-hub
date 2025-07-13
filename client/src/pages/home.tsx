@@ -367,8 +367,8 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <h3 className="text-3xl font-bold text-center text-white mb-8"
                 style={{
-                  opacity: Math.min(1, (scrollY - 800) / 300),
-                  transform: `translateY(${Math.max(0, 50 - (scrollY - 800) / 10)}px)`
+                  opacity: Math.min(1, (scrollY - 300) / 200),
+                  transform: `translateY(${Math.max(0, 30 - (scrollY - 300) / 8)}px)`
                 }}>
               Client Reviews & Testimonials
             </h3>
@@ -418,9 +418,9 @@ export default function Home() {
                            style={{
                              background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(20,20,20,0.9) 100%)',
                              boxShadow: '0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
-                             opacity: Math.min(1, Math.max(0, (scrollY - 900 - index * 100) / 200)),
-                             transform: `translateY(${Math.max(50, 50 - (scrollY - 900 - index * 100) / 8)}px) scale(${Math.min(1, 0.8 + (scrollY - 900 - index * 100) / 1000)})`,
-                             animationDelay: `${index * 0.2}s`
+                             opacity: Math.min(1, Math.max(0.3, (scrollY - 400 - index * 50) / 150)),
+                             transform: `translateY(${Math.max(20, 20 - (scrollY - 400 - index * 50) / 6)}px) scale(${Math.min(1, 0.9 + (scrollY - 400 - index * 50) / 800)})`,
+                             animationDelay: `${index * 0.15}s`
                            }}>
                         
                         {/* Header with overall rating */}
