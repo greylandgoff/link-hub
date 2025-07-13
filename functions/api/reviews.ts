@@ -17,7 +17,7 @@ export const onRequest: PagesFunction = async (context) => {
       const approvedReviews = await db
         .select()
         .from(reviews)
-        .where(eq(reviews.approved, true))
+        .where(eq(reviews.isApproved, true))
         .orderBy(reviews.createdAt);
       
       return new Response(JSON.stringify(approvedReviews), {
@@ -59,7 +59,7 @@ export const onRequest: PagesFunction = async (context) => {
         .insert(reviews)
         .values({
           ...reviewData,
-          approved: false, // Reviews need approval
+          isApproved: false, // Reviews need approval
           createdAt: new Date()
         })
         .returning();
