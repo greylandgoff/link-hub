@@ -7,7 +7,7 @@ Add these 4 essential environment variables in your Cloudflare Pages settings:
 ### 1. DATABASE_URL (Secret) - CRITICAL FOR REVIEWS
 Your Neon PostgreSQL connection string - **This is why reviews don't show on your live site**
 ```
-postgresql://username:password@ep-example-123456.us-east-1.aws.neon.tech/neondb?sslmode=require
+postgresql://neondb_owner:npg_fcW8p5lvIBCs@ep-little-moon-afi3eyzo-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
 ```
 **Without this variable, reviews and appointments won't work on the deployed site**
 

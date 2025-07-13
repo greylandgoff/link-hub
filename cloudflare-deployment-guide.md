@@ -7,8 +7,8 @@ After deploying to Cloudflare Pages, add these environment variables in your pro
 ### Required Environment Variables
 
 1. **DATABASE_URL** (Secret)
-   - Your PostgreSQL database connection string
-   - Format: `postgresql://username:password@host:port/database`
+   - Your Neon PostgreSQL database connection string
+   - Value: `postgresql://neondb_owner:npg_fcW8p5lvIBCs@ep-little-moon-afi3eyzo-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
    - **Critical**: Without this, reviews and appointments won't work
 
 2. **SENDGRID_API_KEY** (Secret)
