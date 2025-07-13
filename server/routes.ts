@@ -227,6 +227,76 @@ END:VCARD`;
 
       const review = await storage.createReview(reviewData);
       console.log('Review created:', review);
+
+      // Send email notification about new review
+      try {
+        const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
+        
+        const emailSubject = `⭐ New Review Submitted - ${avgRating}/5 Stars from ${review.name}`;
+        const emailText = `
+New review submitted for approval:
+
+Reviewer: ${review.name}
+Email: ${review.email}
+Overall Rating: ${avgRating}/5 stars
+
+Individual Ratings:
+- Appearance: ${review.appearance}/5
+- Punctuality: ${review.punctuality}/5  
+- Communication: ${review.communication}/5
+- Professionalism: ${review.professionalism}/5
+- Chemistry: ${review.chemistry}/5
+- Discretion: ${review.discretion}/5
+
+Service Types: ${review.serviceTypes.join(', ')}
+
+Would book again: ${review.wouldBookAgain ? 'Yes' : 'No'}
+Booking process smooth: ${review.bookingProcessSmooth ? 'Yes' : 'No'}  
+Matched description: ${review.matchedDescription ? 'Yes' : 'No'}
+
+Additional Comments:
+${review.additionalComments || 'None'}
+
+Review ID: ${review.id}
+Submitted: ${review.createdAt}
+
+To approve/manage reviews, use the admin panel.
+        `;
+
+        const emailSent = await sendEmail({
+          from: "bobby@rentbobby.com",
+          to: "bobby@rentbobby.com",
+          subject: emailSubject,
+          text: emailText
+        });
+
+        if (emailSent) {
+          console.log('Review notification email sent successfully');
+        } else {
+          console.log('Review notification email failed to send');
+        }
+
+        // Also send SMS webhook notification for reviews
+        try {
+          const webhookData = {
+            name: review.name,
+            email: review.email,
+            message: `⭐ New ${avgRating}/5 star review from ${review.name}: ${review.additionalComments || 'No comments'}`
+          };
+          
+          const webhookSent = await sendWebhookNotification(webhookData);
+          if (webhookSent) {
+            console.log('Review SMS webhook notification sent successfully');
+          } else {
+            console.log('Review SMS webhook notification failed to send');
+          }
+        } catch (webhookError) {
+          console.error('Error sending review SMS webhook:', webhookError);
+        }
+      } catch (emailError) {
+        console.error('Error sending review notification email:', emailError);
+      }
+
       res.json({ message: "Review submitted for approval", review });
     } catch (error) {
       console.error("Error creating review:", error);
