@@ -31,25 +31,37 @@ export default function Home() {
   const { data: reviews = [], isLoading: reviewsLoading, error: reviewsError } = useQuery({
     queryKey: ['/api/reviews'],
     queryFn: async () => {
-      // Use absolute URL for external devices, relative for development
-      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-        ? '/api/reviews'
-        : `${window.location.protocol}//${window.location.host}/api/reviews`;
+      // Determine correct API URL based on environment
+      let apiUrl;
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        // Development: Use Express server
+        apiUrl = '/api/reviews';
+      } else if (window.location.hostname.includes('.pages.dev') || window.location.hostname.includes('rentbobby.com')) {
+        // Production: Use Cloudflare Functions
+        apiUrl = '/api/reviews';
+      } else {
+        // Fallback: Use relative URL
+        apiUrl = '/api/reviews';
+      }
         
+      console.log('Fetching reviews from:', apiUrl, 'on hostname:', window.location.hostname);
+      
       const response = await fetch(apiUrl);
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('Reviews API error:', response.status, errorData);
-        throw new Error(`Failed to fetch reviews: ${response.status} - ${errorData.message || 'Unknown error'}`);
+        console.error('Reviews API error:', response.status, response.statusText, errorData);
+        throw new Error(`Failed to fetch reviews: ${response.status} - ${errorData.message || response.statusText || 'Unknown error'}`);
       }
       const data = await response.json();
-      console.log('Reviews fetched:', data); // Debug log
-      console.log('Number of reviews:', data.length);
-      console.log('First review:', data[0]);
+      console.log('Reviews fetched successfully:', data); 
+      console.log('Number of reviews found:', data.length);
+      if (data.length > 0) {
+        console.log('First review data:', data[0]);
+      }
       return data;
     },
-    retry: 2,
-    retryDelay: 1000,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
 
   useEffect(() => {
