@@ -4,11 +4,12 @@
 
 Add these 4 essential environment variables in your Cloudflare Pages settings:
 
-### 1. DATABASE_URL (Secret)
-Your Neon PostgreSQL connection string
+### 1. DATABASE_URL (Secret) - CRITICAL FOR REVIEWS
+Your Neon PostgreSQL connection string - **This is why reviews don't show on your live site**
 ```
 postgresql://username:password@ep-example-123456.us-east-1.aws.neon.tech/neondb?sslmode=require
 ```
+**Without this variable, reviews and appointments won't work on the deployed site**
 
 ### 2. SENDGRID_API_KEY (Secret)  
 Your SendGrid API key for email notifications
