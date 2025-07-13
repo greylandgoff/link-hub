@@ -24,13 +24,21 @@ export const onRequest: PagesFunction = async (context) => {
         });
       }
       
-      // Insert appointment into database
+      // Insert appointment into database with correct schema mapping
       const newAppointment = await db
         .insert(appointments)
         .values({
-          ...appointmentData,
+          name: appointmentData.name,
+          email: appointmentData.email,
+          phone: appointmentData.phone,
+          appointmentDate: appointmentData.date,
+          appointmentTime: appointmentData.time,
+          duration: appointmentData.duration,
+          serviceType: appointmentData.service,
+          location: appointmentData.location,
+          specialRequests: appointmentData.message,
           status: 'pending',
-          createdAt: new Date()
+          source: 'website'
         })
         .returning();
       
