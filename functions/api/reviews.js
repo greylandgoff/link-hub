@@ -1,3 +1,7 @@
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
+import { eq, desc } from 'drizzle-orm';
+
 export async function onRequest(context) {
   const { request, env } = context;
   
@@ -14,39 +18,54 @@ export async function onRequest(context) {
   
   if (request.method === 'GET') {
     try {
-      // Direct SQL query to Neon database
-      const response = await fetch('https://neon.tech/api/console/projects', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query: 'SELECT * FROM reviews WHERE is_approved = true ORDER BY created_at DESC',
-          connection: env.DATABASE_URL
-        })
-      });
+      if (!env.DATABASE_URL) {
+        console.error('DATABASE_URL not configured');
+        return new Response(JSON.stringify({ 
+          error: 'Database not configured',
+          details: 'DATABASE_URL environment variable missing'
+        }), {
+          status: 500,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      }
+
+      // Connect to database using proper Neon HTTP driver
+      const sql = neon(env.DATABASE_URL);
+      const db = drizzle(sql);
       
-      // Fallback: Return the existing review we know exists
-      const mockReview = {
-        id: 2,
-        name: "Alex Thompson",
-        email: "alex.thompson@email.com",
-        appearance: 5,
-        punctuality: 5,
-        communication: 5,
-        professionalism: 5,
-        chemistry: 5,
-        discretion: 5,
-        would_book_again: true,
-        booking_process_smooth: true,
-        matched_description: true,
-        service_types: ["Companion Services", "Social Events"],
-        additional_comments: "Outstanding experience. Bobby exceeded all expectations with professionalism and genuine connection.",
-        is_approved: true,
-        created_at: "2025-07-11T18:04:10.127158Z"
+      // Define reviews table schema inline for Cloudflare Functions
+      const reviewsTable = {
+        id: 'serial',
+        name: 'text',
+        email: 'text', 
+        appearance: 'integer',
+        punctuality: 'integer',
+        communication: 'integer',
+        professionalism: 'integer',
+        chemistry: 'integer',
+        discretion: 'integer',
+        would_book_again: 'boolean',
+        booking_process_smooth: 'boolean',
+        matched_description: 'boolean',
+        service_types: 'text[]',
+        additional_comments: 'text',
+        is_approved: 'boolean',
+        created_at: 'timestamp'
       };
       
-      return new Response(JSON.stringify([mockReview]), {
+      // Query approved reviews using raw SQL to avoid schema import issues
+      const approvedReviews = await sql`
+        SELECT * FROM reviews 
+        WHERE is_approved = true 
+        ORDER BY created_at DESC
+      `;
+      
+      console.log(`Database query successful: Found ${approvedReviews.length} approved reviews`);
+      
+      return new Response(JSON.stringify(approvedReviews), {
         headers: { 
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
@@ -59,7 +78,10 @@ export async function onRequest(context) {
         details: error.message 
       }), {
         status: 500,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*'
+        }
       });
     }
   }
@@ -74,8 +96,49 @@ export async function onRequest(context) {
           error: 'Name and email are required' 
         }), {
           status: 400,
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
         });
+      }
+
+      // Insert review into database
+      if (!env.DATABASE_URL) {
+        console.error('DATABASE_URL not configured for review submission');
+      } else {
+        try {
+          const sql = neon(env.DATABASE_URL);
+          
+          // Insert review using raw SQL to avoid schema import issues
+          const newReview = await sql`
+            INSERT INTO reviews (
+              name, email, appearance, punctuality, communication, 
+              professionalism, chemistry, discretion, would_book_again,
+              booking_process_smooth, matched_description, service_types,
+              additional_comments, is_approved
+            ) VALUES (
+              ${reviewData.name}, 
+              ${reviewData.email},
+              ${reviewData.appearance || 5},
+              ${reviewData.punctuality || 5}, 
+              ${reviewData.communication || 5},
+              ${reviewData.professionalism || 5},
+              ${reviewData.chemistry || 5},
+              ${reviewData.discretion || 5},
+              ${reviewData.wouldBookAgain || false},
+              ${reviewData.bookingProcessSmooth || false},
+              ${reviewData.matchedDescription || false},
+              ${JSON.stringify(reviewData.serviceTypes || [])},
+              ${reviewData.additionalComments || ''},
+              false
+            ) RETURNING id
+          `;
+          
+          console.log('Review saved to database with ID:', newReview[0]?.id);
+        } catch (dbError) {
+          console.error('Database insert failed:', dbError);
+        }
       }
       
       // Send email notification via SendGrid
