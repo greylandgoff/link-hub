@@ -1,19 +1,38 @@
 import type { PagesFunction } from '@cloudflare/workers-types';
+import { drizzle } from 'drizzle-orm/neon-http';
+import { neon } from '@neondatabase/serverless';
+import { appointments, type Appointment, type InsertAppointment } from '../../shared/schema';
 
 export const onRequest: PagesFunction = async (context) => {
   const { request, env } = context;
   
+  // Initialize database connection
+  const sql = neon(env.DATABASE_URL);
+  const db = drizzle(sql, { schema: { appointments } });
+  
   if (request.method === 'POST') {
     try {
-      const contactData = await request.json();
+      const appointmentData: InsertAppointment = await request.json();
       
-      // Basic validation
-      if (!contactData.name || !contactData.email || !contactData.message) {
-        return new Response(JSON.stringify({ error: 'Name, email, and message are required' }), {
+      // Validate required fields
+      if (!appointmentData.name || !appointmentData.email || !appointmentData.date || !appointmentData.time) {
+        return new Response(JSON.stringify({ 
+          error: 'Name, email, date, and time are required' 
+        }), {
           status: 400,
           headers: { 'Content-Type': 'application/json' }
         });
       }
+      
+      // Insert appointment into database
+      const newAppointment = await db
+        .insert(appointments)
+        .values({
+          ...appointmentData,
+          status: 'pending',
+          createdAt: new Date()
+        })
+        .returning();
       
       // Send email notification if SendGrid is configured
       if (env.SENDGRID_API_KEY) {
@@ -25,10 +44,10 @@ export const onRequest: PagesFunction = async (context) => {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              from: { email: 'bobby@rentbobby.com', name: 'RentBobby Contact' },
+              from: { email: 'bobby@rentbobby.com', name: 'RentBobby Appointments' },
               to: [{ email: 'bobby@rentbobby.com' }],
-              subject: `💬 New Contact Message from ${contactData.name}`,
-              text: `New contact form message:\n\nName: ${contactData.name}\nEmail: ${contactData.email}\nPhone: ${contactData.phone || 'Not provided'}\n\nMessage:\n${contactData.message}`
+              subject: `📅 New Appointment Request - ${appointmentData.name}`,
+              text: `New appointment request:\n\nClient: ${appointmentData.name}\nEmail: ${appointmentData.email}\nPhone: ${appointmentData.phone || 'Not provided'}\nDate: ${appointmentData.date}\nTime: ${appointmentData.time}\nDuration: ${appointmentData.duration}\nService: ${appointmentData.service}\nLocation: ${appointmentData.location}\n\nMessage: ${appointmentData.message || 'None'}\n\nConfirm via Calendly: ${env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}`
             })
           });
           
@@ -45,9 +64,9 @@ export const onRequest: PagesFunction = async (context) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              value1: `💬 New Contact: ${contactData.name}`,
-              value2: contactData.message,
-              value3: `Email: ${contactData.email}`
+              value1: `📅 New Appointment: ${appointmentData.name}`,
+              value2: `${appointmentData.date} at ${appointmentData.time} - ${appointmentData.service}`,
+              value3: `Email: ${appointmentData.email}`
             })
           });
           
@@ -57,16 +76,20 @@ export const onRequest: PagesFunction = async (context) => {
         }
       }
       
-      return new Response(JSON.stringify({ success: true, message: 'Message sent successfully' }), {
+      return new Response(JSON.stringify({ 
+        success: true, 
+        message: 'Appointment request submitted successfully',
+        appointment: newAppointment[0]
+      }), {
         headers: { 
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
         }
       });
     } catch (error) {
-      console.error('Contact form error:', error);
+      console.error('Appointment submission error:', error);
       return new Response(JSON.stringify({ 
-        error: 'Failed to send message',
+        error: 'Failed to submit appointment request',
         details: error.message
       }), {
         status: 500,

@@ -28,7 +28,7 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
 
   // Fetch approved reviews
-  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
+  const { data: reviews = [], isLoading: reviewsLoading, error: reviewsError } = useQuery({
     queryKey: ['/api/reviews'],
     queryFn: async () => {
       // Use absolute URL for external devices, relative for development
@@ -38,7 +38,9 @@ export default function Home() {
         
       const response = await fetch(apiUrl);
       if (!response.ok) {
-        throw new Error('Failed to fetch reviews');
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Reviews API error:', response.status, errorData);
+        throw new Error(`Failed to fetch reviews: ${response.status} - ${errorData.message || 'Unknown error'}`);
       }
       const data = await response.json();
       console.log('Reviews fetched:', data); // Debug log
@@ -46,6 +48,8 @@ export default function Home() {
       console.log('First review:', data[0]);
       return data;
     },
+    retry: 2,
+    retryDelay: 1000,
   });
 
   useEffect(() => {

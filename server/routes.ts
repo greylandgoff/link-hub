@@ -206,12 +206,21 @@ END:VCARD`;
   // Review API endpoints
   app.get("/api/reviews", async (req, res) => {
     try {
+      // Debug environment and database connection
+      console.log('DATABASE_URL configured:', !!process.env.DATABASE_URL);
+      console.log('Environment:', process.env.NODE_ENV || 'development');
+      
       const reviews = await storage.getApprovedReviews();
       console.log('Serving reviews:', reviews.length);
       res.json(reviews);
     } catch (error) {
       console.error("Error fetching reviews:", error);
-      res.status(500).json({ message: "Failed to fetch reviews" });
+      console.error("Database connection error details:", error.message);
+      res.status(500).json({ 
+        message: "Failed to fetch reviews",
+        error: process.env.NODE_ENV === 'development' ? error.message : 'Database connection failed',
+        hasDatabase: !!process.env.DATABASE_URL
+      });
     }
   });
 
