@@ -52,6 +52,9 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - Comprehensive system testing completed - all core functionality verified (July 13, 2025)
 - Optimized Make.com iOS notification integration for 16promax device (July 13, 2025)
 - Created complete Cloudflare deployment guide with iOS notification setup (July 13, 2025)
+- Simplified notification system to email + SMS, removed complex Make.com setup (July 13, 2025)
+- Fixed review display opacity issues for local development (July 13, 2025)
+- Identified deployment issue: reviews work locally but not on live site due to missing DATABASE_URL (July 13, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
