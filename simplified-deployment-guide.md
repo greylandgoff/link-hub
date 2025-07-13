@@ -28,8 +28,8 @@ Your Calendly scheduling URL
 https://calendly.com/bobby-rentbobby
 ```
 
-### Optional (if you want analytics):
-**VITE_GA_MEASUREMENT_ID** (Text)
+### Optional (only if you want website analytics):
+**VITE_GA_MEASUREMENT_ID** (Text) - Skip this if you don't need analytics
 ```
 G-Q6MS63ZPR4
 ```
