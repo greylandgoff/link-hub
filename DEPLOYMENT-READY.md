@@ -6,17 +6,17 @@ Copy these exact values into your Cloudflare Pages Environment Variables:
 
 ### 1. DATABASE_URL (Secret)
 ```
-postgresql://neondb_owner:npg_fcW8p5lvIBCs@ep-little-moon-afi3eyzo-pooler.c-2.us-west-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+postgresql://username:password@host:port/database?sslmode=require&channel_binding=require
 ```
 
 ### 2. SENDGRID_API_KEY (Secret)
 ```
-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
+SG.your_sendgrid_api_key_here
 ```
 
 ### 3. SMS_WEBHOOK_URL (Secret)
 ```
-https://maker.ifttt.com/trigger/message_received/json/with/key/de4K7-_D7YhlgPVyvXdyyE-wy85_dl3mhk3WYKknWm-
+https://maker.ifttt.com/trigger/message_received/json/with/key/your_ifttt_webhook_key_here
 ```
 
 ### 4. CALENDLY_BOOKING_URL (Text)
