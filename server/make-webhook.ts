@@ -14,7 +14,11 @@ interface AppointmentData {
 }
 
 interface MakeWebhookPayload {
-  // Appointment details
+  // iOS Notification specific fields
+  title: string;
+  body: string;
+  
+  // Appointment details for processing
   appointment_id: string;
   client_name: string;
   client_email: string;
@@ -47,8 +51,27 @@ export async function sendToMakeWebhook(appointmentData: AppointmentData): Promi
   }
 
   try {
+    // Parse location to determine incall/outcall
+    const isIncall = appointmentData.location?.toLowerCase().includes('incall') || 
+                     appointmentData.location?.toLowerCase().includes('my place') || 
+                     appointmentData.location?.toLowerCase().includes('austin');
+    
+    const locationType = isIncall ? 'Incall' : 'Outcall';
+    const locationDisplay = isIncall ? 'Your place (Austin)' : (appointmentData.location || 'Client location');
+    
+    // Create iOS notification content
+    const notificationTitle = `📅 New Appointment: ${appointmentData.name}`;
+    const notificationBody = `${appointmentData.date} at ${appointmentData.time} (${appointmentData.duration || '2 hours'})
+${appointmentData.service} - ${locationType}
+📍 ${locationDisplay}
+📧 ${appointmentData.email}${appointmentData.phone ? `\n📱 ${appointmentData.phone}` : ''}${appointmentData.message ? `\n💬 ${appointmentData.message}` : ''}`;
+
     // Transform data to Make.com-friendly format
     const payload: MakeWebhookPayload = {
+      // iOS Notification content (what the user will see)
+      title: notificationTitle,
+      body: notificationBody,
+      
       // Generate unique appointment ID
       appointment_id: `apt_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       
