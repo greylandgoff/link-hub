@@ -101,7 +101,12 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
         source: "website_booking"
       };
 
-      const response = await fetch("/api/appointments", {
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/appointments'
+        : `${window.location.protocol}//${window.location.host}/api/appointments`;
+        
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

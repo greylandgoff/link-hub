@@ -68,7 +68,12 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/contact/email", {
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/contact/email'
+        : `${window.location.protocol}//${window.location.host}/api/contact/email`;
+        
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +109,12 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
     
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/contact/text", {
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/contact/text'
+        : `${window.location.protocol}//${window.location.host}/api/contact/text`;
+        
+      const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

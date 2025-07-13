@@ -31,7 +31,12 @@ export default function Home() {
   const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
     queryKey: ['/api/reviews'],
     queryFn: async () => {
-      const response = await fetch('/api/reviews');
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/reviews'
+        : `${window.location.protocol}//${window.location.host}/api/reviews`;
+        
+      const response = await fetch(apiUrl);
       if (!response.ok) {
         throw new Error('Failed to fetch reviews');
       }
@@ -69,7 +74,12 @@ export default function Home() {
       // Track analytics event
       trackEvent('save_contact', 'engagement', 'contact_card');
       
-      const response = await fetch("/api/contact-card", {
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/contact-card'
+        : `${window.location.protocol}//${window.location.host}/api/contact-card`;
+        
+      const response = await fetch(apiUrl, {
         method: "GET",
       });
       

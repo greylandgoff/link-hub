@@ -83,7 +83,12 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/reviews', {
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/reviews'
+        : `${window.location.protocol}//${window.location.host}/api/reviews`;
+        
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
