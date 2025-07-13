@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, date } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -27,6 +27,25 @@ export const reviews = pgTable("reviews", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+export const appointments = pgTable("appointments", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  email: text("email").notNull(),
+  phone: text("phone"),
+  appointmentDate: date("appointment_date").notNull(),
+  appointmentTime: text("appointment_time").notNull(),
+  duration: text("duration"),
+  serviceType: text("service_type").notNull(),
+  location: text("location"),
+  specialRequests: text("special_requests"),
+  status: text("status").default("pending").notNull(), // pending, confirmed, cancelled, completed
+  makeWebhookSent: boolean("make_webhook_sent").default(false).notNull(),
+  makeWebhookResponse: text("make_webhook_response"),
+  source: text("source").default("website").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
@@ -37,7 +56,17 @@ export const insertReviewSchema = createInsertSchema(reviews).omit({
   createdAt: true,
 });
 
+export const insertAppointmentSchema = createInsertSchema(appointments).omit({
+  id: true,
+  makeWebhookSent: true,
+  makeWebhookResponse: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertReview = z.infer<typeof insertReviewSchema>;
 export type Review = typeof reviews.$inferSelect;
+export type InsertAppointment = z.infer<typeof insertAppointmentSchema>;
+export type Appointment = typeof appointments.$inferSelect;

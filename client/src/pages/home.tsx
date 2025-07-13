@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
+import { AppointmentModal } from "@/components/appointment-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // Analytics tracking placeholder
 const trackEvent = (event: string, category: string, label: string) => {
@@ -22,6 +23,7 @@ export default function Home() {
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   // Fetch approved reviews
@@ -243,7 +245,17 @@ export default function Home() {
             </h2>
 
             {/* Action Buttons */}
-            <div className="flex justify-center gap-3 mb-8">
+            <div className="flex justify-center gap-3 mb-8 flex-wrap">
+              <Button 
+                onClick={() => {
+                  trackEvent('appointment_modal_open', 'engagement', 'book_appointment');
+                  setIsAppointmentModalOpen(true);
+                }}
+                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-400/30 hover:from-emerald-600/30 hover:to-teal-600/30"
+              >
+                <Calendar className="w-4 h-4" />
+                Book Appointment
+              </Button>
               <Button 
                 onClick={handleSaveContact}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
@@ -639,6 +651,11 @@ export default function Home() {
       <QRModal 
         isOpen={isQRModalOpen} 
         onClose={() => setIsQRModalOpen(false)} 
+      />
+      
+      <AppointmentModal 
+        isOpen={isAppointmentModalOpen} 
+        onClose={() => setIsAppointmentModalOpen(false)} 
       />
 
       {/* Review Modal - Temporary placeholder */}

@@ -1,4 +1,4 @@
-import { users, reviews, type User, type InsertUser, type Review, type InsertReview } from "@shared/schema";
+import { users, reviews, appointments, type User, type InsertUser, type Review, type InsertReview, type Appointment, type InsertAppointment } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
@@ -16,6 +16,13 @@ export interface IStorage {
   createReview(review: InsertReview): Promise<Review>;
   approveReview(id: number): Promise<Review>;
   deleteReview(id: number): Promise<void>;
+  
+  // Appointment methods
+  createAppointment(appointment: InsertAppointment): Promise<Appointment>;
+  getAppointments(): Promise<Appointment[]>;
+  getAppointmentById(id: number): Promise<Appointment | undefined>;
+  updateAppointmentStatus(id: number, status: string): Promise<Appointment>;
+  updateAppointmentWebhookStatus(id: number, sent: boolean, response?: string): Promise<Appointment>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -62,6 +69,44 @@ export class DatabaseStorage implements IStorage {
 
   async deleteReview(id: number): Promise<void> {
     await db.delete(reviews).where(eq(reviews.id, id));
+  }
+
+  // Appointment methods
+  async createAppointment(appointmentData: InsertAppointment): Promise<Appointment> {
+    const [appointment] = await db.insert(appointments).values(appointmentData).returning();
+    return appointment;
+  }
+
+  async getAppointments(): Promise<Appointment[]> {
+    return db.select().from(appointments);
+  }
+
+  async getAppointmentById(id: number): Promise<Appointment | undefined> {
+    const [appointment] = await db.select().from(appointments).where(eq(appointments.id, id));
+    return appointment;
+  }
+
+  async updateAppointmentStatus(id: number, status: string): Promise<Appointment> {
+    const [appointment] = await db.update(appointments)
+      .set({ 
+        status,
+        updatedAt: new Date()
+      })
+      .where(eq(appointments.id, id))
+      .returning();
+    return appointment;
+  }
+
+  async updateAppointmentWebhookStatus(id: number, sent: boolean, response?: string): Promise<Appointment> {
+    const [appointment] = await db.update(appointments)
+      .set({ 
+        makeWebhookSent: sent,
+        makeWebhookResponse: response,
+        updatedAt: new Date()
+      })
+      .where(eq(appointments.id, id))
+      .returning();
+    return appointment;
   }
 }
 
