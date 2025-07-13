@@ -4,6 +4,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
 import { AppointmentModal } from "@/components/appointment-modal";
+import { ReviewModal } from "@/components/review-modal";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // Analytics tracking placeholder
 const trackEvent = (event: string, category: string, label: string) => {
@@ -658,21 +659,10 @@ export default function Home() {
         onClose={() => setIsAppointmentModalOpen(false)} 
       />
 
-      {/* Review Modal - Temporary placeholder */}
-      <Dialog open={isReviewModalOpen} onOpenChange={setIsReviewModalOpen}>
-        <DialogContent className="max-w-2xl bg-black/90 border border-white/20">
-          <div className="p-6 text-center">
-            <h3 className="text-white text-xl font-bold mb-4">Leave a Review</h3>
-            <p className="text-gray-300 mb-4">Review functionality coming soon!</p>
-            <Button 
-              onClick={() => setIsReviewModalOpen(false)}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              Close
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ReviewModal 
+        isOpen={isReviewModalOpen} 
+        onClose={() => setIsReviewModalOpen(false)} 
+      />
 
       {/* Photo Modal */}
       <Dialog open={isPhotoModalOpen} onOpenChange={setIsPhotoModalOpen}>
