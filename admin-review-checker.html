@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Admin Panel - Bobby</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .review-card {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .review-card.pending {
+            border-left: 5px solid #f39c12;
+        }
+        .review-card.approved {
+            border-left: 5px solid #27ae60;
+        }
+        .review-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .reviewer-info {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .rating-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .rating-item {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .stars {
+            color: #ffd700;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn-approve {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-refresh {
+            background: #3498db;
+            color: white;
+            margin-bottom: 20px;
+        }
+        .status {
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+        }
+        .status.pending {
+            background: #f39c12;
+            color: #fff;
+        }
+        .status.approved {
+            background: #27ae60;
+            color: #fff;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+        .error {
+            background: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Review Admin Panel</h1>
+            <button class="btn btn-refresh" onclick="loadReviews()">Refresh Reviews</button>
+        </div>
+        
+        <div id="error-message" style="display: none;"></div>
+        <div id="loading" class="loading">Loading reviews...</div>
+        <div id="reviews-container"></div>
+    </div>
+
+    <script>
+        let apiUrl = '';
+        
+        // Detect API URL based on environment
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            apiUrl = '/api';
+        } else {
+            apiUrl = `${window.location.protocol}//${window.location.host}/api`;
+        }
+
+        async function loadReviews() {
+            const loading = document.getElementById('loading');
+            const container = document.getElementById('reviews-container');
+            const errorDiv = document.getElementById('error-message');
+            
+            loading.style.display = 'block';
+            container.innerHTML = '';
+            errorDiv.style.display = 'none';
+            
+            try {
+                const response = await fetch(`${apiUrl}/admin/reviews`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const reviews = await response.json();
+                loading.style.display = 'none';
+                
+                if (reviews.length === 0) {
+                    container.innerHTML = '<p>No reviews found.</p>';
+                    return;
+                }
+                
+                reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                reviews.forEach(review => {
+                    const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
+                    
+                    const reviewCard = document.createElement('div');
+                    reviewCard.className = `review-card ${review.isApproved ? 'approved' : 'pending'}`;
+                    reviewCard.innerHTML = `
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                ${review.name} (${review.email})
+                                <span class="status ${review.isApproved ? 'approved' : 'pending'}">
+                                    ${review.isApproved ? 'APPROVED' : 'PENDING'}
+                                </span>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="stars">Overall: ${'★'.repeat(avgRating)}${'☆'.repeat(5-avgRating)} (${avgRating}/5)</div>
+                                <small>${new Date(review.createdAt).toLocaleString()}</small>
+                            </div>
+                        </div>
+                        
+                        <div class="rating-grid">
+                            <div class="rating-item">
+                                <strong>Appearance:</strong> <span class="stars">${'★'.repeat(review.appearance)}${'☆'.repeat(5-review.appearance)}</span> (${review.appearance}/5)
+                            </div>
+                            <div class="rating-item">
+                                <strong>Punctuality:</strong> <span class="stars">${'★'.repeat(review.punctuality)}${'☆'.repeat(5-review.punctuality)}</span> (${review.punctuality}/5)
+                            </div>
+                            <div class="rating-item">
+                                <strong>Communication:</strong> <span class="stars">${'★'.repeat(review.communication)}${'☆'.repeat(5-review.communication)}</span> (${review.communication}/5)
+                            </div>
+                            <div class="rating-item">
+                                <strong>Professionalism:</strong> <span class="stars">${'★'.repeat(review.professionalism)}${'☆'.repeat(5-review.professionalism)}</span> (${review.professionalism}/5)
+                            </div>
+                            <div class="rating-item">
+                                <strong>Chemistry:</strong> <span class="stars">${'★'.repeat(review.chemistry)}${'☆'.repeat(5-review.chemistry)}</span> (${review.chemistry}/5)
+                            </div>
+                            <div class="rating-item">
+                                <strong>Discretion:</strong> <span class="stars">${'★'.repeat(review.discretion)}${'☆'.repeat(5-review.discretion)}</span> (${review.discretion}/5)
+                            </div>
+                        </div>
+                        
+                        <div style="margin: 15px 0;">
+                            <strong>Service Types:</strong> ${review.serviceTypes.join(', ')}<br>
+                            <strong>Would book again:</strong> ${review.wouldBookAgain ? 'Yes' : 'No'}<br>
+                            <strong>Booking process smooth:</strong> ${review.bookingProcessSmooth ? 'Yes' : 'No'}<br>
+                            <strong>Matched description:</strong> ${review.matchedDescription ? 'Yes' : 'No'}
+                        </div>
+                        
+                        ${review.additionalComments ? `
+                            <div style="background: #333; padding: 10px; border-radius: 5px; margin: 10px 0;">
+                                <strong>Comments:</strong><br>
+                                ${review.additionalComments}
+                            </div>
+                        ` : ''}
+                        
+                        <div style="margin-top: 15px;">
+                            ${!review.isApproved ? `
+                                <button class="btn btn-approve" onclick="approveReview(${review.id})">
+                                    Approve Review
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-delete" onclick="deleteReview(${review.id})">
+                                Delete Review
+                            </button>
+                        </div>
+                    `;
+                    
+                    container.appendChild(reviewCard);
+                });
+                
+            } catch (error) {
+                loading.style.display = 'none';
+                errorDiv.textContent = `Error loading reviews: ${error.message}`;
+                errorDiv.style.display = 'block';
+                console.error('Error loading reviews:', error);
+            }
+        }
+        
+        async function approveReview(reviewId) {
+            try {
+                const response = await fetch(`${apiUrl}/admin/reviews/${reviewId}/approve`, {
+                    method: 'PATCH'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                alert('Review approved successfully!');
+                loadReviews();
+            } catch (error) {
+                alert(`Error approving review: ${error.message}`);
+                console.error('Error approving review:', error);
+            }
+        }
+        
+        async function deleteReview(reviewId) {
+            if (!confirm('Are you sure you want to delete this review?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${apiUrl}/admin/reviews/${reviewId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                alert('Review deleted successfully!');
+                loadReviews();
+            } catch (error) {
+                alert(`Error deleting review: ${error.message}`);
+                console.error('Error deleting review:', error);
+            }
+        }
+        
+        // Load reviews on page load
+        loadReviews();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(loadReviews, 30000);
+    </script>
+</body>
+</html>
