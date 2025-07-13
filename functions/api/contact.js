@@ -1,21 +1,32 @@
-import type { PagesFunction } from '@cloudflare/workers-types';
-
-export const onRequest: PagesFunction = async (context) => {
+export async function onRequest(context) {
   const { request, env } = context;
+  
+  // Handle CORS preflight
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type'
+      }
+    });
+  }
   
   if (request.method === 'POST') {
     try {
       const contactData = await request.json();
       
-      // Basic validation
+      // Validate required fields
       if (!contactData.name || !contactData.email || !contactData.message) {
-        return new Response(JSON.stringify({ error: 'Name, email, and message are required' }), {
+        return new Response(JSON.stringify({ 
+          error: 'Name, email, and message are required' 
+        }), {
           status: 400,
           headers: { 'Content-Type': 'application/json' }
         });
       }
       
-      // Send email notification if SendGrid is configured
+      // Send email notification via SendGrid
       if (env.SENDGRID_API_KEY) {
         try {
           const emailResponse = await fetch('https://api.sendgrid.com/v3/mail/send', {
@@ -38,7 +49,7 @@ export const onRequest: PagesFunction = async (context) => {
         }
       }
       
-      // Send SMS notification if webhook is configured
+      // Send SMS notification
       if (env.SMS_WEBHOOK_URL) {
         try {
           const smsResponse = await fetch(env.SMS_WEBHOOK_URL, {
@@ -57,7 +68,10 @@ export const onRequest: PagesFunction = async (context) => {
         }
       }
       
-      return new Response(JSON.stringify({ success: true, message: 'Message sent successfully' }), {
+      return new Response(JSON.stringify({ 
+        success: true, 
+        message: 'Message sent successfully! You will receive email and SMS notifications.' 
+      }), {
         headers: { 
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
@@ -75,15 +89,5 @@ export const onRequest: PagesFunction = async (context) => {
     }
   }
   
-  if (request.method === 'OPTIONS') {
-    return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      }
-    });
-  }
-  
   return new Response('Method not allowed', { status: 405 });
-};
+}
