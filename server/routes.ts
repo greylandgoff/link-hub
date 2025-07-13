@@ -4,6 +4,9 @@ import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
 import { sendWebhookNotification, isWebhookConfigured } from "./webhook-sms";
+import { sendToMakeWebhook, isMakeWebhookConfigured } from "./make-webhook";
+import { sendIOSNotification, isIOSNotificationConfigured, parseLocationDetails } from "./ios-notifications";
+import { insertAppointmentSchema } from "@shared/schema";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -261,6 +264,187 @@ END:VCARD`;
     } catch (error) {
       console.error("Error deleting review:", error);
       res.status(500).json({ message: "Failed to delete review" });
+    }
+  });
+
+  // Appointment booking endpoint
+  app.post("/api/appointments", async (req, res) => {
+    try {
+      console.log("Appointment booking request received:", req.body);
+
+      // Validate appointment data
+      const appointmentData = insertAppointmentSchema.parse({
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone || null,
+        appointmentDate: req.body.date,
+        appointmentTime: req.body.time,
+        duration: req.body.duration || "2",
+        serviceType: req.body.service,
+        location: req.body.location || "austin",
+        specialRequests: req.body.message || null,
+        status: "pending",
+        source: req.body.source || "website"
+      });
+
+      // Create appointment in database
+      const appointment = await storage.createAppointment(appointmentData);
+      console.log("Appointment created:", appointment);
+
+      // Parse location details for incall/outcall
+      const locationDetails = parseLocationDetails(
+        appointmentData.location || "austin", 
+        appointmentData.specialRequests || ""
+      );
+
+      // Send to Make.com webhook if configured
+      let webhookSent = false;
+      let webhookResponse = "";
+
+      if (isMakeWebhookConfigured()) {
+        console.log("Sending appointment to Make.com webhook...");
+        webhookSent = await sendToMakeWebhook({
+          name: appointmentData.name,
+          email: appointmentData.email,
+          phone: appointmentData.phone || "",
+          date: appointmentData.appointmentDate,
+          time: appointmentData.appointmentTime,
+          duration: appointmentData.duration || "2",
+          service: appointmentData.serviceType,
+          location: appointmentData.location || "austin",
+          message: appointmentData.specialRequests || "",
+          timestamp: new Date().toISOString(),
+          status: appointmentData.status,
+          source: appointmentData.source
+        });
+
+        webhookResponse = webhookSent ? "Successfully sent to Make.com" : "Failed to send to Make.com";
+        
+        // Update webhook status in database
+        await storage.updateAppointmentWebhookStatus(
+          appointment.id, 
+          webhookSent, 
+          webhookResponse
+        );
+      } else {
+        console.log("Make.com webhook not configured");
+        webhookResponse = "Make.com webhook not configured";
+      }
+
+      // Send iOS notification if configured
+      let iosNotificationSent = false;
+      if (isIOSNotificationConfigured()) {
+        console.log("Sending iOS notification...");
+        
+        iosNotificationSent = await sendIOSNotification({
+          name: appointmentData.name,
+          email: appointmentData.email,
+          phone: appointmentData.phone || "",
+          date: appointmentData.appointmentDate,
+          time: appointmentData.appointmentTime,
+          duration: appointmentData.duration || "2",
+          service: appointmentData.serviceType,
+          location: appointmentData.location || "austin",
+          isIncall: locationDetails.isIncall,
+          address: locationDetails.address,
+          area: locationDetails.area,
+          message: appointmentData.specialRequests || "",
+          calendlyLink: process.env.CALENDLY_BOOKING_URL
+        });
+        
+        console.log("iOS notification sent:", iosNotificationSent);
+      } else {
+        console.log("iOS notifications not configured");
+      }
+
+      res.json({ 
+        message: "Appointment request submitted successfully",
+        appointment: {
+          id: appointment.id,
+          status: appointment.status,
+          webhookSent,
+          webhookResponse,
+          iosNotificationSent: iosNotificationSent || false,
+          locationDetails
+        }
+      });
+
+    } catch (error) {
+      console.error("Error creating appointment:", error);
+      
+      if (error.name === 'ZodError') {
+        return res.status(400).json({ 
+          message: "Invalid appointment data",
+          errors: error.errors
+        });
+      }
+      
+      res.status(500).json({ 
+        message: "Failed to create appointment request" 
+      });
+    }
+  });
+
+  // Get appointments endpoint (admin use)
+  app.get("/api/appointments", async (req, res) => {
+    try {
+      const appointments = await storage.getAppointments();
+      res.json(appointments);
+    } catch (error) {
+      console.error("Error fetching appointments:", error);
+      res.status(500).json({ message: "Failed to fetch appointments" });
+    }
+  });
+
+  // Update appointment status endpoint (admin use)
+  app.patch("/api/appointments/:id/status", async (req, res) => {
+    try {
+      const appointmentId = parseInt(req.params.id);
+      const { status } = req.body;
+      
+      if (!status) {
+        return res.status(400).json({ message: "Status is required" });
+      }
+      
+      const appointment = await storage.updateAppointmentStatus(appointmentId, status);
+      res.json(appointment);
+    } catch (error) {
+      console.error("Error updating appointment status:", error);
+      res.status(500).json({ message: "Failed to update appointment status" });
+    }
+  });
+
+  // Test Make.com webhook endpoint
+  app.post("/api/test-webhook", async (req, res) => {
+    try {
+      if (!isMakeWebhookConfigured()) {
+        return res.status(400).json({ 
+          message: "Make.com webhook not configured. Please set MAKE_WEBHOOK_URL environment variable." 
+        });
+      }
+
+      const testResult = await sendToMakeWebhook({
+        name: "Test Client",
+        email: "test@example.com",
+        phone: "+1 (555) 123-4567",
+        date: "2025-07-15",
+        time: "14:00",
+        duration: "2",
+        service: "companion",
+        location: "austin",
+        message: "This is a test appointment booking",
+        timestamp: new Date().toISOString(),
+        status: "test",
+        source: "webhook_test"
+      });
+
+      res.json({ 
+        success: testResult,
+        message: testResult ? "Test webhook sent successfully" : "Test webhook failed"
+      });
+    } catch (error) {
+      console.error("Error testing webhook:", error);
+      res.status(500).json({ message: "Failed to test webhook" });
     }
   });
 
