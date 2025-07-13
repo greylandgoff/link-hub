@@ -395,6 +395,11 @@ export default function Home() {
             </div>
             
             {/* Dynamic Reviews from Database */}
+            <div className="text-center mb-4">
+              <p className="text-white text-sm">
+                Debug: Loading={reviewsLoading.toString()}, Reviews count={reviews?.length || 0}
+              </p>
+            </div>
             {reviewsLoading ? (
               <div className="flex justify-center mb-12">
                 <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl">
@@ -405,9 +410,29 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            ) : reviews.length > 0 ? (
+            ) : reviews && reviews.length > 0 ? (
               <div className="space-y-6 mb-12">
                 {console.log('Displaying reviews:', reviews)}
+                <div className="text-center mb-6">
+                  <h3 className="text-white text-2xl font-bold">Client Reviews ({reviews.length})</h3>
+                  <p className="text-gray-300">Real experiences from verified clients</p>
+                </div>
+                
+                {/* Simple test review display */}
+                <div className="flex justify-center mb-8">
+                  <div className="bg-red-500/20 border-2 border-red-500 p-6 rounded-xl max-w-2xl w-full">
+                    <h4 className="text-white text-lg font-bold mb-2">TEST - REVIEW VISIBLE</h4>
+                    <p className="text-white">If you can see this red box, reviews are rendering correctly</p>
+                    <p className="text-gray-300 text-sm mt-2">API returned {reviews.length} reviews</p>
+                    {reviews.length > 0 && (
+                      <div className="mt-4 p-4 bg-white/10 rounded">
+                        <p className="text-white text-sm">First Review: {reviews[0].name} - {reviews[0].appearance}/5 stars</p>
+                        <p className="text-gray-300 text-xs">{reviews[0].additionalComments}</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
                 {reviews.slice(0, 3).map((review: any, index: number) => {
                   // Calculate average rating from individual categories
                   const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
@@ -418,8 +443,8 @@ export default function Home() {
                            style={{
                              background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(20,20,20,0.9) 100%)',
                              boxShadow: '0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
-                             opacity: Math.min(1, Math.max(0.3, (scrollY - 400 - index * 50) / 150)),
-                             transform: `translateY(${Math.max(20, 20 - (scrollY - 400 - index * 50) / 6)}px) scale(${Math.min(1, 0.9 + (scrollY - 400 - index * 50) / 800)})`,
+                             opacity: 1, // Fixed opacity to always show reviews
+                             transform: `translateY(0px) scale(1)`, // Simplified transform
                              animationDelay: `${index * 0.15}s`
                            }}>
                         
