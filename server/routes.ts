@@ -367,74 +367,108 @@ To approve/manage reviews, use the admin panel.
         appointmentData.specialRequests || ""
       );
 
-      // Send to Make.com webhook if configured
-      let webhookSent = false;
-      let webhookResponse = "";
-
-      if (isMakeWebhookConfigured()) {
-        console.log("Sending appointment to Make.com webhook...");
-        webhookSent = await sendToMakeWebhook({
-          name: appointmentData.name,
-          email: appointmentData.email,
-          phone: appointmentData.phone || "",
-          date: appointmentData.appointmentDate,
-          time: appointmentData.appointmentTime,
-          duration: appointmentData.duration || "2",
-          service: appointmentData.serviceType,
-          location: appointmentData.location || "austin",
-          message: appointmentData.specialRequests || "",
-          timestamp: new Date().toISOString(),
-          status: appointmentData.status,
-          source: appointmentData.source
-        });
-
-        webhookResponse = webhookSent ? "Successfully sent to Make.com" : "Failed to send to Make.com";
+      // Send email notification for new appointment
+      let emailNotificationSent = false;
+      try {
+        console.log("Sending appointment email notification...");
         
-        // Update webhook status in database
-        await storage.updateAppointmentWebhookStatus(
-          appointment.id, 
-          webhookSent, 
-          webhookResponse
-        );
-      } else {
-        console.log("Make.com webhook not configured");
-        webhookResponse = "Make.com webhook not configured";
+        emailNotificationSent = await sendEmail({
+          from: 'bobby@rentbobby.com',
+          to: 'bobby@rentbobby.com',
+          subject: `🗓️ New Appointment Request: ${appointmentData.name}`,
+          text: `New appointment booking received:
+
+Client: ${appointmentData.name}
+Email: ${appointmentData.email}
+Phone: ${appointmentData.phone || 'Not provided'}
+
+Appointment Details:
+Date: ${appointmentData.appointmentDate}
+Time: ${appointmentData.appointmentTime}
+Duration: ${appointmentData.duration}
+Service: ${appointmentData.serviceType}
+Location: ${appointmentData.location}
+
+Special Requests: ${appointmentData.specialRequests || 'None'}
+
+Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2 style="color: #2563eb;">🗓️ New Appointment Request</h2>
+              
+              <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #1e293b;">Client Information</h3>
+                <p><strong>Name:</strong> ${appointmentData.name}</p>
+                <p><strong>Email:</strong> ${appointmentData.email}</p>
+                <p><strong>Phone:</strong> ${appointmentData.phone || 'Not provided'}</p>
+              </div>
+              
+              <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #1e293b;">Appointment Details</h3>
+                <p><strong>Date:</strong> ${appointmentData.appointmentDate}</p>
+                <p><strong>Time:</strong> ${appointmentData.appointmentTime}</p>
+                <p><strong>Duration:</strong> ${appointmentData.duration}</p>
+                <p><strong>Service:</strong> ${appointmentData.serviceType}</p>
+                <p><strong>Location:</strong> ${appointmentData.location}</p>
+              </div>
+              
+              ${appointmentData.specialRequests ? `
+              <div style="background: #fef3f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-top: 0; color: #1e293b;">Special Requests</h3>
+                <p>${appointmentData.specialRequests}</p>
+              </div>
+              ` : ''}
+              
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}" 
+                   style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
+                  Schedule via Calendly
+                </a>
+              </div>
+            </div>
+          `
+        });
+        
+        console.log("Email notification sent:", emailNotificationSent);
+      } catch (emailError) {
+        console.error("Error sending appointment email:", emailError);
       }
 
-      // Send iOS notification if configured
-      let iosNotificationSent = false;
-      if (isIOSNotificationConfigured()) {
-        console.log("Sending iOS notification...");
+      // Send SMS notification via IFTTT webhook
+      let smsNotificationSent = false;
+      try {
+        console.log("Sending appointment SMS notification...");
         
-        iosNotificationSent = await sendIOSNotification({
+        const locationType = locationDetails.isIncall ? 'Incall' : 'Outcall';
+        
+        smsNotificationSent = await sendWebhookNotification({
           name: appointmentData.name,
           email: appointmentData.email,
-          phone: appointmentData.phone || "",
-          date: appointmentData.appointmentDate,
-          time: appointmentData.appointmentTime,
-          duration: appointmentData.duration || "2",
-          service: appointmentData.serviceType,
-          location: appointmentData.location || "austin",
-          isIncall: locationDetails.isIncall,
-          address: locationDetails.address,
-          area: locationDetails.area,
-          message: appointmentData.specialRequests || "",
-          calendlyLink: process.env.CALENDLY_BOOKING_URL
+          phone: appointmentData.phone || undefined,
+          message: `📅 APPOINTMENT: ${appointmentData.name} - ${appointmentData.appointmentDate} at ${appointmentData.appointmentTime} (${appointmentData.duration}) - ${appointmentData.serviceType} - ${locationType} - ${appointmentData.email}${appointmentData.phone ? ` - ${appointmentData.phone}` : ''}`
         });
         
-        console.log("iOS notification sent:", iosNotificationSent);
-      } else {
-        console.log("iOS notifications not configured");
+        console.log("SMS notification sent:", smsNotificationSent);
+      } catch (smsError) {
+        console.error("Error sending appointment SMS:", smsError);
       }
+
+      // Update notification status in database
+      const webhookResponse = `Email: ${emailNotificationSent ? 'sent' : 'failed'}, SMS: ${smsNotificationSent ? 'sent' : 'failed'}`;
+      await storage.updateAppointmentWebhookStatus(
+        appointment.id, 
+        emailNotificationSent || smsNotificationSent, 
+        webhookResponse
+      );
 
       res.json({ 
         message: "Appointment request submitted successfully",
         appointment: {
           id: appointment.id,
           status: appointment.status,
-          webhookSent,
-          webhookResponse,
-          iosNotificationSent: iosNotificationSent || false,
+          emailSent: emailNotificationSent,
+          smsSent: smsNotificationSent,
+          notificationStatus: webhookResponse,
           locationDetails
         }
       });
