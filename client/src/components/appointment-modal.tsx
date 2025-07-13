@@ -101,22 +101,43 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
         source: "website_booking"
       };
 
+      console.log('Submitting appointment data:', appointmentData);
+
       // Use absolute URL for external devices, relative for development
       const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
         ? '/api/appointments'
         : `${window.location.protocol}//${window.location.host}/api/appointments`;
         
+      console.log('Using API URL:', apiUrl);
+
       const response = await fetch(apiUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json",
         },
         body: JSON.stringify(appointmentData),
+        // Add timeout for mobile compatibility
+        ...(typeof AbortController !== 'undefined' && {
+          signal: (() => {
+            const controller = new AbortController();
+            setTimeout(() => controller.abort(), 30000); // 30 second timeout
+            return controller.signal;
+          })()
+        })
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response ok:', response.ok);
+
       if (!response.ok) {
-        throw new Error("Failed to submit appointment request");
+        const errorText = await response.text();
+        console.error('Server error response:', errorText);
+        throw new Error(`Server responded with ${response.status}: ${errorText}`);
       }
+
+      const result = await response.json();
+      console.log('Success response:', result);
 
       toast({
         title: "Appointment Request Submitted! 🗓️",
@@ -139,9 +160,23 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
       onClose();
     } catch (error) {
       console.error("Error submitting appointment:", error);
+      
+      let errorMessage = "There was an error submitting your appointment request. Please try again or contact me directly.";
+      
+      if (error instanceof Error) {
+        console.error("Detailed error:", error.message);
+        if (error.message.includes('Failed to fetch') || error.message.includes('Network')) {
+          errorMessage = "Network connection issue. Please check your internet and try again.";
+        } else if (error.message.includes('500')) {
+          errorMessage = "Server error. Please try again in a few moments or contact me directly.";
+        } else if (error.message.includes('400')) {
+          errorMessage = "Please check all required fields are filled correctly.";
+        }
+      }
+      
       toast({
         title: "Submission Failed",
-        description: "There was an error submitting your appointment request. Please try again or contact me directly.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
