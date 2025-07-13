@@ -11,12 +11,12 @@ DATABASE_URL=your_neon_database_connection_string
 
 ### Email Service (SendGrid)
 ```
-SENDGRID_API_KEY=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
+SENDGRID_API_KEY=your_sendgrid_api_key_here
 ```
 
 ### SMS Notifications (IFTTT Webhook)
 ```
-SMS_WEBHOOK_URL=https://maker.ifttt.com/trigger/message_received/json/with/key/de4K7-_D7YhlgPVyvXdyyE-wy85_dl3mhk3WYKknWm-
+SMS_WEBHOOK_URL=your_ifttt_webhook_url_here
 ```
 
 ### Analytics
