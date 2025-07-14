@@ -423,7 +423,6 @@ export default function Home() {
               </div>
             ) : reviews && reviews.length > 0 ? (
               <div className="space-y-6 mb-12">
-                {console.log('Displaying reviews:', reviews)}
                 <div className="text-center mb-6">
                   <h3 className="text-white text-2xl font-bold">Client Reviews ({reviews.length})</h3>
                   <p className="text-gray-300">Real experiences from verified clients</p>

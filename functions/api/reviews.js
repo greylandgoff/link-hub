@@ -36,25 +36,7 @@ export async function onRequest(context) {
       const sql = neon(env.DATABASE_URL);
       const db = drizzle(sql);
       
-      // Define reviews table schema inline for Cloudflare Functions
-      const reviewsTable = {
-        id: 'serial',
-        name: 'text',
-        email: 'text', 
-        appearance: 'integer',
-        punctuality: 'integer',
-        communication: 'integer',
-        professionalism: 'integer',
-        chemistry: 'integer',
-        discretion: 'integer',
-        would_book_again: 'boolean',
-        booking_process_smooth: 'boolean',
-        matched_description: 'boolean',
-        service_types: 'text[]',
-        additional_comments: 'text',
-        is_approved: 'boolean',
-        created_at: 'timestamp'
-      };
+      // Note: Using raw SQL queries to avoid schema import complexity in Cloudflare Functions
       
       // Query approved reviews using raw SQL to avoid schema import issues
       const approvedReviews = await sql`

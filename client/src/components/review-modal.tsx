@@ -97,7 +97,8 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit review');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`Failed to submit review: ${response.status} - ${errorData.message || 'Server error'}`);
       }
 
       const result = await response.json();
