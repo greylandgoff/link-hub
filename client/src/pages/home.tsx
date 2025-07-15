@@ -165,7 +165,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative bg-gray-900">
       {/* Background Image with Parallax - Extended Height */}
       <div 
         className="fixed bg-cover bg-center bg-gray-900"
