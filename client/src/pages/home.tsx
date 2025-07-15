@@ -168,7 +168,7 @@ export default function Home() {
     <div className="min-h-screen relative">
       {/* Background Image with Parallax - Extended Height */}
       <div 
-        className="fixed bg-cover bg-center"
+        className="fixed bg-cover bg-center bg-gray-900"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
@@ -185,7 +185,7 @@ export default function Home() {
       
       {/* Subtle Dark Overlay - Extended */}
       <div 
-        className="fixed bg-black/30"
+        className="fixed bg-black/20"
         style={{ 
           top: '-50vh',
           left: 0,
@@ -210,7 +210,7 @@ export default function Home() {
       </div>
 
       {/* Main Container */}
-      <div className="relative" style={{ zIndex: 10 }}>
+      <div className="relative min-h-screen" style={{ zIndex: 10 }}>
         {/* Header */}
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
