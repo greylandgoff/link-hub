@@ -15,8 +15,8 @@ import { Star } from "lucide-react";
 
 import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
-import profileImage from "@assets/IMG_2889_1751926461838.jpg";
-import backgroundImage from "@assets/IMG_2862_1751936715707.jpg";
+const profileImage = "/images/IMG_2889_1751926461838.jpg";
+const backgroundImage = "/images/IMG_2862_1751936715707.jpg";
 // Note: ReviewModal component needs to be created
 
 export default function Home() {
