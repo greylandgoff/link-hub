@@ -165,27 +165,33 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen relative" style={{ backgroundColor: '#1a1a1a' }}>
+    <div className="min-h-screen relative">
       {/* Background Image with Parallax - Extended Height */}
       <div 
-        className="fixed inset-0 bg-cover bg-center"
+        className="fixed bg-cover bg-center"
         style={{
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
           transform: `translateY(${scrollY * 0.2}px)`,
-          width: '100%',
-          height: '100vh',
+          top: '-50vh',
+          left: 0,
+          right: 0,
+          height: '200vh',
           zIndex: 1
         }}
       />
       
-      {/* Subtle Dark Overlay */}
+      {/* Subtle Dark Overlay - Extended */}
       <div 
-        className="fixed inset-0"
+        className="fixed"
         style={{ 
-          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          backgroundColor: 'rgba(0, 0, 0, 0.2)',
+          top: '-50vh',
+          left: 0,
+          right: 0,
+          height: '200vh',
           zIndex: 2 
         }}
       />
@@ -205,7 +211,7 @@ export default function Home() {
       </div>
 
       {/* Main Container */}
-      <div className="relative min-h-screen" style={{ zIndex: 10, position: 'relative' }}>
+      <div className="relative min-h-screen" style={{ zIndex: 10 }}>
         {/* Header */}
         <header className="py-6 px-4">
           <div className="max-w-md mx-auto">
