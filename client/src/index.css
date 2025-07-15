@@ -27,8 +27,8 @@
   --radius: 0.5rem;
   
   /* Neon MSN butterfly colors */
-  --pure-black: hsl(0, 0%, 0%);
-  --deep-black: hsl(240, 100%, 2%);
+  --pure-black: hsl(240, 10%, 10%);
+  --deep-black: hsl(240, 20%, 8%);
   --neon-pink: hsl(320, 100%, 60%);
   --neon-blue: hsl(200, 100%, 50%);
   --neon-purple: hsl(280, 100%, 60%);
