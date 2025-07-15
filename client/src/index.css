@@ -72,7 +72,7 @@
 
   body {
     @apply font-sans antialiased;
-    background: transparent;
+    background: hsl(240, 10%, 10%);
     color: white;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
     overflow-x: hidden;
