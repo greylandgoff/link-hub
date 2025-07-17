@@ -186,7 +186,7 @@ export default function Home() {
     <div className="min-h-screen relative">
       {/* Age Gate Banner */}
       <AgeGateBanner />
-      {/* Background Image with Parallax - Extended Height */}
+      {/* Background Image with Heavy Frosted Effect */}
       <div 
         className="fixed bg-cover bg-center"
         style={{
@@ -199,33 +199,55 @@ export default function Home() {
           left: 0,
           right: 0,
           height: '200vh',
-          zIndex: 1
+          zIndex: 1,
+          filter: 'blur(40px) brightness(0.3) saturate(1.5)',
+          opacity: 0.4
         }}
       />
       
-      {/* Subtle Dark Overlay - Extended */}
+      {/* Heavy Dark Overlay with Gradient */}
       <div 
-        className="fixed bg-black/30"
+        className="fixed"
         style={{ 
           top: '-50vh',
           left: 0,
           right: 0,
           height: '200vh',
-          zIndex: 2 
+          zIndex: 2,
+          background: 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%)'
         }}
       />
       
-      {/* Subtle Accent Overlays */}
-      <div className="fixed inset-0 opacity-20" style={{ zIndex: 3 }}>
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full mix-blend-soft-light filter blur-2xl"
+      {/* Additional Frosted Glass Layer */}
+      <div 
+        className="fixed"
+        style={{ 
+          top: '-50vh',
+          left: 0,
+          right: 0,
+          height: '200vh',
+          zIndex: 3,
+          backdropFilter: 'blur(20px) saturate(1.2)',
+          background: 'rgba(0,0,0,0.2)'
+        }}
+      />
+      
+      {/* Subtle Color Accent Overlays */}
+      <div className="fixed inset-0 opacity-15" style={{ zIndex: 4 }}>
+        <div className="absolute top-1/4 left-1/4 w-48 h-48 rounded-full mix-blend-soft-light filter blur-3xl"
              style={{
-               background: 'radial-gradient(circle, hsl(320, 100%, 60%), transparent)',
+               background: 'radial-gradient(circle, hsl(320, 80%, 50%), transparent)',
                transform: `translateY(${scrollY * 0.1}px)`
              }}></div>
-        <div className="absolute bottom-1/3 right-1/4 w-40 h-40 rounded-full mix-blend-soft-light filter blur-2xl" 
+        <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full mix-blend-soft-light filter blur-3xl" 
              style={{
-               background: 'radial-gradient(circle, hsl(200, 100%, 50%), transparent)', 
+               background: 'radial-gradient(circle, hsl(200, 80%, 40%), transparent)', 
                transform: `translateY(${scrollY * -0.08}px)`
+             }}></div>
+        <div className="absolute top-1/2 left-1/2 w-40 h-40 rounded-full mix-blend-overlay filter blur-3xl" 
+             style={{
+               background: 'radial-gradient(circle, hsl(280, 60%, 30%), transparent)', 
+               transform: `translate(-50%, -50%) translateY(${scrollY * 0.05}px)`
              }}></div>
       </div>
 
