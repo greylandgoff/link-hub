@@ -350,6 +350,23 @@ To approve/manage reviews, use the admin panel.
   app.post("/api/appointments", async (req, res) => {
     try {
       console.log("Appointment booking request received:", req.body);
+      console.log("Request headers:", req.headers);
+
+      // Check for required fields first
+      if (!req.body.name || !req.body.email || !req.body.date || !req.body.time || !req.body.service) {
+        console.log("Missing required fields:", {
+          name: !!req.body.name,
+          email: !!req.body.email,
+          date: !!req.body.date,
+          time: !!req.body.time,
+          service: !!req.body.service
+        });
+        return res.status(400).json({
+          message: "Missing required fields",
+          required: ["name", "email", "date", "time", "service"],
+          received: Object.keys(req.body)
+        });
+      }
 
       // Validate appointment data
       const appointmentData = insertAppointmentSchema.parse({
@@ -454,7 +471,12 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
           name: appointmentData.name,
           email: appointmentData.email,
           phone: appointmentData.phone || undefined,
-          message: `📅 APPOINTMENT: ${appointmentData.name} - ${appointmentData.appointmentDate} at ${appointmentData.appointmentTime} (${appointmentData.duration}) - ${appointmentData.serviceType} - ${locationType} - ${appointmentData.email}${appointmentData.phone ? ` - ${appointmentData.phone}` : ''}`
+          message: `📅 NEW APPOINTMENT: ${appointmentData.name} (${appointmentData.email}) 
+Date: ${appointmentData.appointmentDate} ${appointmentData.appointmentTime}
+Service: ${appointmentData.serviceType} (${appointmentData.duration})
+Location: ${locationType} in ${appointmentData.location}
+${appointmentData.specialRequests ? 'Notes: ' + appointmentData.specialRequests.substring(0, 100) + (appointmentData.specialRequests.length > 100 ? '...' : '') : ''}
+Phone: ${appointmentData.phone || 'Not provided'}`
         });
         
         console.log("SMS notification sent:", smsNotificationSent);

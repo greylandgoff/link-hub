@@ -78,6 +78,7 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - ENHANCED AGE GATE: Converted banner to full-page warning with comprehensive 18+/21+ verification and compliance messaging (July 17, 2025)
 - REFINED USER EXPERIENCE: Changed "Begin Screening" to "Request Appointment" and moved FAQ to footer tabs for cleaner flow (July 17, 2025)
 - RESTORED ORIGINAL DESCRIPTION: Returned to professional companion description emphasizing authentic connections and meaningful experiences (July 17, 2025)
+- FIXED SCREENING FORM SUBMISSION: Corrected API field mapping - screening requests now properly submit to database with proper field names (July 17, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash

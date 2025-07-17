@@ -59,11 +59,22 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
 
     try {
       const screeningData = {
-        ...formData,
-        timestamp: new Date().toISOString(),
-        status: "pending_screening",
-        source: "website_screening_form",
-        type: "screening_request"
+        name: formData.name,
+        email: formData.email,
+        phone: null, // Phone is optional in screening
+        date: formData.dates, // Map dates to date field
+        time: "TBD", // Default time for screening requests
+        duration: formData.length, // Map length to duration
+        service: "Companion Services", // Default service type for screening
+        location: formData.cityLocation, // Map cityLocation to location
+        message: `Screening Request:
+Length: ${formData.length}
+Notes: ${formData.notes}
+Travel Request: ${formData.requestTravel ? 'Yes' : 'No'}
+${formData.requestTravel ? `Airport: ${formData.arrivalAirport || 'Not specified'}
+Hotel: ${formData.hotelBooked || 'Not specified'}` : ''}
+Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
+        source: "website_screening_form"
       };
 
       console.log('Submitting screening data:', screeningData);
@@ -83,6 +94,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        console.error('Server response error:', errorData);
         throw new Error(errorData.message || `Server error: ${response.status}`);
       }
 
