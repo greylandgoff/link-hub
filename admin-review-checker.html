@@ -192,7 +192,7 @@
                         </div>
                         
                         <div style="margin: 15px 0;">
-                            <strong>Service Types:</strong> ${review.serviceTypes.join(', ')}<br>
+                            <strong>Service Types:</strong> ${(review.serviceTypes || []).join(', ')}<br>
                             <strong>Would book again:</strong> ${review.wouldBookAgain ? 'Yes' : 'No'}<br>
                             <strong>Booking process smooth:</strong> ${review.bookingProcessSmooth ? 'Yes' : 'No'}<br>
                             <strong>Matched description:</strong> ${review.matchedDescription ? 'Yes' : 'No'}
