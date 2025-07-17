@@ -542,7 +542,7 @@ export default function Home() {
                         
                         {/* Service Types */}
                         <div className="flex flex-wrap gap-2 mb-6">
-                          {review.serviceTypes.map((serviceType: string, i: number) => (
+                          {review.service_types?.map((serviceType: string, i: number) => (
                             <span key={i} className="bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-full text-blue-300 text-sm">
                               {serviceType}
                             </span>
