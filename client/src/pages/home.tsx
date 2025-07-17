@@ -291,14 +291,14 @@ export default function Home() {
               Austin private host + travel companion.
             </h2>
             <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto text-base">
-              Local, U.S., and international by arrangement. Start at my site for screening.
+              Professional companion services based in Austin, TX. Available for domestic or international travel for authentic connections and meaningful experiences.
             </p>
 
             {/* Primary CTA */}
             <div className="flex justify-center mb-8">
               <Button 
                 onClick={() => {
-                  trackEvent('screening_form_open', 'engagement', 'begin_screening');
+                  trackEvent('appointment_request', 'engagement', 'hero_cta');
                   const bookingSection = document.getElementById('booking-section');
                   if (bookingSection) {
                     bookingSection.scrollIntoView({ behavior: 'smooth' });
@@ -309,7 +309,7 @@ export default function Home() {
                 className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
               >
                 <Calendar className="w-5 h-5" />
-                Begin Screening
+                Request Appointment
               </Button>
             </div>
 
@@ -336,15 +336,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="py-12 px-4"
-                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-2xl font-semibold mb-8 text-center text-white">Frequently Asked</h2>
-            <FAQAccordion />
-          </div>
-        </section>
-
         {/* Booking Section */}
         <section id="booking-section" className="py-12 px-4"
                  style={{transform: `translateY(${scrollY * 0.03}px)`}}>
@@ -358,13 +349,13 @@ export default function Home() {
             </p>
             <Button 
               onClick={() => {
-                trackEvent('screening_form_open', 'engagement', 'booking_section');
+                trackEvent('appointment_request', 'engagement', 'booking_section');
                 setIsScreeningFormOpen(true);
               }}
               className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
             >
               <Calendar className="w-5 h-5" />
-              Start Screening Process
+              Request Appointment
             </Button>
           </div>
         </section>
@@ -682,7 +673,7 @@ export default function Home() {
                 style={{transform: `translateY(${scrollY * -0.02}px)`}}>
           <div className="max-w-4xl mx-auto">
             <Tabs defaultValue="privacy" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 glass-effect bg-white/10 border border-white/20">
+              <TabsList className="grid w-full grid-cols-4 glass-effect bg-white/10 border border-white/20">
                 <TabsTrigger 
                   value="privacy" 
                   className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
@@ -694,6 +685,12 @@ export default function Home() {
                   className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
                 >
                   Terms of Use
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="faq" 
+                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
+                >
+                  FAQ
                 </TabsTrigger>
                 <TabsTrigger 
                   value="support" 
@@ -718,6 +715,13 @@ export default function Home() {
                   <p className="text-gray-300 text-sm leading-relaxed">
                     By accessing this site, you confirm that you are of legal age in your jurisdiction and understand that some content may be intended for mature audiences. All materials are for personal, non-commercial use only. Redistribution, impersonation, or harassment of any kind is strictly prohibited. Use at your own discretion.
                   </p>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="faq" className="mt-6">
+                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
+                  <h3 className="text-lg font-semibold text-white mb-6">Frequently Asked Questions</h3>
+                  <FAQAccordion />
                 </div>
               </TabsContent>
 
