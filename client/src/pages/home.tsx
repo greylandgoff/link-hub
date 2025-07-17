@@ -186,7 +186,7 @@ export default function Home() {
     <div className="min-h-screen relative">
       {/* Age Gate Banner */}
       <AgeGateBanner />
-      {/* Background Image with Heavy Frosted Effect */}
+      {/* Background Image with Frosted Effect */}
       <div 
         className="fixed bg-cover bg-center"
         style={{
@@ -200,12 +200,12 @@ export default function Home() {
           right: 0,
           height: '200vh',
           zIndex: 1,
-          filter: 'blur(40px) brightness(0.3) saturate(1.5)',
-          opacity: 0.4
+          filter: 'blur(15px) brightness(0.7) saturate(1.3)',
+          opacity: 0.8
         }}
       />
       
-      {/* Heavy Dark Overlay with Gradient */}
+      {/* Subtle Dark Overlay with Gradient */}
       <div 
         className="fixed"
         style={{ 
@@ -214,11 +214,11 @@ export default function Home() {
           right: 0,
           height: '200vh',
           zIndex: 2,
-          background: 'linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%)'
+          background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%)'
         }}
       />
       
-      {/* Additional Frosted Glass Layer */}
+      {/* Light Frosted Glass Layer */}
       <div 
         className="fixed"
         style={{ 
@@ -227,8 +227,8 @@ export default function Home() {
           right: 0,
           height: '200vh',
           zIndex: 3,
-          backdropFilter: 'blur(20px) saturate(1.2)',
-          background: 'rgba(0,0,0,0.2)'
+          backdropFilter: 'blur(8px) saturate(1.1)',
+          background: 'rgba(0,0,0,0.1)'
         }}
       />
       
