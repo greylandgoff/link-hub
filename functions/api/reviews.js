@@ -96,42 +96,68 @@ export async function onRequest(context) {
         });
       }
 
-      // Insert review into database
+      // Insert review into database - THIS MUST SUCCEED
       if (!env.DATABASE_URL) {
         console.error('DATABASE_URL not configured for review submission');
-      } else {
-        try {
-          const sql = neon(env.DATABASE_URL);
-          
-          // Insert review using raw SQL to avoid schema import issues
-          const newReview = await sql`
-            INSERT INTO reviews (
-              name, email, appearance, punctuality, communication, 
-              professionalism, chemistry, discretion, would_book_again,
-              booking_process_smooth, matched_description, service_types,
-              additional_comments, is_approved
-            ) VALUES (
-              ${reviewData.name}, 
-              ${reviewData.email},
-              ${reviewData.appearance || 5},
-              ${reviewData.punctuality || 5}, 
-              ${reviewData.communication || 5},
-              ${reviewData.professionalism || 5},
-              ${reviewData.chemistry || 5},
-              ${reviewData.discretion || 5},
-              ${reviewData.wouldBookAgain || false},
-              ${reviewData.bookingProcessSmooth || false},
-              ${reviewData.matchedDescription || false},
-              ${JSON.stringify(reviewData.serviceTypes || [])},
-              ${reviewData.additionalComments || ''},
-              false
-            ) RETURNING id
-          `;
-          
-          console.log('Review saved to database with ID:', newReview[0]?.id);
-        } catch (dbError) {
-          console.error('Database insert failed:', dbError);
+        return new Response(JSON.stringify({ 
+          error: 'Database not configured',
+          details: 'Cannot save review without database connection'
+        }), {
+          status: 500,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      }
+
+      let savedReview;
+      try {
+        const sql = neon(env.DATABASE_URL);
+        
+        // Insert review using raw SQL to avoid schema import issues
+        const newReview = await sql`
+          INSERT INTO reviews (
+            name, email, appearance, punctuality, communication, 
+            professionalism, chemistry, discretion, would_book_again,
+            booking_process_smooth, matched_description, service_types,
+            additional_comments, is_approved
+          ) VALUES (
+            ${reviewData.name}, 
+            ${reviewData.email},
+            ${reviewData.appearance || 5},
+            ${reviewData.punctuality || 5}, 
+            ${reviewData.communication || 5},
+            ${reviewData.professionalism || 5},
+            ${reviewData.chemistry || 5},
+            ${reviewData.discretion || 5},
+            ${reviewData.wouldBookAgain || false},
+            ${reviewData.bookingProcessSmooth || false},
+            ${reviewData.matchedDescription || false},
+            ${JSON.stringify(reviewData.serviceTypes || [])},
+            ${reviewData.additionalComments || ''},
+            false
+          ) RETURNING id
+        `;
+        
+        savedReview = newReview[0];
+        console.log('Review saved to database with ID:', savedReview?.id);
+        
+        if (!savedReview?.id) {
+          throw new Error('Database insertion returned no ID');
         }
+      } catch (dbError) {
+        console.error('Database insert failed:', dbError);
+        return new Response(JSON.stringify({ 
+          error: 'Failed to save review to database',
+          details: dbError.message
+        }), {
+          status: 500,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
       }
       
       // Send email notification via SendGrid
@@ -196,7 +222,8 @@ export async function onRequest(context) {
       
       return new Response(JSON.stringify({ 
         success: true, 
-        message: 'Review submitted successfully! You will receive email and SMS notifications.'
+        message: `Review submitted successfully! Review ID: ${savedReview.id}. You will receive email and SMS notifications.`,
+        reviewId: savedReview.id
       }), {
         headers: { 
           'Content-Type': 'application/json',
