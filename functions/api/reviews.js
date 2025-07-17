@@ -36,18 +36,29 @@ export async function onRequest(context) {
       const sql = neon(env.DATABASE_URL);
       const db = drizzle(sql);
       
-      // Note: Using raw SQL queries to avoid schema import complexity in Cloudflare Functions
+      // Check if this is an admin request (you can add more sophisticated auth later)
+      const url = new URL(request.url);
+      const isAdmin = url.searchParams.get('admin') === 'true';
       
-      // Query approved reviews using raw SQL to avoid schema import issues
-      const approvedReviews = await sql`
-        SELECT * FROM reviews 
-        WHERE is_approved = true 
-        ORDER BY created_at DESC
-      `;
+      let reviews;
+      if (isAdmin) {
+        // Return all reviews for admin
+        reviews = await sql`
+          SELECT * FROM reviews 
+          ORDER BY created_at DESC
+        `;
+        console.log(`Admin query successful: Found ${reviews.length} total reviews`);
+      } else {
+        // Return only approved reviews for public
+        reviews = await sql`
+          SELECT * FROM reviews 
+          WHERE is_approved = true 
+          ORDER BY created_at DESC
+        `;
+        console.log(`Public query successful: Found ${reviews.length} approved reviews`);
+      }
       
-      console.log(`Database query successful: Found ${approvedReviews.length} approved reviews`);
-      
-      return new Response(JSON.stringify(approvedReviews), {
+      return new Response(JSON.stringify(reviews), {
         headers: { 
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'
