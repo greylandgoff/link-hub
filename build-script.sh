@@ -1,10 +1,24 @@
-#!/bin/bash
+import React from 'react';
 
-# Build script for Vercel deployment
-echo "Building frontend..."
-cd client
-npm run build
-cd ..
+export type Review = {
+  serviceTypes?: string[];
+  // other review fields
+};
 
-echo "Frontend built successfully!"
-echo "Files ready for Vercel deployment."
+interface ReviewCardProps {
+  v: Review;
+}
+
+const ReviewCard: React.FC<ReviewCardProps> = ({ v }) => {
+  const { serviceTypes = [] } = v;
+
+  return (
+    <div className="review-card">
+      {serviceTypes?.map((serviceType, index) => (
+        <span key={index}>{serviceType}</span>
+      ))}
+    </div>
+  );
+};
+
+export default ReviewCard;
