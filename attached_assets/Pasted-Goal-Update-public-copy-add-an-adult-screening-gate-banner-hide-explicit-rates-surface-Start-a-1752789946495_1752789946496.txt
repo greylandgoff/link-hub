@@ -1,0 +1,77 @@
+Goal: Update public copy + add an adult/screening gate banner, hide explicit rates, surface “Start at my site for screening” CTA, and prep fields for travel + kink info without saying “escort” on the landing page.
+
+Tasks
+	1.	Global Age / Consent Banner
+	•	Sticky dismissible banner at top of site (visible on all public pages).
+	•	Text: “Personal hosting for adults 21+. Screening required. Continue?”
+	•	Buttons: [Enter] (stores rb_ack=1 in localStorage), [Leave] (link out to https://google.com).
+	•	If rb_ack not found, banner shows; if found, banner hidden.
+	2.	Homepage Hero Copy Swap
+	•	Replace current hero text with:
+Headline: “Austin private host + travel companion.”
+Subline: “Local, U.S., and international by arrangement. Start at my site for screening.”
+	•	Primary button: “Begin Screening” → scroll / route to booking form section (#book or /booking).
+	3.	Hide Public Rates
+	•	Remove or comment out any visible dollar figures on the public pages.
+	•	Where rates showed, replace with: “Rates quoted by date / length after screening.”
+	•	Keep rate fields in code, but don’t render unless showRates debug flag is true (env-driven).
+	4.	Travel & Kink Info Section (accordion)
+	•	Add FAQ accordion on homepage (below hero):
+	•	“Do you travel?” → “Yes. Local, U.S., and international when travel + room handled in advance.”
+	•	“Kink friendly?” → “Open to explore; we talk limits first in screening.”
+	•	Simple controlled accordion component; no extra lib needed (use existing shadcn/ui if present).
+	5.	Booking Form Update
+	•	Required fields: Name, Email, City / Location, Date(s), Length, Notes.
+	•	Add optional toggle: “Request travel booking” (reveals travel fields: arrival airport, hotel, room booked? Y/N).
+	•	Add textarea for “Interests / boundaries” (user supplies kink / no-go info privately).
+	6.	SEO Meta Updates
+	•	<title>: “RentBobby – Austin Private Host & Travel Companion”
+	•	<meta name="description">: “Austin-based LGBTQ personal host. Discreet meetups, events, and travel by arrangement. Screening required.”
+	•	Add canonical tag to root domain.
+	7.	Structured Data (JSON-LD)
+	•	Type: LocalBusiness
+	•	Name: “RentBobby Concierge”
+	•	URL: https://rentbobby.com
+	•	AreaServed: Austin + United States (basic)
+	•	PotentialAction: “ReserveAction” w/ target to booking URL
+(No service list w/ adult keywords.)
+	8.	Outbound Link Tracking
+	•	Wrap external directory links (Hunqz, GayCities review when live, Chamber listing) with a small click tracker: call trackEvent('outbound_link', {dest:'hunqz'}).
+	•	Use existing trackEvent util if already imported; otherwise stub console log.
+	9.	Env / Config Flags
+	•	Add VITE_SHOW_RATES=false default.
+	•	Add VITE_REQUIRE_AGE_GATE=true default.
+	•	Document in README.
+	10.	Accessibility / Mobile
+
+	•	Banner and hero buttons keyboard focusable.
+	•	All text wraps on mobile; test at 375px width.
+
+⸻
+
+File Touch Points (adjust paths if different)
+	•	client/src/components/TopBanner.tsx (new)
+	•	client/src/pages/home.tsx (hero text, accordion)
+	•	client/src/components/booking-form.tsx (fields)
+	•	client/src/lib/seo.ts or index.html head injection (meta + JSON-LD)
+	•	.env / .env.production for Vite flags
+
+⸻
+
+Acceptance Criteria
+	•	Visiting site fresh (no localStorage key) shows age/screening banner.
+	•	Clicking Enter hides banner and sets key; reload = still hidden.
+	•	No dollar signs visible on homepage or booking form unless VITE_SHOW_RATES=true.
+	•	“Begin Screening” button scrolls or routes correctly.
+	•	FAQ accordion renders and toggles.
+	•	Meta title/description visible in page source build output.
+	•	JSON-LD valid (passes Google Rich Results Test copy/paste).
+
+⸻
+
+Optional (if quick)
+	•	Lightweight server-side redirect: force www → root or vice-versa; pick canonical domain used in SEO.
+
+⸻
+
+After you complete changes: build preview, drop preview URL. I’ll check copy, crawlability, and whether the link field is rendering clean for Googlebot.

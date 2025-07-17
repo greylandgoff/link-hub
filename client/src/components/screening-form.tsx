@@ -1,0 +1,326 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { useToast } from "@/hooks/use-toast";
+import { User, Mail, MapPin, Calendar, Clock, MessageSquare, Plane } from "lucide-react";
+
+interface ScreeningFormProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+interface ScreeningFormData {
+  name: string;
+  email: string;
+  cityLocation: string;
+  dates: string;
+  length: string;
+  notes: string;
+  requestTravel: boolean;
+  arrivalAirport: string;
+  hotelBooked: string;
+  interestsBoundaries: string;
+}
+
+export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState<ScreeningFormData>({
+    name: "",
+    email: "",
+    cityLocation: "",
+    dates: "",
+    length: "",
+    notes: "",
+    requestTravel: false,
+    arrivalAirport: "",
+    hotelBooked: "",
+    interestsBoundaries: ""
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.cityLocation || !formData.dates || !formData.length) {
+      toast({
+        title: "Required fields missing",
+        description: "Please fill in all required fields marked with *",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const screeningData = {
+        ...formData,
+        timestamp: new Date().toISOString(),
+        status: "pending_screening",
+        source: "website_screening_form",
+        type: "screening_request"
+      };
+
+      console.log('Submitting screening data:', screeningData);
+
+      // Use absolute URL for external devices, relative for development
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+        ? '/api/appointments'
+        : `${window.location.protocol}//${window.location.host}/api/appointments`;
+
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(screeningData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Server error: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Screening submission result:', result);
+
+      toast({
+        title: "Screening Request Submitted",
+        description: "Thank you! I'll review your information and get back to you within 24 hours.",
+      });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        cityLocation: "",
+        dates: "",
+        length: "",
+        notes: "",
+        requestTravel: false,
+        arrivalAirport: "",
+        hotelBooked: "",
+        interestsBoundaries: ""
+      });
+
+      onClose();
+    } catch (error) {
+      console.error('Screening submission error:', error);
+      toast({
+        title: "Submission Failed",
+        description: error instanceof Error ? error.message : "Please try again or contact me directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleInputChange = (field: keyof ScreeningFormData, value: string | boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-black/90 backdrop-blur-xl border border-purple-500/20">
+        <DialogHeader>
+          <DialogTitle className="text-white text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Screening Request
+          </DialogTitle>
+        </DialogHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Required Fields */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-white flex items-center gap-2">
+                <User className="w-4 h-4" />
+                Name *
+              </Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => handleInputChange("name", e.target.value)}
+                className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+                placeholder="Your name"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-white flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                Email *
+              </Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => handleInputChange("email", e.target.value)}
+                className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+                placeholder="your@email.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="cityLocation" className="text-white flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              City / Location *
+            </Label>
+            <Input
+              id="cityLocation"
+              value={formData.cityLocation}
+              onChange={(e) => handleInputChange("cityLocation", e.target.value)}
+              className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+              placeholder="Austin, Dallas, NYC, etc."
+              required
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="dates" className="text-white flex items-center gap-2">
+                <Calendar className="w-4 h-4" />
+                Date(s) *
+              </Label>
+              <Input
+                id="dates"
+                value={formData.dates}
+                onChange={(e) => handleInputChange("dates", e.target.value)}
+                className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+                placeholder="Feb 15, next weekend, etc."
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="length" className="text-white flex items-center gap-2">
+                <Clock className="w-4 h-4" />
+                Length *
+              </Label>
+              <Input
+                id="length"
+                value={formData.length}
+                onChange={(e) => handleInputChange("length", e.target.value)}
+                className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+                placeholder="2 hours, overnight, weekend, etc."
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="notes" className="text-white flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" />
+              Notes *
+            </Label>
+            <Textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => handleInputChange("notes", e.target.value)}
+              className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500 min-h-[100px]"
+              placeholder="Tell me about yourself, what you're looking for, any special requests..."
+              required
+            />
+          </div>
+
+          {/* Travel Section */}
+          <div className="space-y-4">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="requestTravel"
+                checked={formData.requestTravel}
+                onCheckedChange={(checked) => handleInputChange("requestTravel", checked)}
+              />
+              <Label htmlFor="requestTravel" className="text-white flex items-center gap-2">
+                <Plane className="w-4 h-4" />
+                Request travel booking
+              </Label>
+            </div>
+
+            {formData.requestTravel && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6 border-l-2 border-purple-500/30">
+                <div className="space-y-2">
+                  <Label htmlFor="arrivalAirport" className="text-white">
+                    Arrival Airport
+                  </Label>
+                  <Input
+                    id="arrivalAirport"
+                    value={formData.arrivalAirport}
+                    onChange={(e) => handleInputChange("arrivalAirport", e.target.value)}
+                    className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+                    placeholder="AUS, DFW, LAX, etc."
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="hotelBooked" className="text-white">
+                    Hotel booked?
+                  </Label>
+                  <Input
+                    id="hotelBooked"
+                    value={formData.hotelBooked}
+                    onChange={(e) => handleInputChange("hotelBooked", e.target.value)}
+                    className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+                    placeholder="Yes/No, hotel name if booked"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Interests/Boundaries Section */}
+          <div className="space-y-2">
+            <Label htmlFor="interestsBoundaries" className="text-white">
+              Interests / Boundaries (Optional)
+            </Label>
+            <Textarea
+              id="interestsBoundaries"
+              value={formData.interestsBoundaries}
+              onChange={(e) => handleInputChange("interestsBoundaries", e.target.value)}
+              className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500 min-h-[80px]"
+              placeholder="Private space to discuss any specific interests, boundaries, or limits..."
+            />
+          </div>
+
+          {/* Rate Information */}
+          {!import.meta.env.VITE_SHOW_RATES && (
+            <div className="bg-purple-500/10 border border-purple-500/20 rounded-lg p-4">
+              <p className="text-gray-300 text-sm">
+                Rates quoted by date / length after screening.
+              </p>
+            </div>
+          )}
+
+          <div className="flex gap-3 pt-4">
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3"
+            >
+              {isSubmitting ? "Submitting..." : "Submit Screening Request"}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              className="border-purple-500/30 text-white hover:bg-purple-500/20"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}

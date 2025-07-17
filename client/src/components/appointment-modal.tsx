@@ -20,13 +20,14 @@ interface AppointmentModalProps {
 interface AppointmentForm {
   name: string;
   email: string;
-  phone: string;
-  date: Date | undefined;
-  time: string;
-  duration: string;
-  service: string;
-  location: string;
-  message: string;
+  cityLocation: string;
+  dates: string;
+  length: string;
+  notes: string;
+  requestTravel: boolean;
+  arrivalAirport: string;
+  hotelBooked: string;
+  interestsBoundaries: string;
 }
 
 const timeSlots = [
@@ -69,13 +70,14 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
   const [formData, setFormData] = useState<AppointmentForm>({
     name: "",
     email: "",
-    phone: "",
-    date: undefined,
-    time: "",
-    duration: "",
-    service: "",
-    location: "",
-    message: ""
+    cityLocation: "",
+    dates: "",
+    length: "",
+    notes: "",
+    requestTravel: false,
+    arrivalAirport: "",
+    hotelBooked: "",
+    interestsBoundaries: ""
   });
 
   const handleSubmit = async (e: React.FormEvent) => {

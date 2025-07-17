@@ -3,12 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContactModal } from "@/components/contact-modal";
 import { QRModal } from "@/components/qr-modal";
-import { AppointmentModal } from "@/components/appointment-modal";
+import { ScreeningForm } from "@/components/screening-form";
 import { ReviewModal } from "@/components/review-modal";
+import { AgeGateBanner } from "@/components/age-gate-banner";
+import { FAQAccordion } from "@/components/faq-accordion";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// Analytics tracking placeholder
-const trackEvent = (event: string, category: string, label: string) => {
+// Analytics tracking with outbound link tracking
+const trackEvent = (event: string, category: string, label?: string) => {
   console.log('Analytics:', event, category, label);
+  // If Google Analytics is available, use it
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', event, {
+      event_category: category,
+      event_label: label
+    });
+  }
 };
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
@@ -24,7 +33,7 @@ export default function Home() {
   const [isQRModalOpen, setIsQRModalOpen] = useState(false);
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
+  const [isScreeningFormOpen, setIsScreeningFormOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   // Fetch approved reviews
@@ -120,8 +129,9 @@ export default function Home() {
   };
 
   const handleLinkClick = (platform: string, url: string) => {
-    // Track analytics event
-    trackEvent('social_link_click', 'engagement', platform);
+    // Track outbound link click with platform-specific categorization
+    const category = ['hunqz', 'gaycities', 'chamber'].includes(platform) ? 'directory' : 'social_media';
+    trackEvent('outbound_link', category, platform);
     console.log(`Clicked: ${platform}`);
     window.open(url, "_blank");
   };
@@ -142,6 +152,14 @@ export default function Home() {
       url: "https://rent.men/BobbyAtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
+    },
+    {
+      platform: "hunqz",
+      name: "Hunqz",
+      description: "Professional directory", 
+      url: "https://hunqz.com/bobby-austin",
+      icon: Users,
+      neonColor: "hsl(160, 100%, 50%)"
     },
     {
       platform: "twitter",
@@ -166,6 +184,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      {/* Age Gate Banner */}
+      <AgeGateBanner />
       {/* Background Image with Parallax - Extended Height */}
       <div 
         className="fixed bg-cover bg-center"
@@ -267,22 +287,34 @@ export default function Home() {
                         fontWeight: '700'}}>
               Bobby
             </h1>
-            <h2 className="text-gray-200 leading-relaxed mb-8 max-w-sm mx-auto text-lg font-normal">
-              Professional companion services based in Austin, TX. Available for domestic or international travel for authentic connections and meaningful experiences.
+            <h2 className="text-gray-200 leading-relaxed mb-2 max-w-sm mx-auto text-xl font-medium">
+              Austin private host + travel companion.
             </h2>
+            <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto text-base">
+              Local, U.S., and international by arrangement. Start at my site for screening.
+            </p>
 
-            {/* Action Buttons */}
-            <div className="flex justify-center gap-3 mb-8 flex-wrap">
+            {/* Primary CTA */}
+            <div className="flex justify-center mb-8">
               <Button 
                 onClick={() => {
-                  trackEvent('appointment_modal_open', 'engagement', 'book_appointment');
-                  setIsAppointmentModalOpen(true);
+                  trackEvent('screening_form_open', 'engagement', 'begin_screening');
+                  const bookingSection = document.getElementById('booking-section');
+                  if (bookingSection) {
+                    bookingSection.scrollIntoView({ behavior: 'smooth' });
+                  } else {
+                    setIsScreeningFormOpen(true);
+                  }
                 }}
-                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600/20 to-teal-600/20 border border-emerald-400/30 hover:from-emerald-600/30 hover:to-teal-600/30"
+                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
               >
-                <Calendar className="w-4 h-4" />
-                Book Appointment
+                <Calendar className="w-5 h-5" />
+                Begin Screening
               </Button>
+            </div>
+
+            {/* Secondary Actions */}
+            <div className="flex justify-center gap-3 mb-8 flex-wrap">
               <Button 
                 onClick={handleSaveContact}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
@@ -301,6 +333,39 @@ export default function Home() {
                 Leave Review
               </Button>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-2xl font-semibold mb-8 text-center text-white">Frequently Asked</h2>
+            <FAQAccordion />
+          </div>
+        </section>
+
+        {/* Booking Section */}
+        <section id="booking-section" className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-2xl font-semibold mb-6 text-white">Ready to Begin?</h2>
+            <p className="text-gray-300 mb-8 leading-relaxed">
+              {import.meta.env.VITE_SHOW_RATES !== 'true' 
+                ? "Rates quoted by date / length after screening."
+                : "Contact for current rates and availability."
+              }
+            </p>
+            <Button 
+              onClick={() => {
+                trackEvent('screening_form_open', 'engagement', 'booking_section');
+                setIsScreeningFormOpen(true);
+              }}
+              className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
+            >
+              <Calendar className="w-5 h-5" />
+              Start Screening Process
+            </Button>
           </div>
         </section>
 
@@ -686,9 +751,9 @@ export default function Home() {
         onClose={() => setIsQRModalOpen(false)} 
       />
       
-      <AppointmentModal 
-        isOpen={isAppointmentModalOpen} 
-        onClose={() => setIsAppointmentModalOpen(false)} 
+      <ScreeningForm 
+        isOpen={isScreeningFormOpen} 
+        onClose={() => setIsScreeningFormOpen(false)} 
       />
 
       <ReviewModal 
