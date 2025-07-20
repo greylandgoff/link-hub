@@ -467,11 +467,23 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         
         const locationType = locationDetails.isIncall ? 'Incall' : 'Outcall';
         
-        // Send single clean message for IFTTT
-        const cleanMessage = `${appointmentData.name} - ${appointmentData.appointmentDate} at ${appointmentData.appointmentTime} - ${appointmentData.email}${appointmentData.phone ? ` | ${appointmentData.phone}` : ''}`;
+        // Convert 24-hour time to 12-hour format
+        const formatTime = (time24) => {
+          if (time24 === 'TBD' || !time24.includes(':')) return time24;
+          const [hours, minutes] = time24.split(':');
+          const hour = parseInt(hours);
+          const ampm = hour >= 12 ? 'PM' : 'AM';
+          const hour12 = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+          return `${hour12}:${minutes} ${ampm}`;
+        };
+
+        const formattedTime = formatTime(appointmentData.appointmentTime);
+        
+        // Send clean message without "message" wrapper
+        const cleanMessage = `${appointmentData.name} - ${appointmentData.appointmentDate} at ${formattedTime} - ${appointmentData.email}${appointmentData.phone ? ` | ${appointmentData.phone}` : ''}`;
         
         smsNotificationSent = await sendWebhookNotification({
-          message: cleanMessage
+          text: cleanMessage
         });
         
         console.log("SMS notification sent:", smsNotificationSent);

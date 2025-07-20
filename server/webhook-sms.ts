@@ -27,8 +27,14 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
         value2: data.value2,
         value3: data.value3
       };
+    } else if (data.text) {
+      console.log('Using text field format');
+      // Send clean text with proper JSON structure
+      jsonPayload = {
+        value1: data.text
+      };
     } else {
-      console.log('Using single clean message format');
+      console.log('Using legacy message format');
       // For contact forms or legacy data, send simple message
       if (data.message && !data.value1) {
         jsonPayload = {
