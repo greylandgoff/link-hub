@@ -18,21 +18,21 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
     
     console.log('Webhook data received:', JSON.stringify(data, null, 2));
     
-    // Use IFTTT Webhooks format for Google Sheets logging
+    // Use exact IFTTT Webhooks format: occurred_at, event_name, value1, value2, value3
     if ('value1' in data && data.value4) {
       console.log('Using structured Google Sheets format');
       jsonPayload = {
-        event_name: "got_mail",
         occurred_at: new Date().toISOString(),
+        event_name: "got_mail",
         value1: data.value1,  // Name
-        value2: data.value2,  // Email
+        value2: data.value2,  // Email  
         value3: data.value3   // Phone
       };
     } else if (data.text) {
       console.log('Using simple text format');
       jsonPayload = {
-        event_name: "got_mail",
         occurred_at: new Date().toISOString(),
+        event_name: "got_mail",
         value1: data.text,
         value2: "",
         value3: ""
@@ -42,8 +42,8 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
       const contact = data.phone || data.email;
       const cleanMessage = data.message ? `${data.name} (${contact}): ${data.message}` : data.message;
       jsonPayload = {
+        occurred_at: new Date().toISOString(),
         event_name: "got_mail",
-        occurred_at: new Date().toISOString(), 
         value1: cleanMessage || data.message,
         value2: "",
         value3: ""
