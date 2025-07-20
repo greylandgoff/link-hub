@@ -29,14 +29,18 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
       };
     } else {
       console.log('Using single clean message format');
-      // For contact forms, send a single clean message
-      const contact = data.phone || data.email;
-      const cleanMessage = `${data.name} (${contact}): ${data.message}`;
-      jsonPayload = {
-        value1: cleanMessage,
-        value2: "",
-        value3: ""
-      };
+      // For contact forms or legacy data, send simple message
+      if (data.message && !data.value1) {
+        jsonPayload = {
+          message: data.message
+        };
+      } else {
+        const contact = data.phone || data.email;
+        const cleanMessage = `${data.name} (${contact}): ${data.message}`;
+        jsonPayload = {
+          message: cleanMessage
+        };
+      }
     }
     
     console.log('Final webhook payload:', JSON.stringify(jsonPayload, null, 2));
