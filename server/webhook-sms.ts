@@ -16,8 +16,11 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
   try {
     let jsonPayload;
     
+    console.log('Webhook data received:', JSON.stringify(data, null, 2));
+    
     // Check if it's the new structured format (has value1, value2, value3)
     if ('value1' in data) {
+      console.log('Using structured IFTTT format');
       // Use structured format for IFTTT
       jsonPayload = {
         value1: data.value1,
@@ -25,6 +28,7 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
         value3: data.value3
       };
     } else {
+      console.log('Using legacy message format');
       // Legacy contact form format
       const contact = data.phone || data.email;
       const simpleMessage = `New message from ${data.name} (${contact}): ${data.message}`;
@@ -32,6 +36,8 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
         message: simpleMessage
       };
     }
+    
+    console.log('Final webhook payload:', JSON.stringify(jsonPayload, null, 2));
 
     const response = await fetch(process.env.SMS_WEBHOOK_URL, {
       method: 'POST',

@@ -469,7 +469,7 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         
         // Send structured webhook notification with better formatting
         const webhookData = {
-          value1: `🗓️ ${appointmentData.name}`,
+          value1: `${appointmentData.name}`,
           value2: `${appointmentData.appointmentDate} at ${appointmentData.appointmentTime}`,
           value3: `${appointmentData.email}${appointmentData.phone ? ` | ${appointmentData.phone}` : ''}`
         };
