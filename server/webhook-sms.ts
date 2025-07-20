@@ -18,35 +18,36 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
     
     console.log('Webhook data received:', JSON.stringify(data, null, 2));
     
-    // Check if it's the new structured format (has value1, value2, value3)
-    if ('value1' in data) {
-      console.log('Using structured IFTTT format');
-      // Use only structured format for IFTTT - no legacy message field
+    // Use IFTTT Webhooks format for got_mail event
+    if (data.text) {
+      console.log('Using IFTTT webhooks format for appointment');
       jsonPayload = {
-        value1: data.value1,
-        value2: data.value2,
-        value3: data.value3
+        event_name: "got_mail",
+        occurred_at: new Date().toISOString(),
+        value1: data.text,
+        value2: "",
+        value3: ""
       };
-    } else if (data.text) {
-      console.log('Using text field format');
-      // Send clean text with proper JSON structure
+    } else if ('value1' in data) {
+      console.log('Using structured IFTTT format');
       jsonPayload = {
-        value1: data.text
+        event_name: "got_mail", 
+        occurred_at: new Date().toISOString(),
+        value1: data.value1,
+        value2: data.value2 || "",
+        value3: data.value3 || ""
       };
     } else {
       console.log('Using legacy message format');
-      // For contact forms or legacy data, send simple message
-      if (data.message && !data.value1) {
-        jsonPayload = {
-          message: data.message
-        };
-      } else {
-        const contact = data.phone || data.email;
-        const cleanMessage = `${data.name} (${contact}): ${data.message}`;
-        jsonPayload = {
-          message: cleanMessage
-        };
-      }
+      const contact = data.phone || data.email;
+      const cleanMessage = data.message ? `${data.name} (${contact}): ${data.message}` : data.message;
+      jsonPayload = {
+        event_name: "got_mail",
+        occurred_at: new Date().toISOString(), 
+        value1: cleanMessage || data.message,
+        value2: "",
+        value3: ""
+      };
     }
     
     console.log('Final webhook payload:', JSON.stringify(jsonPayload, null, 2));
