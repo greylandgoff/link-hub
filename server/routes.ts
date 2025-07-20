@@ -466,7 +466,7 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         console.log("Logging appointment to Google Sheets...");
         
         // Convert 24-hour time to 12-hour format
-        const formatTime = (time24) => {
+        const formatTime = (time24: string) => {
           if (time24 === 'TBD' || !time24.includes(':')) return time24;
           const [hours, minutes] = time24.split(':');
           const hour = parseInt(hours);
@@ -477,18 +477,20 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
 
         const formattedTime = formatTime(appointmentData.appointmentTime);
         
-        // Send structured data for Google Sheets logging
+        // Send structured data for Google Sheets logging only
         sheetsNotificationSent = await sendWebhookNotification({
-          value1: appointmentData.name,
-          value2: appointmentData.email, 
-          value3: appointmentData.phone || 'Not provided',
-          value4: `${appointmentData.appointmentDate} at ${formattedTime}`,
-          value5: appointmentData.duration,
-          value6: appointmentData.location,
-          value7: appointmentData.specialRequests || 'None',
-          value8: appointmentData.serviceType,
-          value9: new Date().toISOString(),
-          value10: appointmentData.source
+          sheetsData: {
+            name: appointmentData.name,
+            email: appointmentData.email, 
+            phone: appointmentData.phone || 'Not provided',
+            datetime: `${appointmentData.appointmentDate} at ${formattedTime}`,
+            duration: appointmentData.duration,
+            location: appointmentData.location,
+            requests: appointmentData.specialRequests || 'None',
+            service: appointmentData.serviceType,
+            timestamp: new Date().toISOString(),
+            source: appointmentData.source
+          }
         });
         
         console.log("Google Sheets notification sent:", sheetsNotificationSent);

@@ -18,27 +18,18 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
     
     console.log('Webhook data received:', JSON.stringify(data, null, 2));
     
-    // Use exact IFTTT Webhooks format: occurred_at, event_name, value1, value2, value3
-    if ('value1' in data && data.value4) {
-      console.log('Using structured Google Sheets format');
+    // Pure Google Sheets logging format - no text messages
+    if (data.sheetsData) {
+      console.log('Using Google Sheets data logging format');
       jsonPayload = {
         occurred_at: new Date().toISOString(),
         event_name: "got_mail",
-        value1: data.value1,  // Name
-        value2: data.value2,  // Email  
-        value3: data.value3   // Phone
-      };
-    } else if (data.text) {
-      console.log('Using simple text format');
-      jsonPayload = {
-        occurred_at: new Date().toISOString(),
-        event_name: "got_mail",
-        value1: data.text,
-        value2: "",
-        value3: ""
+        value1: data.sheetsData.name,
+        value2: data.sheetsData.email,
+        value3: data.sheetsData.phone
       };
     } else {
-      console.log('Using legacy message format');
+      console.log('Using legacy format for reviews/contact forms');
       const contact = data.phone || data.email;
       const cleanMessage = data.message ? `${data.name} (${contact}): ${data.message}` : data.message;
       jsonPayload = {
