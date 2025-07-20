@@ -21,19 +21,21 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
     // Check if it's the new structured format (has value1, value2, value3)
     if ('value1' in data) {
       console.log('Using structured IFTTT format');
-      // Use structured format for IFTTT
+      // Use only structured format for IFTTT - no legacy message field
       jsonPayload = {
         value1: data.value1,
         value2: data.value2,
         value3: data.value3
       };
     } else {
-      console.log('Using legacy message format');
-      // Legacy contact form format
+      console.log('Using single clean message format');
+      // For contact forms, send a single clean message
       const contact = data.phone || data.email;
-      const simpleMessage = `New message from ${data.name} (${contact}): ${data.message}`;
+      const cleanMessage = `${data.name} (${contact}): ${data.message}`;
       jsonPayload = {
-        message: simpleMessage
+        value1: cleanMessage,
+        value2: "",
+        value3: ""
       };
     }
     
