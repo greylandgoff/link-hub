@@ -467,17 +467,14 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         
         const locationType = locationDetails.isIncall ? 'Incall' : 'Outcall';
         
-        smsNotificationSent = await sendWebhookNotification({
-          name: appointmentData.name,
-          email: appointmentData.email,
-          phone: appointmentData.phone || undefined,
-          message: `📅 NEW APPOINTMENT: ${appointmentData.name} (${appointmentData.email}) 
-Date: ${appointmentData.appointmentDate} ${appointmentData.appointmentTime}
-Service: ${appointmentData.serviceType} (${appointmentData.duration})
-Location: ${locationType} in ${appointmentData.location}
-${appointmentData.specialRequests ? 'Notes: ' + appointmentData.specialRequests.substring(0, 100) + (appointmentData.specialRequests.length > 100 ? '...' : '') : ''}
-Phone: ${appointmentData.phone || 'Not provided'}`
-        });
+        // Send structured webhook notification with better formatting
+        const webhookData = {
+          value1: `🗓️ ${appointmentData.name}`,
+          value2: `${appointmentData.appointmentDate} at ${appointmentData.appointmentTime}`,
+          value3: `${appointmentData.email}${appointmentData.phone ? ` | ${appointmentData.phone}` : ''}`
+        };
+        
+        smsNotificationSent = await sendWebhookNotification(webhookData);
         
         console.log("SMS notification sent:", smsNotificationSent);
       } catch (smsError) {

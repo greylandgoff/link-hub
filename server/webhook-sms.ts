@@ -7,28 +7,31 @@ interface ContactData {
   message: string;
 }
 
-export async function sendWebhookNotification(contactData: ContactData): Promise<boolean> {
+export async function sendWebhookNotification(data: ContactData | any): Promise<boolean> {
   if (!process.env.SMS_WEBHOOK_URL) {
     console.log('No webhook URL configured');
     return false;
   }
 
   try {
-    // Create simple readable format for IFTTT
-    const contact = contactData.phone || contactData.email;
-    const timestamp = new Date().toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    let jsonPayload;
     
-    // Send simple message to test IFTTT handling
-    const simpleMessage = `New message from ${contactData.name} (${contact}): ${contactData.message}`;
-    
-    const jsonPayload = {
-      message: simpleMessage
-    };
+    // Check if it's the new structured format (has value1, value2, value3)
+    if ('value1' in data) {
+      // Use structured format for IFTTT
+      jsonPayload = {
+        value1: data.value1,
+        value2: data.value2,
+        value3: data.value3
+      };
+    } else {
+      // Legacy contact form format
+      const contact = data.phone || data.email;
+      const simpleMessage = `New message from ${data.name} (${contact}): ${data.message}`;
+      jsonPayload = {
+        message: simpleMessage
+      };
+    }
 
     const response = await fetch(process.env.SMS_WEBHOOK_URL, {
       method: 'POST',
