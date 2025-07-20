@@ -460,12 +460,10 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         console.error("Error sending appointment email:", emailError);
       }
 
-      // Send SMS notification via IFTTT webhook
-      let smsNotificationSent = false;
+      // Send appointment data to Google Sheets via IFTTT webhook
+      let sheetsNotificationSent = false;
       try {
-        console.log("Sending appointment SMS notification...");
-        
-        const locationType = locationDetails.isIncall ? 'Incall' : 'Outcall';
+        console.log("Logging appointment to Google Sheets...");
         
         // Convert 24-hour time to 12-hour format
         const formatTime = (time24) => {
@@ -479,23 +477,30 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
 
         const formattedTime = formatTime(appointmentData.appointmentTime);
         
-        // Send clean message without "message" wrapper
-        const cleanMessage = `${appointmentData.name} - ${appointmentData.appointmentDate} at ${formattedTime} - ${appointmentData.email}${appointmentData.phone ? ` | ${appointmentData.phone}` : ''}`;
-        
-        smsNotificationSent = await sendWebhookNotification({
-          text: cleanMessage
+        // Send structured data for Google Sheets logging
+        sheetsNotificationSent = await sendWebhookNotification({
+          value1: appointmentData.name,
+          value2: appointmentData.email, 
+          value3: appointmentData.phone || 'Not provided',
+          value4: `${appointmentData.appointmentDate} at ${formattedTime}`,
+          value5: appointmentData.duration,
+          value6: appointmentData.location,
+          value7: appointmentData.specialRequests || 'None',
+          value8: appointmentData.serviceType,
+          value9: new Date().toISOString(),
+          value10: appointmentData.source
         });
         
-        console.log("SMS notification sent:", smsNotificationSent);
-      } catch (smsError) {
-        console.error("Error sending appointment SMS:", smsError);
+        console.log("Google Sheets notification sent:", sheetsNotificationSent);
+      } catch (sheetsError) {
+        console.error("Error sending appointment to Google Sheets:", sheetsError);
       }
 
       // Update notification status in database
-      const webhookResponse = `Email: ${emailNotificationSent ? 'sent' : 'failed'}, SMS: ${smsNotificationSent ? 'sent' : 'failed'}`;
+      const webhookResponse = `Email: ${emailNotificationSent ? 'sent' : 'failed'}, Sheets: ${sheetsNotificationSent ? 'logged' : 'failed'}`;
       await storage.updateAppointmentWebhookStatus(
         appointment.id, 
-        emailNotificationSent || smsNotificationSent, 
+        emailNotificationSent || sheetsNotificationSent, 
         webhookResponse
       );
 
@@ -505,7 +510,7 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
           id: appointment.id,
           status: appointment.status,
           emailSent: emailNotificationSent,
-          smsSent: smsNotificationSent,
+          sheetsLogged: sheetsNotificationSent,
           notificationStatus: webhookResponse,
           locationDetails
         }

@@ -18,24 +18,24 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
     
     console.log('Webhook data received:', JSON.stringify(data, null, 2));
     
-    // Use IFTTT Webhooks format for got_mail event
-    if (data.text) {
-      console.log('Using IFTTT webhooks format for appointment');
+    // Use IFTTT Webhooks format for Google Sheets logging
+    if ('value1' in data && data.value4) {
+      console.log('Using structured Google Sheets format');
+      jsonPayload = {
+        event_name: "got_mail",
+        occurred_at: new Date().toISOString(),
+        value1: data.value1,  // Name
+        value2: data.value2,  // Email
+        value3: data.value3   // Phone
+      };
+    } else if (data.text) {
+      console.log('Using simple text format');
       jsonPayload = {
         event_name: "got_mail",
         occurred_at: new Date().toISOString(),
         value1: data.text,
         value2: "",
         value3: ""
-      };
-    } else if ('value1' in data) {
-      console.log('Using structured IFTTT format');
-      jsonPayload = {
-        event_name: "got_mail", 
-        occurred_at: new Date().toISOString(),
-        value1: data.value1,
-        value2: data.value2 || "",
-        value3: data.value3 || ""
       };
     } else {
       console.log('Using legacy message format');
