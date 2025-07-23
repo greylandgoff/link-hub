@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
-// Webhook notifications disabled - import { sendWebhookNotification, isWebhookConfigured } from "./webhook-sms";
+import { sendGoogleSheetsWebhook, isGoogleSheetsConfigured } from "./webhook-sms";
 // Webhooks disabled - import { sendToMakeWebhook, isMakeWebhookConfigured } from "./make-webhook";
 // Webhooks disabled - import { sendIOSNotification, isIOSNotificationConfigured, parseLocationDetails } from "./ios-notifications";
 import { insertAppointmentSchema } from "@shared/schema";
@@ -445,13 +445,46 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         console.error("Error sending appointment email:", emailError);
       }
 
-      console.log("Appointment stored in database successfully - no external notifications");
+      // Send comprehensive appointment data to Google Sheets
+      let sheetsNotificationSent = false;
+      try {
+        if (isGoogleSheetsConfigured()) {
+          console.log("Sending appointment data to Google Sheets...");
+          
+          sheetsNotificationSent = await sendGoogleSheetsWebhook({
+            name: appointmentData.name,
+            email: appointmentData.email,
+            phone: appointmentData.phone || "",
+            appointmentDate: appointmentData.appointmentDate,
+            appointmentTime: appointmentData.appointmentTime,
+            duration: appointmentData.duration,
+            serviceType: appointmentData.serviceType,
+            location: appointmentData.location,
+            specialRequests: appointmentData.specialRequests || "",
+            source: appointmentData.source,
+            status: appointmentData.status,
+            createdAt: appointment.createdAt.toISOString()
+          });
+          
+          console.log("Google Sheets notification sent:", sheetsNotificationSent);
+        } else {
+          console.log("Google Sheets webhook not configured");
+        }
+      } catch (sheetsError) {
+        console.error("Error sending Google Sheets notification:", sheetsError);
+      }
 
-      // Update notification status in database - no external notifications
+      console.log("Appointment stored in database successfully");
+
+      // Update notification status in database
+      const notificationStatus = sheetsNotificationSent 
+        ? "Google Sheets: logged successfully" 
+        : "Google Sheets: not configured or failed";
+        
       await storage.updateAppointmentWebhookStatus(
         appointment.id, 
-        false, 
-        "External notifications disabled"
+        sheetsNotificationSent, 
+        notificationStatus
       );
 
       res.json({ 
@@ -459,9 +492,9 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
         appointment: {
           id: appointment.id,
           status: appointment.status,
-          emailSent: false,
-          externalNotifications: false,
-          notificationStatus: "External notifications disabled",
+          emailSent: emailNotificationSent,
+          googleSheetsSent: sheetsNotificationSent,
+          notificationStatus: notificationStatus,
           locationDetails
         }
       });

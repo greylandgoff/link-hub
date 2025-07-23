@@ -1,4 +1,19 @@
-// Simple JSON webhook SMS service for IFTTT
+// Enhanced Google Sheets webhook service for comprehensive appointment logging
+
+interface AppointmentData {
+  name: string;
+  email: string;
+  phone?: string;
+  appointmentDate: string;
+  appointmentTime: string;
+  duration: string;
+  serviceType: string;
+  location: string;
+  specialRequests?: string;
+  source: string;
+  status: string;
+  createdAt: string;
+}
 
 interface ContactData {
   name: string;
@@ -7,43 +22,44 @@ interface ContactData {
   message: string;
 }
 
-export async function sendWebhookNotification(data: ContactData | any): Promise<boolean> {
-  if (!process.env.SMS_WEBHOOK_URL) {
-    console.log('No webhook URL configured');
+export async function sendGoogleSheetsWebhook(appointmentData: AppointmentData): Promise<boolean> {
+  if (!process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
+    console.log('No Google Sheets webhook URL configured');
     return false;
   }
 
   try {
-    let jsonPayload;
+    // Enhanced Google Sheets payload with all appointment details
+    const jsonPayload = {
+      occurred_at: new Date().toISOString(),
+      event_name: "new_appointment",
+      // Client Information
+      value1: appointmentData.name,
+      value2: appointmentData.email,
+      value3: appointmentData.phone || "",
+      // Appointment Details
+      appointment_date: appointmentData.appointmentDate,
+      appointment_time: appointmentData.appointmentTime,
+      duration: appointmentData.duration,
+      service_type: appointmentData.serviceType,
+      location: appointmentData.location,
+      special_requests: appointmentData.specialRequests || "",
+      // Metadata
+      booking_source: appointmentData.source,
+      status: appointmentData.status,
+      submitted_at: appointmentData.createdAt,
+      // Summary for quick view
+      summary: `${appointmentData.name} - ${appointmentData.appointmentDate} at ${appointmentData.appointmentTime} (${appointmentData.duration})`
+    };
     
-    console.log('Webhook data received:', JSON.stringify(data, null, 2));
-    
-    // Pure Google Sheets logging format - no text messages
-    if (data.sheetsData) {
-      console.log('Using Google Sheets data logging format');
-      jsonPayload = {
-        occurred_at: new Date().toISOString(),
-        event_name: "got_mail",
-        value1: data.sheetsData.name,
-        value2: data.sheetsData.email,
-        value3: data.sheetsData.phone
-      };
-    } else {
-      console.log('Using legacy format for reviews/contact forms');
-      const contact = data.phone || data.email;
-      const cleanMessage = data.message ? `${data.name} (${contact}): ${data.message}` : data.message;
-      jsonPayload = {
-        occurred_at: new Date().toISOString(),
-        event_name: "got_mail",
-        value1: cleanMessage || data.message,
-        value2: "",
-        value3: ""
-      };
-    }
-    
-    console.log('Final webhook payload:', JSON.stringify(jsonPayload, null, 2));
+    console.log('Sending enhanced appointment data to Google Sheets:', {
+      name: appointmentData.name,
+      date: appointmentData.appointmentDate,
+      time: appointmentData.appointmentTime,
+      service: appointmentData.serviceType
+    });
 
-    const response = await fetch(process.env.SMS_WEBHOOK_URL, {
+    const response = await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -52,21 +68,53 @@ export async function sendWebhookNotification(data: ContactData | any): Promise<
     });
 
     const responseText = await response.text();
-    console.log('Webhook response:', responseText);
+    console.log('Google Sheets webhook response:', responseText);
 
     if (response.ok) {
-      console.log('Webhook notification sent successfully');
+      console.log('Appointment data sent to Google Sheets successfully');
       return true;
     } else {
-      console.error('Webhook error:', response.status, responseText);
+      console.error('Google Sheets webhook error:', response.status, responseText);
       return false;
     }
   } catch (error) {
-    console.error('Webhook request failed:', error);
+    console.error('Google Sheets webhook request failed:', error);
     return false;
   }
 }
 
-export function isWebhookConfigured(): boolean {
-  return !!process.env.SMS_WEBHOOK_URL;
+export async function sendContactWebhook(data: ContactData): Promise<boolean> {
+  if (!process.env.GOOGLE_SHEETS_WEBHOOK_URL) {
+    console.log('No Google Sheets webhook URL configured');
+    return false;
+  }
+
+  try {
+    const jsonPayload = {
+      occurred_at: new Date().toISOString(),
+      event_name: "contact_form",
+      value1: data.name,
+      value2: data.email,
+      value3: data.phone || "",
+      message: data.message,
+      type: "contact_inquiry"
+    };
+
+    const response = await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(jsonPayload)
+    });
+
+    return response.ok;
+  } catch (error) {
+    console.error('Contact webhook request failed:', error);
+    return false;
+  }
+}
+
+export function isGoogleSheetsConfigured(): boolean {
+  return !!process.env.GOOGLE_SHEETS_WEBHOOK_URL;
 }

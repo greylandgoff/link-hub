@@ -83,6 +83,7 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - SMS NOTIFICATION FORMAT IMPROVED: Fixed truncated messages with clean structured format, removed emoji for cleaner notifications (July 20, 2025)
 - GOOGLE SHEETS INTEGRATION: Replaced SMS notifications with automated Google Sheets logging via IFTTT webhook for clean appointment tracking (July 20, 2025)
 - ALL EXTERNAL NOTIFICATIONS REMOVED: Completely eliminated SMS, webhook, and Google Sheets integrations - appointments now store cleanly in database only (July 22, 2025)
+- ENHANCED GOOGLE SHEETS INTEGRATION: Implemented comprehensive appointment logging with full details including date, time, duration, service type, location, special requests, and metadata (July 23, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
