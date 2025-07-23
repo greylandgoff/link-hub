@@ -4,8 +4,8 @@ import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
 // Webhook notifications disabled - import { sendWebhookNotification, isWebhookConfigured } from "./webhook-sms";
-import { sendToMakeWebhook, isMakeWebhookConfigured } from "./make-webhook";
-import { sendIOSNotification, isIOSNotificationConfigured, parseLocationDetails } from "./ios-notifications";
+// Webhooks disabled - import { sendToMakeWebhook, isMakeWebhookConfigured } from "./make-webhook";
+// Webhooks disabled - import { sendIOSNotification, isIOSNotificationConfigured, parseLocationDetails } from "./ios-notifications";
 import { insertAppointmentSchema } from "@shared/schema";
 import * as fs from "fs";
 import * as path from "path";
@@ -139,14 +139,15 @@ END:VCARD`;
       // Send JSON webhook notification
       let notificationSent = false;
       
-      if (isWebhookConfigured()) {
-        notificationSent = await sendWebhookNotification({
-          name,
-          email,
-          phone,
-          message
-        });
-      }
+      // Webhook notifications disabled
+      // if (isWebhookConfigured()) {
+      //   notificationSent = await sendWebhookNotification({
+      //     name,
+      //     email,
+      //     phone,
+      //     message
+      //   });
+      // }
 
       if (notificationSent) {
         res.json({ 
@@ -285,23 +286,7 @@ To approve/manage reviews, use the admin panel.
           console.log('Review notification email failed to send');
         }
 
-        // Also send SMS webhook notification for reviews
-        try {
-          const webhookData = {
-            name: review.name,
-            email: review.email,
-            message: `⭐ New ${avgRating}/5 star review from ${review.name}: ${review.additionalComments || 'No comments'}`
-          };
-          
-          const webhookSent = await sendWebhookNotification(webhookData);
-          if (webhookSent) {
-            console.log('Review SMS webhook notification sent successfully');
-          } else {
-            console.log('Review SMS webhook notification failed to send');
-          }
-        } catch (webhookError) {
-          console.error('Error sending review SMS webhook:', webhookError);
-        }
+        // Webhook notifications disabled for reviews
       } catch (emailError) {
         console.error('Error sending review notification email:', emailError);
       }
@@ -387,11 +372,11 @@ To approve/manage reviews, use the admin panel.
       const appointment = await storage.createAppointment(appointmentData);
       console.log("Appointment created:", appointment);
 
-      // Parse location details for incall/outcall
-      const locationDetails = parseLocationDetails(
-        appointmentData.location || "austin", 
-        appointmentData.specialRequests || ""
-      );
+      // Simple location details (webhook functionality disabled)
+      const locationDetails = {
+        isIncall: true,
+        type: appointmentData.location?.toLowerCase().includes('outcall') ? 'Outcall' : 'Incall'
+      };
 
       // Send email notification for new appointment
       let emailNotificationSent = false;
@@ -526,38 +511,12 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
     }
   });
 
-  // Test Make.com webhook endpoint
+  // Webhook testing disabled
   app.post("/api/test-webhook", async (req, res) => {
-    try {
-      if (!isMakeWebhookConfigured()) {
-        return res.status(400).json({ 
-          message: "Make.com webhook not configured. Please set MAKE_WEBHOOK_URL environment variable." 
-        });
-      }
-
-      const testResult = await sendToMakeWebhook({
-        name: "Test Client",
-        email: "test@example.com",
-        phone: "+1 (555) 123-4567",
-        date: "2025-07-15",
-        time: "14:00",
-        duration: "2",
-        service: "companion",
-        location: "austin",
-        message: "This is a test appointment booking",
-        timestamp: new Date().toISOString(),
-        status: "test",
-        source: "webhook_test"
-      });
-
-      res.json({ 
-        success: testResult,
-        message: testResult ? "Test webhook sent successfully" : "Test webhook failed"
-      });
-    } catch (error) {
-      console.error("Error testing webhook:", error);
-      res.status(500).json({ message: "Failed to test webhook" });
-    }
+    res.json({ 
+      success: false,
+      message: "Webhook functionality has been disabled" 
+    });
   });
 
   const httpServer = createServer(app);
