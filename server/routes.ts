@@ -132,36 +132,47 @@ END:VCARD`;
 
       console.log("Text contact request:", {
         from: `${name} <${email}>`,
+        phone: phone,
         message: message,
         timestamp: new Date().toISOString()
       });
 
-      // Send JSON webhook notification
-      let notificationSent = false;
-      
-      // Webhook notifications disabled
-      // if (isWebhookConfigured()) {
-      //   notificationSent = await sendWebhookNotification({
-      //     name,
-      //     email,
-      //     phone,
-      //     message
-      //   });
-      // }
+      // Send contact data to Google Sheets
+      let sheetsNotificationSent = false;
+      try {
+        if (isGoogleSheetsConfigured()) {
+          console.log("Sending contact form data to Google Sheets...");
+          
+          const contactPayload = {
+            occurred_at: new Date().toISOString(),
+            event_name: "contact_form",
+            value1: name,
+            value2: email || "",
+            value3: phone || "",
+            message: message,
+            contact_type: "text_request"
+          };
 
-      if (notificationSent) {
-        res.json({ 
-          message: "Notification sent successfully",
-          success: true 
-        });
-      } else {
-        // Log message even if notification fails
-        console.log("Webhook notification failed, message logged only");
-        res.json({ 
-          message: "Message logged (webhook unavailable)",
-          success: true 
-        });
+          const response = await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(contactPayload)
+          });
+
+          sheetsNotificationSent = response.ok;
+          console.log("Contact form Google Sheets notification sent:", sheetsNotificationSent);
+        }
+      } catch (sheetsError) {
+        console.error("Error sending contact form to Google Sheets:", sheetsError);
       }
+
+      res.json({ 
+        message: "Contact form submitted successfully",
+        success: true,
+        googleSheetsSent: sheetsNotificationSent
+      });
     } catch (error) {
       console.error("Error processing text contact:", error);
       res.status(500).json({ 

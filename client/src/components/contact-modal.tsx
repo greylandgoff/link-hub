@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Mail, MessageSquare, X } from "lucide-react";
+import { Mail, MessageSquare, Phone, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ContactModalProps {
@@ -128,7 +128,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
       toast({
         title: "Success!",
-        description: "Text message sent successfully!",
+        description: "Contact form submitted successfully!",
       });
       
       setFormData({ name: "", email: "", phone: "", message: "" });
@@ -137,12 +137,28 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       console.error("Error sending text:", error);
       toast({
         title: "Error",
-        description: "Failed to send text. Please try again.",
+        description: "Failed to send contact form. Please try again.",
         variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleDirectText = () => {
+    const message = formData.message.trim() 
+      ? `Hi Bobby! ${formData.name ? `This is ${formData.name}. ` : ''}${formData.message}`
+      : `Hi Bobby! ${formData.name ? `This is ${formData.name}. ` : ''}I'd like to get in touch with you.`;
+    
+    const encodedMessage = encodeURIComponent(message);
+    const smsUrl = `sms:+17372972747${window.navigator.userAgent.includes('iPhone') ? '&' : '?'}body=${encodedMessage}`;
+    
+    window.location.href = smsUrl;
+    
+    toast({
+      title: "Opening Messages",
+      description: "Your phone's messaging app should open with Bobby's number.",
+    });
   };
 
   return (
@@ -200,22 +216,41 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
             />
           </div>
 
-          <div className="flex gap-3 pt-2">
+          <div className="space-y-3 pt-2">
+            <div className="flex gap-3">
+              <Button
+                onClick={handleSendEmail}
+                disabled={isSubmitting}
+                className="flex-1 glass-effect bg-transparent border border-white/20 hover:bg-white/10 font-medium"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Send Email
+              </Button>
+              <Button
+                onClick={handleSendText}
+                disabled={isSubmitting}
+                className="flex-1 glass-effect bg-transparent border border-white/20 hover:bg-white/10 font-medium"
+              >
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Contact Form
+              </Button>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <span className="w-full border-t border-white/20" />
+              </div>
+              <div className="relative flex justify-center text-xs uppercase">
+                <span className="bg-gray-900 px-2 text-gray-400">Or text directly</span>
+              </div>
+            </div>
+            
             <Button
-              onClick={handleSendEmail}
-              disabled={isSubmitting}
-              className="flex-1 glass-effect bg-transparent border border-white/20 hover:bg-white/10 font-medium"
+              onClick={handleDirectText}
+              className="w-full glass-effect bg-gradient-to-r from-purple-600/20 to-pink-600/20 border border-purple-400/30 hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-pink-600/30 font-medium text-purple-100"
             >
-              <Mail className="w-4 h-4 mr-2" />
-              Send Email
-            </Button>
-            <Button
-              onClick={handleSendText}
-              disabled={isSubmitting}
-              className="flex-1 glass-effect bg-transparent border border-white/20 hover:bg-white/10 font-medium"
-            >
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Send Text
+              <Phone className="w-4 h-4 mr-2" />
+              Text Bobby Directly: (737) 297-2747
             </Button>
           </div>
         </div>
