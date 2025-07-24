@@ -20,6 +20,7 @@ export interface IStorage {
   // Appointment methods
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   getAppointments(): Promise<Appointment[]>;
+  getAllAppointments(): Promise<Appointment[]>;
   getAppointmentById(id: number): Promise<Appointment | undefined>;
   updateAppointmentStatus(id: number, status: string): Promise<Appointment>;
   updateAppointmentWebhookStatus(id: number, sent: boolean, response?: string): Promise<Appointment>;
@@ -78,6 +79,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAppointments(): Promise<Appointment[]> {
+    return db.select().from(appointments);
+  }
+
+  async getAllAppointments(): Promise<Appointment[]> {
     return db.select().from(appointments);
   }
 

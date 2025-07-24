@@ -320,6 +320,17 @@ To approve/manage reviews, use the admin panel.
     }
   });
 
+  // Admin route for appointment management
+  app.get("/api/admin/appointments", async (req, res) => {
+    try {
+      const appointments = await storage.getAllAppointments();
+      res.json(appointments);
+    } catch (error) {
+      console.error("Error fetching admin appointments:", error);
+      res.status(500).json({ message: "Failed to fetch appointments" });
+    }
+  });
+
   app.patch("/api/admin/reviews/:id/approve", async (req, res) => {
     try {
       const reviewId = parseInt(req.params.id);
