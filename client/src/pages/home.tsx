@@ -321,12 +321,7 @@ export default function Home() {
               <Button 
                 onClick={() => {
                   trackEvent('appointment_request', 'engagement', 'hero_cta');
-                  const bookingSection = document.getElementById('booking-section');
-                  if (bookingSection) {
-                    bookingSection.scrollIntoView({ behavior: 'smooth' });
-                  } else {
-                    setIsScreeningFormOpen(true);
-                  }
+                  setIsScreeningFormOpen(true);
                 }}
                 className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
               >

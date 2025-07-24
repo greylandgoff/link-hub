@@ -277,7 +277,8 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                     setFormData({ ...formData, date: dateValue });
                   }}
                   min={format(new Date(), "yyyy-MM-dd")}
-                  className="bg-white/10 border-white/20 text-white"
+                  className="bg-white/10 border-white/20 text-white [color-scheme:dark] cursor-pointer"
+                  style={{ colorScheme: 'dark' }}
                   required
                 />
               </div>
@@ -291,7 +292,8 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                   onChange={(e) => setFormData({ ...formData, time: e.target.value })}
                   min="09:00"
                   max="22:00"
-                  className="bg-white/10 border-white/20 text-white"
+                  className="bg-white/10 border-white/20 text-white [color-scheme:dark] cursor-pointer"
+                  style={{ colorScheme: 'dark' }}
                   required
                 />
               </div>
