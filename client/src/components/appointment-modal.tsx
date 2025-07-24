@@ -20,14 +20,13 @@ interface AppointmentModalProps {
 interface AppointmentForm {
   name: string;
   email: string;
-  cityLocation: string;
-  dates: string;
-  length: string;
-  notes: string;
-  requestTravel: boolean;
-  arrivalAirport: string;
-  hotelBooked: string;
-  interestsBoundaries: string;
+  phone: string;
+  date: Date | undefined;
+  time: string;
+  duration: string;
+  service: string;
+  location: string;
+  special_requests: string;
 }
 
 const timeSlots = [
@@ -70,14 +69,13 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
   const [formData, setFormData] = useState<AppointmentForm>({
     name: "",
     email: "",
-    cityLocation: "",
-    dates: "",
-    length: "",
-    notes: "",
-    requestTravel: false,
-    arrivalAirport: "",
-    hotelBooked: "",
-    interestsBoundaries: ""
+    phone: "",
+    date: undefined,
+    time: "",
+    duration: "",
+    service: "",
+    location: "",
+    special_requests: ""
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -96,9 +94,15 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
 
     try {
       const appointmentData = {
-        ...formData,
-        date: formData.date ? format(formData.date, "yyyy-MM-dd") : "",
-        timestamp: new Date().toISOString(),
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || "",
+        appointment_date: formData.date ? format(formData.date, "yyyy-MM-dd") : "",
+        appointment_time: formData.time,
+        duration: formData.duration,
+        service_type: formData.service,
+        location: formData.location,
+        special_requests: formData.special_requests,
         status: "pending",
         source: "website_booking"
       };
@@ -156,7 +160,7 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
         duration: "",
         service: "",
         location: "",
-        message: ""
+        special_requests: ""
       });
 
       onClose();
@@ -263,48 +267,33 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label className="text-white">Preferred Date *</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal bg-white/10 border-white/20 text-white hover:bg-white/20",
-                        !formData.date && "text-gray-400"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {formData.date ? format(formData.date, "PPP") : "Select date"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0 bg-black border-white/20" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={formData.date}
-                      onSelect={(date) => setFormData({ ...formData, date })}
-                      disabled={isDateDisabled}
-                      initialFocus
-                      className="text-white"
-                    />
-                  </PopoverContent>
-                </Popover>
+                <Label htmlFor="date" className="text-white">Preferred Date *</Label>
+                <Input
+                  id="date"
+                  type="date"
+                  value={formData.date ? format(formData.date, "yyyy-MM-dd") : ""}
+                  onChange={(e) => {
+                    const dateValue = e.target.value ? new Date(e.target.value + "T00:00:00") : undefined;
+                    setFormData({ ...formData, date: dateValue });
+                  }}
+                  min={format(new Date(), "yyyy-MM-dd")}
+                  className="bg-white/10 border-white/20 text-white"
+                  required
+                />
               </div>
 
               <div>
-                <Label className="text-white">Preferred Time *</Label>
-                <Select value={formData.time} onValueChange={(value) => setFormData({ ...formData, time: value })}>
-                  <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                    <Clock className="w-4 h-4 mr-2" />
-                    <SelectValue placeholder="Select time" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-black border-white/20">
-                    {timeSlots.map((time) => (
-                      <SelectItem key={time} value={time} className="text-white hover:bg-white/10">
-                        {time}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="time" className="text-white">Preferred Time *</Label>
+                <Input
+                  id="time"
+                  type="time"
+                  value={formData.time}
+                  onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                  min="09:00"
+                  max="22:00"
+                  className="bg-white/10 border-white/20 text-white"
+                  required
+                />
               </div>
             </div>
 
@@ -369,13 +358,13 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
             </h3>
             
             <div>
-              <Label htmlFor="message" className="text-white">
+              <Label htmlFor="special_requests" className="text-white">
                 Special Requests & Location Details
               </Label>
               <Textarea
-                id="message"
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                id="special_requests"
+                value={formData.special_requests}
+                onChange={(e) => setFormData({ ...formData, special_requests: e.target.value })}
                 className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[100px]"
                 placeholder="For outcalls, please provide address or area (e.g., 'Downtown Austin', '123 Main St'). Include any special requests, dress code preferences, or other important details..."
               />
