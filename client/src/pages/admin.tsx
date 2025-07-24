@@ -146,46 +146,42 @@ export default function Admin() {
 
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen w-full relative overflow-hidden" style={{ background: 'var(--pure-black)' }}>
+      <div className="min-h-screen w-full relative overflow-hidden bg-gradient-to-br from-amber-50 via-stone-100 to-orange-100">
         {/* Animated Background Particles */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(15)].map((_, i) => (
+          {[...Array(12)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-pulse"
+              className="absolute w-2 h-2 bg-gradient-to-r from-amber-300/40 to-orange-300/40 rounded-full animate-pulse"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 3}s`
+                animationDuration: `${3 + Math.random() * 2}s`
               }}
             />
           ))}
         </div>
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-pink-900/20" />
+        {/* Subtle Pattern Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-amber-200/20" />
 
         {/* Login Form */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 
-                className="text-4xl font-bold mb-2"
+                className="text-4xl font-bold mb-2 text-stone-800"
                 style={{
-                  background: 'linear-gradient(45deg, var(--neon-pink), var(--neon-purple))',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 0 20px rgba(255, 0, 255, 0.3))',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 }}
               >
                 Admin Panel
               </h1>
-              <p className="text-gray-300">Manage appointments and reviews</p>
+              <p className="text-stone-600">Manage appointments and reviews</p>
             </div>
 
-            <Card className="glass-effect bg-gray-900/95 border border-white/20 backdrop-blur-sm">
+            <Card className="bg-white/80 border border-stone-200/50 backdrop-blur-sm shadow-xl">
               <CardContent className="p-6 space-y-4">
                 <Input
                   type="password"
@@ -193,11 +189,11 @@ export default function Admin() {
                   value={adminPassword}
                   onChange={(e) => setAdminPassword(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleLogin()}
-                  className="bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/50"
+                  className="bg-white/80 border-stone-300 text-stone-800 placeholder-stone-500 focus:border-amber-500 focus:ring-amber-500/30"
                 />
                 <Button 
                   onClick={handleLogin}
-                  className="w-full glass-effect bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/30 hover:from-purple-600/40 hover:to-pink-600/40 text-white font-medium"
+                  className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-medium shadow-md"
                 >
                   Access Admin Panel
                 </Button>
@@ -211,12 +207,12 @@ export default function Admin() {
 
   if (reviewsLoading || appointmentsLoading) {
     return (
-      <div className="min-h-screen w-full relative" style={{ background: 'var(--pure-black)' }}>
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-pink-900/20" />
+      <div className="min-h-screen w-full relative bg-gradient-to-br from-amber-50 via-stone-100 to-orange-100">
+        <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-amber-200/20" />
         <div className="relative z-10 min-h-screen flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <div className="text-white text-xl">Loading admin data...</div>
+            <div className="w-12 h-12 border-4 border-amber-300 border-t-amber-600 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="text-stone-700 text-xl">Loading admin data...</div>
           </div>
         </div>
       </div>
@@ -235,60 +231,56 @@ export default function Admin() {
   ) || [];
 
   return (
-    <div className="min-h-screen w-full relative" style={{ background: 'var(--pure-black)' }}>
+    <div className="min-h-screen w-full relative bg-gradient-to-br from-amber-50 via-stone-100 to-orange-100">
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(10)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full animate-pulse"
+            className="absolute w-3 h-3 bg-gradient-to-r from-amber-200/30 to-orange-200/30 rounded-full animate-pulse"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
               animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${2 + Math.random() * 3}s`
+              animationDuration: `${3 + Math.random() * 2}s`
             }}
           />
         ))}
       </div>
 
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-pink-900/10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-amber-100/20" />
 
       {/* Header */}
-      <div className="relative z-10 glass-effect backdrop-blur-md border-b border-white/10 py-6">
+      <div className="relative z-10 bg-white/60 backdrop-blur-md border-b border-stone-200/50 py-6 shadow-sm">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <h1 
-                className="text-3xl font-bold mb-2"
+                className="text-3xl font-bold mb-2 text-stone-800"
                 style={{
-                  background: 'linear-gradient(45deg, var(--neon-pink), var(--neon-purple))',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  filter: 'drop-shadow(0 0 20px rgba(255, 0, 255, 0.3))',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.1)',
                 }}
               >
                 Admin Dashboard
               </h1>
-              <p className="text-gray-300">Manage appointments and reviews</p>
+              <p className="text-stone-600">Manage appointments and reviews</p>
             </div>
             
             <div className="flex items-center gap-4">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-stone-500 w-4 h-4" />
                 <Input
                   placeholder="Search..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 bg-white/10 border-white/20 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500/50"
+                  className="pl-10 bg-white/80 border-stone-300 text-stone-800 placeholder-stone-500 focus:border-amber-500 focus:ring-amber-500/30"
                 />
               </div>
               
               <Button
                 onClick={() => setIsAuthenticated(false)}
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10"
+                className="border-stone-300 text-stone-700 hover:bg-stone-100 bg-white/80"
               >
                 Logout
               </Button>
@@ -300,17 +292,17 @@ export default function Admin() {
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto p-6">
         <Tabs defaultValue="appointments" className="space-y-6">
-          <TabsList className="glass-effect bg-gray-900/50 border border-white/20">
+          <TabsList className="bg-white/70 border border-stone-200/50 shadow-sm backdrop-blur-sm">
             <TabsTrigger 
               value="appointments" 
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600/30 data-[state=active]:to-pink-600/30 data-[state=active]:text-white text-gray-300"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white text-stone-700 data-[state=active]:shadow-md"
             >
               <Calendar className="w-4 h-4 mr-2" />
               Appointments ({appointments?.length || 0})
             </TabsTrigger>
             <TabsTrigger 
               value="reviews"
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600/30 data-[state=active]:to-pink-600/30 data-[state=active]:text-white text-gray-300"
+              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white text-stone-700 data-[state=active]:shadow-md"
             >
               <Star className="w-4 h-4 mr-2" />
               Reviews ({reviews?.length || 0})
@@ -320,55 +312,55 @@ export default function Admin() {
           <TabsContent value="appointments" className="space-y-4">
             <div className="grid gap-4">
               {filteredAppointments.map((appointment) => (
-                <Card key={appointment.id} className="glass-effect bg-gray-900/95 border border-white/20 backdrop-blur-sm">
+                <Card key={appointment.id} className="bg-white/80 border border-stone-200/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
                       <div className="space-y-2">
                         <div className="flex items-center gap-2">
-                          <Users className="w-4 h-4 text-purple-400" />
-                          <h3 className="text-lg font-semibold text-white">{appointment.name}</h3>
-                          <Badge className="bg-purple-600/20 text-purple-300 border-purple-400/30">
+                          <Users className="w-4 h-4 text-amber-600" />
+                          <h3 className="text-lg font-semibold text-stone-800">{appointment.name}</h3>
+                          <Badge className="bg-amber-100 text-amber-800 border-amber-200">
                             {appointment.status}
                           </Badge>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm">
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Mail className="w-3 h-3" />
+                          <div className="flex items-center gap-2 text-stone-600">
+                            <Mail className="w-3 h-3 text-amber-600" />
                             {appointment.email}
                           </div>
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Phone className="w-3 h-3" />
+                          <div className="flex items-center gap-2 text-stone-600">
+                            <Phone className="w-3 h-3 text-amber-600" />
                             {appointment.phone}
                           </div>
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Calendar className="w-3 h-3" />
+                          <div className="flex items-center gap-2 text-stone-600">
+                            <Calendar className="w-3 h-3 text-amber-600" />
                             {appointment.appointment_date} at {appointment.appointment_time}
                           </div>
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Clock className="w-3 h-3" />
+                          <div className="flex items-center gap-2 text-stone-600">
+                            <Clock className="w-3 h-3 text-amber-600" />
                             {appointment.duration}
                           </div>
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <MapPin className="w-3 h-3" />
+                          <div className="flex items-center gap-2 text-stone-600">
+                            <MapPin className="w-3 h-3 text-amber-600" />
                             {appointment.location}
                           </div>
-                          <div className="flex items-center gap-2 text-gray-300">
-                            <Badge variant="outline" className="border-gray-600 text-gray-300">
+                          <div className="flex items-center gap-2 text-stone-600">
+                            <Badge variant="outline" className="border-stone-300 text-stone-700 bg-white/50">
                               {appointment.service_type}
                             </Badge>
                           </div>
                         </div>
                         
                         {appointment.special_requests && (
-                          <div className="mt-3 p-3 bg-white/5 rounded-lg border border-white/10">
-                            <p className="text-gray-300 text-sm">
+                          <div className="mt-3 p-3 bg-amber-50/50 rounded-lg border border-amber-200/50">
+                            <p className="text-stone-700 text-sm">
                               <span className="font-medium">Special Requests:</span> {appointment.special_requests}
                             </p>
                           </div>
                         )}
                         
-                        <p className="text-gray-500 text-xs">
+                        <p className="text-stone-500 text-xs">
                           Submitted: {new Date(appointment.created_at).toLocaleString()}
                         </p>
                       </div>
@@ -382,20 +374,20 @@ export default function Admin() {
           <TabsContent value="reviews" className="space-y-4">
             <div className="grid gap-4">
               {filteredReviews.map((review) => (
-                <Card key={review.id} className="glass-effect bg-gray-900/95 border border-white/20 backdrop-blur-sm">
+                <Card key={review.id} className="bg-white/80 border border-stone-200/50 backdrop-blur-sm shadow-lg hover:shadow-xl transition-shadow">
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-white">{review.name}</h3>
-                        <p className="text-gray-400 text-sm">{review.email}</p>
-                        <p className="text-gray-500 text-xs">
+                        <h3 className="text-lg font-semibold text-stone-800">{review.name}</h3>
+                        <p className="text-stone-600 text-sm">{review.email}</p>
+                        <p className="text-stone-500 text-xs">
                           {new Date(review.created_at).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="flex gap-2">
                         <Badge 
                           variant={review.is_approved ? "default" : "secondary"}
-                          className={review.is_approved ? "bg-green-600" : "bg-gray-600"}
+                          className={review.is_approved ? "bg-green-100 text-green-800 border-green-200" : "bg-stone-100 text-stone-600 border-stone-200"}
                         >
                           {review.is_approved ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
                           {review.is_approved ? "Published" : "Hidden"}
@@ -403,7 +395,7 @@ export default function Admin() {
                         <Button
                           size="sm"
                           onClick={() => approveMutation.mutate({ id: review.id, approved: !review.is_approved })}
-                          className="glass-effect bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/30 hover:from-purple-600/40 hover:to-pink-600/40 text-white"
+                          className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md"
                         >
                           {review.is_approved ? "Hide" : "Approve"}
                         </Button>
@@ -411,7 +403,7 @@ export default function Admin() {
                           size="sm"
                           variant="destructive"
                           onClick={() => deleteMutation.mutate(review.id)}
-                          className="bg-red-600/20 border-red-400/30 hover:bg-red-600/30"
+                          className="bg-red-100 text-red-700 border-red-200 hover:bg-red-200"
                         >
                           Delete
                         </Button>
@@ -428,14 +420,14 @@ export default function Admin() {
                         ["Chemistry", review.chemistry],
                         ["Discretion", review.discretion],
                       ].map(([label, rating]) => (
-                        <div key={label} className="text-center">
-                          <p className="text-gray-400 text-sm">{label}</p>
-                          <div className="flex justify-center">
+                        <div key={label} className="text-center p-2 bg-amber-50/50 rounded-lg border border-amber-200/30">
+                          <p className="text-stone-600 text-sm font-medium">{label}</p>
+                          <div className="flex justify-center mt-1">
                             {Array.from({ length: 5 }, (_, i) => (
                               <Star
                                 key={i}
                                 className={`w-4 h-4 ${
-                                  i < Number(rating) ? "fill-yellow-400 text-yellow-400" : "text-gray-600"
+                                  i < Number(rating) ? "fill-amber-400 text-amber-400" : "text-stone-300"
                                 }`}
                               />
                             ))}
@@ -446,10 +438,10 @@ export default function Admin() {
 
                     {/* Service Types */}
                     <div className="mb-4">
-                      <p className="text-gray-400 text-sm mb-2">Services:</p>
+                      <p className="text-stone-600 text-sm mb-2 font-medium">Services:</p>
                       <div className="flex flex-wrap gap-2">
                         {review.service_types.map((service, idx) => (
-                          <Badge key={idx} variant="outline" className="border-purple-500/30 text-purple-300">
+                          <Badge key={idx} variant="outline" className="border-amber-300 text-amber-700 bg-amber-50">
                             {service}
                           </Badge>
                         ))}
@@ -458,8 +450,8 @@ export default function Admin() {
 
                     {/* Comments */}
                     {review.additional_comments && (
-                      <div className="p-3 bg-white/5 rounded-lg border border-white/10">
-                        <p className="text-gray-300 text-sm">
+                      <div className="p-3 bg-stone-50/80 rounded-lg border border-stone-200/50">
+                        <p className="text-stone-700 text-sm">
                           <span className="font-medium">Comments:</span> {review.additional_comments}
                         </p>
                       </div>
