@@ -153,7 +153,12 @@ END:VCARD`;
             contact_type: "text_request"
           };
 
-          const response = await fetch(process.env.GOOGLE_SHEETS_WEBHOOK_URL, {
+          const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+          if (!webhookUrl) {
+            throw new Error('Google Sheets webhook URL not configured');
+          }
+          
+          const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -227,10 +232,11 @@ END:VCARD`;
       res.json(reviews);
     } catch (error) {
       console.error("Error fetching reviews:", error);
-      console.error("Database connection error details:", error.message);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.error("Database connection error details:", errorMessage);
       res.status(500).json({ 
         message: "Failed to fetch reviews",
-        error: process.env.NODE_ENV === 'development' ? error.message : 'Database connection failed',
+        error: process.env.NODE_ENV === 'development' ? errorMessage : 'Database connection failed',
         hasDatabase: !!process.env.DATABASE_URL
       });
     }
@@ -479,12 +485,12 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
             phone: appointmentData.phone || "",
             appointmentDate: appointmentData.appointmentDate,
             appointmentTime: appointmentData.appointmentTime,
-            duration: appointmentData.duration,
+            duration: appointmentData.duration || "Not specified",
             serviceType: appointmentData.serviceType,
-            location: appointmentData.location,
+            location: appointmentData.location || "Not specified",
             specialRequests: appointmentData.specialRequests || "",
-            source: appointmentData.source,
-            status: appointmentData.status,
+            source: appointmentData.source || "website",
+            status: appointmentData.status || "pending",
             createdAt: appointment.createdAt.toISOString()
           });
           
@@ -524,10 +530,10 @@ Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby
     } catch (error) {
       console.error("Error creating appointment:", error);
       
-      if (error.name === 'ZodError') {
+      if (error instanceof Error && error.name === 'ZodError') {
         return res.status(400).json({ 
           message: "Invalid appointment data",
-          errors: error.errors
+          errors: (error as any).errors
         });
       }
       

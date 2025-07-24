@@ -31,16 +31,31 @@ interface IFTTTWebhookPayload {
   value3: string; // URL/Link
 }
 
-export async function sendIOSNotification(appointment: AppointmentNotification): Promise<boolean> {
-  // Try multiple notification services for reliability
-  const results = await Promise.allSettled([
-    sendPushoverNotification(appointment),
-    sendIFTTTNotification(appointment),
-    sendMakeWebhookNotification(appointment)
-  ]);
+interface MakeIOSNotificationPayload {
+  client_name: string;
+  client_email: string;
+  client_phone: string;
+  appointment_date: string;
+  appointment_time: string;
+  duration_hours: string;
+  service_type: string;
+  location_type: string;
+  location_details: string;
+  notification_title: string;
+  notification_body: string;
+  notification_url?: string;
+  notification_badge: number;
+  notification_sound: string;
+  notification_category: string;
+  special_requests: string;
+  booking_source: string;
+  timestamp: string;
+  priority: string;
+}
 
-  // Return true if at least one notification succeeded
-  return results.some(result => result.status === 'fulfilled' && result.value === true);
+export async function sendIOSNotification(appointment: AppointmentNotification): Promise<boolean> {
+  // Try the Make.com webhook for iOS notifications
+  return await sendMakeIOSNotification(appointment);
 }
 
 async function sendMakeIOSNotification(appointment: AppointmentNotification): Promise<boolean> {
