@@ -5,17 +5,40 @@ import { AlertTriangle } from "lucide-react";
 export function AgeGateBanner() {
   const [isVisible, setIsVisible] = useState(false);
   const requireAgeGate = import.meta.env.VITE_REQUIRE_AGE_GATE === 'true';
+  
+  // Debug function to reset age gate (for testing)
+  if (typeof window !== 'undefined') {
+    (window as any).resetAgeGate = () => {
+      localStorage.removeItem('rb_ack');
+      console.log('Age gate reset - reload page to see age gate again');
+    };
+  }
 
   useEffect(() => {
-    if (!requireAgeGate) return;
+    console.log('Age Gate Debug:', {
+      VITE_REQUIRE_AGE_GATE: import.meta.env.VITE_REQUIRE_AGE_GATE,
+      requireAgeGate,
+      localStorage_rb_ack: localStorage.getItem('rb_ack')
+    });
+    
+    if (!requireAgeGate) {
+      console.log('Age gate disabled by environment variable');
+      return;
+    }
     
     const ackKey = localStorage.getItem('rb_ack');
+    console.log('Checking age gate acknowledgment:', ackKey);
+    
     if (!ackKey) {
+      console.log('No acknowledgment found, showing age gate');
       setIsVisible(true);
+    } else {
+      console.log('Age gate already acknowledged');
     }
   }, [requireAgeGate]);
 
   const handleEnter = () => {
+    console.log('Age gate accepted, setting localStorage');
     localStorage.setItem('rb_ack', '1');
     setIsVisible(false);
   };
@@ -24,7 +47,14 @@ export function AgeGateBanner() {
     window.location.href = 'https://google.com';
   };
 
-  if (!requireAgeGate || !isVisible) return null;
+  if (!requireAgeGate || !isVisible) {
+    console.log('Age gate not showing because:', {
+      requireAgeGate,
+      isVisible,
+      condition: !requireAgeGate || !isVisible
+    });
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 z-50 bg-black flex items-center justify-center">
