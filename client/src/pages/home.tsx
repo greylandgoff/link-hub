@@ -539,22 +539,22 @@ export default function Home() {
                               <div className="flex justify-between items-center">
                                 <span className="text-gray-200 text-sm">Appearance:</span>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.appearance)}</span>
-                                  <span className="text-white font-medium">{review.appearance}</span>
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.appearance || 0)}{"☆".repeat(5 - (review.appearance || 0))}</span>
+                                  <span className="text-white font-medium">{review.appearance || 0}/5</span>
                                 </div>
                               </div>
                               <div className="flex justify-between items-center">
                                 <span className="text-gray-200 text-sm">Professionalism:</span>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.professionalism)}</span>
-                                  <span className="text-white font-medium">{review.professionalism}</span>
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.professionalism || 0)}{"☆".repeat(5 - (review.professionalism || 0))}</span>
+                                  <span className="text-white font-medium">{review.professionalism || 0}/5</span>
                                 </div>
                               </div>
                               <div className="flex justify-between items-center">
                                 <span className="text-gray-200 text-sm">Chemistry:</span>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.chemistry)}</span>
-                                  <span className="text-white font-medium">{review.chemistry}</span>
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.chemistry || 0)}{"☆".repeat(5 - (review.chemistry || 0))}</span>
+                                  <span className="text-white font-medium">{review.chemistry || 0}/5</span>
                                 </div>
                               </div>
                             </div>
@@ -566,22 +566,22 @@ export default function Home() {
                               <div className="flex justify-between items-center">
                                 <span className="text-gray-200 text-sm">Punctuality:</span>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.punctuality)}</span>
-                                  <span className="text-white font-medium">{review.punctuality}</span>
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.punctuality || 0)}{"☆".repeat(5 - (review.punctuality || 0))}</span>
+                                  <span className="text-white font-medium">{review.punctuality || 0}/5</span>
                                 </div>
                               </div>
                               <div className="flex justify-between items-center">
                                 <span className="text-gray-200 text-sm">Communication:</span>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.communication)}</span>
-                                  <span className="text-white font-medium">{review.communication}</span>
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.communication || 0)}{"☆".repeat(5 - (review.communication || 0))}</span>
+                                  <span className="text-white font-medium">{review.communication || 0}/5</span>
                                 </div>
                               </div>
                               <div className="flex justify-between items-center">
                                 <span className="text-gray-200 text-sm">Discretion:</span>
                                 <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.discretion)}</span>
-                                  <span className="text-white font-medium">{review.discretion}</span>
+                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.discretion || 0)}{"☆".repeat(5 - (review.discretion || 0))}</span>
+                                  <span className="text-white font-medium">{review.discretion || 0}/5</span>
                                 </div>
                               </div>
                             </div>
@@ -615,7 +615,7 @@ export default function Home() {
                         
                         {/* Service Types */}
                         <div className="flex flex-wrap gap-2 mb-6">
-                          {review.service_types?.map((serviceType: string, i: number) => (
+                          {review.serviceTypes?.map((serviceType: string, i: number) => (
                             <span key={i} className="bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-full text-blue-300 text-sm">
                               {serviceType}
                             </span>
@@ -632,7 +632,13 @@ export default function Home() {
                         
                         <div className="flex justify-between items-center pt-4 border-t border-white/10">
                           <div className="text-white font-medium text-lg">{review.name}</div>
-                          <div className="text-gray-400 text-sm">{new Date(review.createdAt).toLocaleDateString()}</div>
+                          <div className="text-gray-400 text-sm">
+                            {new Date(review.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric'
+                            })}
+                          </div>
                         </div>
                       </div>
                     </div>

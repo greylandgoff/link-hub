@@ -47,12 +47,13 @@ export function AgeGateBanner() {
     window.location.href = 'https://google.com';
   };
 
-  if (!requireAgeGate || !isVisible) {
-    console.log('Age gate not showing because:', {
-      requireAgeGate,
-      isVisible,
-      condition: !requireAgeGate || !isVisible
-    });
+  if (!requireAgeGate) {
+    console.log('Age gate disabled by environment variable');
+    return null;
+  }
+  
+  if (!isVisible) {
+    console.log('Age gate not visible (already acknowledged)');
     return null;
   }
 
