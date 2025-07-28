@@ -116,6 +116,7 @@ export async function onRequest(context) {
         const sql = neon(env.DATABASE_URL);
         
         // Insert review using raw SQL to avoid schema import issues
+        const serviceTypesArray = reviewData.serviceTypes || [];
         const newReview = await sql`
           INSERT INTO reviews (
             name, email, appearance, punctuality, communication, 
@@ -134,7 +135,7 @@ export async function onRequest(context) {
             ${reviewData.wouldBookAgain || false},
             ${reviewData.bookingProcessSmooth || false},
             ${reviewData.matchedDescription || false},
-            ${JSON.stringify(reviewData.serviceTypes || [])},
+            ${serviceTypesArray},
             ${reviewData.additionalComments || ''},
             false
           ) RETURNING id
