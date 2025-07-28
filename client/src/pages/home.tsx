@@ -22,7 +22,7 @@ const trackEvent = (event: string, category: string, label?: string) => {
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 
-import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode } from "lucide-react";
+import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode, Shield, Heart, Globe } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 const profileImage = "/images/IMG_2876_1752841940506.jpeg";
 const backgroundImage = "/images/IMG_2862_1751936715707.jpg";
@@ -286,7 +286,7 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Profile Section */}
+        {/* Hero Section */}
         <section className="py-8 px-4" 
                  style={{transform: `translateY(${scrollY * 0.1}px)`}}>
           <div className="max-w-md mx-auto text-center">
@@ -326,7 +326,7 @@ export default function Home() {
                 className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
               >
                 <Calendar className="w-5 h-5" />
-                Request Appointment
+                Book Now
               </Button>
             </div>
 
@@ -353,35 +353,119 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Booking Section */}
-        <section id="booking-section" className="py-12 px-4"
-                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-2xl font-semibold mb-6 text-white">Ready to Begin?</h2>
-            <p className="text-gray-300 mb-8 leading-relaxed">
-              {import.meta.env.VITE_SHOW_RATES !== 'true' 
-                ? "Rates quoted by date / length after screening."
-                : "Contact for current rates and availability."
-              }
-            </p>
-            <Button 
-              onClick={() => {
-                trackEvent('appointment_request', 'engagement', 'booking_section');
-                setIsScreeningFormOpen(true);
-              }}
-              className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
-            >
-              <Calendar className="w-5 h-5" />
-              Request Appointment
-            </Button>
+        {/* Why Book Section - Key Benefits Above the Fold */}
+        <section className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold mb-8 text-center text-white">Why Book</h2>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              {/* Discreet & Professional */}
+              <div className="glass-effect p-6 rounded-2xl hover-lift text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
+                     style={{background: 'radial-gradient(circle, hsl(280, 100%, 60%), hsl(280, 100%, 40%))'}}>
+                  <Shield className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3 text-white">Discreet Companion</h3>
+                <ul className="text-gray-300 text-sm space-y-2 text-left">
+                  <li>• Confidentiality guaranteed</li>
+                  <li>• Professional boundaries</li>
+                  <li>• Respectful interactions</li>
+                  <li>• Privacy always protected</li>
+                </ul>
+              </div>
+
+              {/* LGBTQ Friendly */}
+              <div className="glass-effect p-6 rounded-2xl hover-lift text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
+                     style={{background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(320, 100%, 40%))'}}>
+                  <Heart className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3 text-white">LGBTQ-Friendly</h3>
+                <ul className="text-gray-300 text-sm space-y-2 text-left">
+                  <li>• Open, affirming space</li>
+                  <li>• Understanding community</li>
+                  <li>• No judgment zone</li>
+                  <li>• Authentic connections</li>
+                </ul>
+              </div>
+
+              {/* Flexible & Available */}
+              <div className="glass-effect p-6 rounded-2xl hover-lift text-center">
+                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
+                     style={{background: 'radial-gradient(circle, hsl(200, 100%, 50%), hsl(200, 100%, 40%))'}}>
+                  <Globe className="w-8 h-8 text-white" />
+                </div>
+                <h3 className="text-lg font-semibold mb-3 text-white">Travel & Local</h3>
+                <ul className="text-gray-300 text-sm space-y-2 text-left">
+                  <li>• Austin-based availability</li>
+                  <li>• Domestic & international travel</li>
+                  <li>• Business events welcome</li>
+                  <li>• Social gatherings</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Social Links */}
+        {/* How It Works Section */}
+        <section id="booking-section" className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold mb-8 text-center text-white">How It Works</h2>
+            
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="glass-effect p-6 rounded-2xl text-center">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/30 flex items-center justify-center text-white font-bold text-lg">
+                  1
+                </div>
+                <h3 className="font-semibold mb-2 text-white">Submit Request</h3>
+                <p className="text-gray-300 text-sm">Quick screening form with your preferences</p>
+              </div>
+              
+              <div className="glass-effect p-6 rounded-2xl text-center">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/30 flex items-center justify-center text-white font-bold text-lg">
+                  2
+                </div>
+                <h3 className="font-semibold mb-2 text-white">Get Quote</h3>
+                <p className="text-gray-300 text-sm">Rates quoted based on date & duration</p>
+              </div>
+              
+              <div className="glass-effect p-6 rounded-2xl text-center">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/30 flex items-center justify-center text-white font-bold text-lg">
+                  3
+                </div>
+                <h3 className="font-semibold mb-2 text-white">Confirm Details</h3>
+                <p className="text-gray-300 text-sm">Finalize time, location & arrangements</p>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <p className="text-gray-300 mb-6 leading-relaxed">
+                {import.meta.env.VITE_SHOW_RATES !== 'true' 
+                  ? "Rates quoted by date / length after screening."
+                  : "Contact for current rates and availability."
+                }
+              </p>
+              <Button 
+                onClick={() => {
+                  trackEvent('appointment_request', 'engagement', 'booking_section');
+                  setIsScreeningFormOpen(true);
+                }}
+                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
+              >
+                <Calendar className="w-5 h-5" />
+                Start Screening
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Connect Section */}
         <section className="py-8 px-4"
                  style={{transform: `translateY(${scrollY * 0.05}px)`}}>
           <div className="max-w-md mx-auto">
-            <h2 className="text-xl font-semibold mb-6 text-center text-gray-200">Connect With Me</h2>
+            <h2 className="text-2xl font-bold mb-6 text-center text-white">Connect</h2>
             
             <div className="space-y-4">
               {socialLinks.map((link) => {
@@ -413,7 +497,7 @@ export default function Home() {
 
               {/* Payment Options */}
               <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-200 mb-4 text-center">Support & Tips</h3>
+                <h3 className="text-xl font-bold text-white mb-4 text-center">Support & Tips</h3>
                 {paymentLinks.map((payment) => {
                   const IconComponent = payment.icon;
                   return (
@@ -454,13 +538,13 @@ export default function Home() {
         <section id="reviews-section" className="py-16 px-4 relative overflow-hidden"
                  style={{transform: `translateY(${scrollY * 0.02}px)`}}>
           <div className="max-w-6xl mx-auto">
-            <h3 className="text-3xl font-bold text-center text-white mb-8"
+            <h2 className="text-2xl font-bold text-center text-white mb-8"
                 style={{
                   opacity: Math.min(1, (scrollY - 300) / 200),
                   transform: `translateY(${Math.max(0, 30 - (scrollY - 300) / 8)}px)`
                 }}>
-              Client Reviews & Testimonials
-            </h3>
+              Testimonials
+            </h2>
             
             {/* Leave a Review Section - Above existing reviews */}
             <div className="flex justify-center mb-12">
@@ -497,7 +581,7 @@ export default function Home() {
             ) : reviews && reviews.length > 0 ? (
               <div className="space-y-6 mb-12">
                 <div className="text-center mb-6">
-                  <h3 className="text-white text-2xl font-bold">Client Reviews ({reviews.length})</h3>
+                  <h3 className="text-white text-xl font-bold">Client Reviews ({reviews.length})</h3>
                   <p className="text-gray-300">Real experiences from verified clients</p>
                 </div>
                 
@@ -766,6 +850,59 @@ export default function Home() {
             </div>
           </div>
         </footer>
+
+        {/* Sticky Floating Book Now Button */}
+        <div 
+          className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${
+            scrollY > 400 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+          }`}
+        >
+          <Button 
+            onClick={() => {
+              trackEvent('appointment_request', 'engagement', 'sticky_cta');
+              setIsScreeningFormOpen(true);
+            }}
+            className="glass-effect px-6 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/40 to-pink-600/40 border border-purple-400/60 hover:from-purple-600/50 hover:to-pink-600/50 text-white shadow-2xl"
+            style={{
+              backdropFilter: 'blur(20px) saturate(180%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.3)'
+            }}
+          >
+            <Calendar className="w-5 h-5" />
+            Book Now
+          </Button>
+        </div>
+
+        {/* Quick Actions Sidebar for Desktop */}
+        <div 
+          className={`fixed left-6 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block transition-all duration-300 ${
+            scrollY > 200 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
+          }`}
+        >
+          <div className="flex flex-col gap-3">
+            <Button 
+              onClick={() => setIsContactModalOpen(true)}
+              className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
+              title="Contact"
+            >
+              <MessageCircle className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            </Button>
+            <Button 
+              onClick={() => setIsQRModalOpen(true)}
+              className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
+              title="QR Code"
+            >
+              <QrCode className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            </Button>
+            <Button 
+              onClick={() => setIsReviewModalOpen(true)}
+              className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
+              title="Leave Review"
+            >
+              <Star className="w-5 h-5 text-gray-300 group-hover:text-white" />
+            </Button>
+          </div>
+        </div>
       </div>
 
       <ContactModal 

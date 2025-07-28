@@ -1,0 +1,34 @@
+Current Website Analysis:
+	•	Content Layout
+	•	What works: clear headline, single “Book Now” button above the fold, concise bio.
+	•	What falls short: key benefits (“discreet companion,” “LGBTQ-friendly”) live deep down the page; walls of text on mobile slow scanning; inconsistent heading styles hide structure.
+	•	Interactivity
+	•	Current: hover highlights on links; basic contact form.
+	•	Missing: no calendar picker, no quick-reply chat option, no progress feedback when the form submits (so people wonder if it worked).
+	•	Multimedia Use
+	•	Present: static hero photo and a small gallery of snaps.
+	•	Opportunity: short muted autoplay video in hero; client-quote overlay on images; subtle scroll animations to signal new sections.
+
+Create two User Personas:
+	1.	Jake
+	•	Age 32 · Male · Marketing Manager (visiting Austin)
+	•	Goals: find a companion who’s fun at both bars and brunch; confirm quality via client stories.
+	•	Pain Points: unsure if service matches hype; form feels clunky on phone.
+	2.	Marcus
+	•	Age 45 · Male · Local Entrepreneur
+	•	Goals: book discreetly for networking dinners; repeat the experience easily next month.
+	•	Pain Points: worries about privacy; doesn’t want to hunt for availability.
+
+Provide UX Enhancement Recommendations:
+	•	Content Layout
+	•	Move key selling points into a three-column “Why Book” block just under the hero.
+	•	Standardize H2 labels (“About,” “How It Works,” “Testimonials,” “Contact”) so scanners instantly know where they are.
+	•	Swap dense paragraphs for bullet lists of benefits and steps.
+	•	Interactivity
+	•	Embed a date-and-time picker (e.g., Calendly) directly in the page to cut form steps in half.
+	•	Add a sticky mini-bar or floating “Book Now” that stays visible on scroll.
+	•	Introduce a live-chat widget with canned quick-reply options (“Available tonight?,” “Rates?”).
+	•	Multimedia
+	•	Create a 20-second hero video on mute (tap-to-unmute) introducing Bobby’s style and vibe.
+	•	Turn the photo gallery into a slider with short client quotes layered on each slide.
+	•	Use fade-in or slide-in effects on content blocks to give the page a sense of motion and guide attention.
