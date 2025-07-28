@@ -33,15 +33,17 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
     setIsSubmitting(true);
 
     try {
-      // Send message to contact endpoint
-      const response = await fetch('/api/contact', {
+      // Send message to text contact endpoint
+      const response = await fetch('/api/contact/text', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          message: `Quick Chat: ${message}`,
-          source: "quick_chat_widget"
+          name: "Quick Chat User", 
+          email: "user@quickchat.com",
+          message: `Quick Chat Question: ${message}`,
+          phone: "",
         }),
       });
 
@@ -53,7 +55,8 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
         setMessage("");
         onClose();
       } else {
-        throw new Error('Failed to send message');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Failed to send message');
       }
     } catch (error) {
       toast({
