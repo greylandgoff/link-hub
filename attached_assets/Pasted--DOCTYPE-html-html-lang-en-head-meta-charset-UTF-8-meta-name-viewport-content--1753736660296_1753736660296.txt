@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Austin male companion for events, travel, and discreet hangouts. LGBTQ-friendly twunk escort in Austin offering bookings, socials, and digital content hub. RentBobby—confident, cheeky, and always on time." />
+  <meta name="keywords" content="Austin male companion, twunk escort Austin, rent a companion in Texas, discreet companion service, LGBTQ-friendly escort Austin, digital link hub for escorts, rentbobby, gay companion Austin" />
+  <title>Austin Male Companion | RentBobby Digital Hub</title>
+</head>
+<body>
+  <header>
+    <h1>Austin Male Companion | RentBobby Digital Hub</h1>
+    <p><strong>Real connections. Real fun. All in one place.</strong></p>
+  </header>
+
+  <section>
+    <p>Welcome to the digital link hub of <strong>Bobby</strong>—your go-to <em>Austin male companion</em> for good times, great company, and zero awkward small talk (unless you're into that). Whether you're planning a night out, a weekend getaway, or just want someone who shows up, vibes, and looks good doing it—you’re in the right place.</p>
+
+    <h2>What’s here?</h2>
+    <ul>
+      <li><strong>Booking info</strong> if you're ready to connect</li>
+      <li><strong>Socials & content links</strong> to keep things spicy</li>
+      <li><strong>Brand updates</strong> in case you're the curious type</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Why RentBobby?</h2>
+    <p>Not your average <em>twunk escort in Austin</em>. Think: charm meets cheek. Aesthetics meet attitude. And yes, the biceps are real.</p>
+
+    <ul>
+      <li>✦ <strong>Discreet companion service</strong> — discretion always comes standard</li>
+      <li>✦ <strong>LGBTQ-friendly, obviously</strong> — this is an open, affirming space</li>
+      <li>✦ <strong>Chill, confident energy</strong> — zero pressure, all vibe</li>
+      <li>✦ <strong>Flexible for travel or local hangs</strong> — from dinner dates to day trips</li>
+      <li>✦ <strong>Austin-based, Texas-ready</strong> — yes, you can <em>rent a companion in Texas</em></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Who Books Bobby?</h2>
+    <p>If you’re:</p>
+    <ul>
+      <li>A gay man in or passing through Austin</li>
+      <li>Looking for a <em>gay companion Austin</em> that’s actually personable</li>
+      <li>Interested in one-on-one time that feels natural, not transactional</li>
+      <li>Wanting someone who blends into a dinner party but can also, uh, stand out when needed</li>
+    </ul>
+    <p>...you’re my kinda person.</p>
+  </section>
+
+  <section>
+    <h2>Where to Click Next</h2>
+    <ul>
+      <li>🔗 <a href="#">Book me here</a> – quick form, good times</li>
+      <li>📲 <a href="#">Follow on socials</a> – thirst traps, updates, and occasionally a meme</li>
+      <li>💌 <a href="#">Sign up for updates</a> – low-commitment, high-reward</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 RentBobby. All rights reserved.</p>
+  </footer>
+</body>
+</html>
