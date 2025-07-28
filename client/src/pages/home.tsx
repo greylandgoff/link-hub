@@ -7,6 +7,8 @@ import { ScreeningForm } from "@/components/screening-form";
 import { ReviewModal } from "@/components/review-modal";
 import { AgeGateBanner } from "@/components/age-gate-banner";
 import { FAQAccordion } from "@/components/faq-accordion";
+import { ImageGallery } from "@/components/image-gallery";
+import { QuickChat } from "@/components/quick-chat";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 // Analytics tracking with outbound link tracking
 const trackEvent = (event: string, category: string, label?: string) => {
@@ -34,6 +36,7 @@ export default function Home() {
   const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isScreeningFormOpen, setIsScreeningFormOpen] = useState(false);
+  const [isQuickChatOpen, setIsQuickChatOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
 
   // Fetch approved reviews
@@ -350,6 +353,15 @@ export default function Home() {
                 Leave Review
               </Button>
             </div>
+          </div>
+        </section>
+
+        {/* Interactive Gallery Section */}
+        <section className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.04}px)`}}>
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-2xl font-bold mb-8 text-center text-white">Gallery & Testimonials</h2>
+            <ImageGallery />
           </div>
         </section>
 
@@ -851,12 +863,29 @@ export default function Home() {
           </div>
         </footer>
 
-        {/* Sticky Floating Book Now Button */}
+        {/* Sticky Floating Action Buttons */}
         <div 
-          className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${
+          className={`fixed bottom-6 right-6 z-50 flex flex-col gap-3 transition-all duration-300 ${
             scrollY > 400 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
           }`}
         >
+          {/* Quick Chat Button */}
+          <Button 
+            onClick={() => {
+              trackEvent('quick_chat_open', 'engagement', 'floating_chat');
+              setIsQuickChatOpen(true);
+            }}
+            className="glass-effect p-4 rounded-full font-semibold hover-lift inline-flex items-center justify-center bg-gradient-to-r from-blue-600/40 to-cyan-600/40 border border-blue-400/60 hover:from-blue-600/50 hover:to-cyan-600/50 text-white shadow-2xl group"
+            style={{
+              backdropFilter: 'blur(20px) saturate(180%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.3)'
+            }}
+            title="Quick Chat"
+          >
+            <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+          </Button>
+
+          {/* Book Now Button */}
           <Button 
             onClick={() => {
               trackEvent('appointment_request', 'engagement', 'sticky_cta');
@@ -881,9 +910,9 @@ export default function Home() {
         >
           <div className="flex flex-col gap-3">
             <Button 
-              onClick={() => setIsContactModalOpen(true)}
+              onClick={() => setIsQuickChatOpen(true)}
               className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
-              title="Contact"
+              title="Quick Chat"
             >
               <MessageCircle className="w-5 h-5 text-gray-300 group-hover:text-white" />
             </Button>
@@ -923,6 +952,11 @@ export default function Home() {
       <ReviewModal 
         isOpen={isReviewModalOpen} 
         onClose={() => setIsReviewModalOpen(false)} 
+      />
+
+      <QuickChat 
+        isOpen={isQuickChatOpen} 
+        onClose={() => setIsQuickChatOpen(false)} 
       />
 
       {/* Photo Modal */}

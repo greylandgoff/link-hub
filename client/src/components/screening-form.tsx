@@ -29,6 +29,8 @@ interface ScreeningFormData {
 export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [formProgress, setFormProgress] = useState(0);
   const [formData, setFormData] = useState<ScreeningFormData>({
     name: "",
     email: "",
@@ -41,6 +43,28 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
     hotelBooked: "",
     interestsBoundaries: ""
   });
+
+  // Calculate form progress
+  const calculateProgress = (data: ScreeningFormData) => {
+    const requiredFields = [data.name, data.email, data.cityLocation, data.dates, data.length];
+    const optionalFields = [data.notes, data.interestsBoundaries];
+    const travelFields = data.requestTravel ? [data.arrivalAirport, data.hotelBooked] : [];
+    
+    const filledRequired = requiredFields.filter(field => field.trim() !== '').length;
+    const filledOptional = optionalFields.filter(field => field.trim() !== '').length;
+    const filledTravel = travelFields.filter(field => field.trim() !== '').length;
+    
+    const totalFields = requiredFields.length + optionalFields.length + travelFields.length;
+    const filledFields = filledRequired + filledOptional + filledTravel;
+    
+    return Math.round((filledFields / totalFields) * 100);
+  };
+
+  const handleInputChange = (field: keyof ScreeningFormData, value: string | boolean) => {
+    const newData = { ...formData, [field]: value };
+    setFormData(newData);
+    setFormProgress(calculateProgress(newData));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -133,20 +157,27 @@ Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
     }
   };
 
-  const handleInputChange = (field: keyof ScreeningFormData, value: string | boolean) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-black/90 backdrop-blur-xl border border-purple-500/20">
         <DialogHeader>
           <DialogTitle className="text-white text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Screening Request
+            Screening Request {submitSuccess && "✓"}
           </DialogTitle>
+          
+          {/* Progress Bar */}
+          <div className="mt-4">
+            <div className="flex justify-between text-sm text-gray-300 mb-2">
+              <span>Progress</span>
+              <span>{formProgress}% complete</span>
+            </div>
+            <div className="w-full bg-gray-700 rounded-full h-2">
+              <div 
+                className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${formProgress}%` }}
+              />
+            </div>
+          </div>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6">
