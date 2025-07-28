@@ -440,7 +440,7 @@ export default function Admin() {
                     <div className="mb-4">
                       <p className="text-stone-600 text-sm mb-2 font-medium">Services:</p>
                       <div className="flex flex-wrap gap-2">
-                        {review.service_types.map((service, idx) => (
+                        {review.serviceTypes?.map((service: string, idx: number) => (
                           <Badge key={idx} variant="outline" className="border-amber-300 text-amber-700 bg-amber-50">
                             {service}
                           </Badge>
@@ -449,10 +449,10 @@ export default function Admin() {
                     </div>
 
                     {/* Comments */}
-                    {review.additional_comments && (
+                    {review.additionalComments && (
                       <div className="p-3 bg-stone-50/80 rounded-lg border border-stone-200/50">
                         <p className="text-stone-700 text-sm">
-                          <span className="font-medium">Comments:</span> {review.additional_comments}
+                          <span className="font-medium">Comments:</span> {review.additionalComments}
                         </p>
                       </div>
                     )}
