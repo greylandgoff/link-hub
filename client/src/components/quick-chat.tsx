@@ -59,9 +59,14 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
         throw new Error(errorData.message || 'Failed to send message');
       }
     } catch (error) {
+      console.error('Quick chat error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Failed to send message';
+      
       toast({
-        title: "Failed to send",
-        description: "Please try the contact form or text directly.",
+        title: "Quick chat failed",
+        description: errorMessage.includes('required') 
+          ? "There was a technical issue. Please try again or use the contact form."
+          : "Message couldn't be sent. Please try again.",
         variant: "destructive",
       });
     } finally {
