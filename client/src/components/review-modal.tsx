@@ -46,12 +46,12 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
   const [formData, setFormData] = useState<ReviewForm>({
     name: "",
     email: "",
-    appearance: 5,
-    punctuality: 5,
-    communication: 5,
-    professionalism: 5,
-    chemistry: 5,
-    discretion: 5,
+    appearance: 0,
+    punctuality: 0,
+    communication: 0,
+    professionalism: 0,
+    chemistry: 0,
+    discretion: 0,
     wouldBookAgain: true,
     bookingProcessSmooth: true,
     matchedDescription: true,
@@ -75,6 +75,19 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
       toast({
         title: "Service Type Required", 
         description: "Please select at least one service type you experienced.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Validate that all ratings are provided (greater than 0)
+    const ratingFields = ['appearance', 'punctuality', 'communication', 'professionalism', 'chemistry', 'discretion'];
+    const unratedFields = ratingFields.filter(field => formData[field as keyof ReviewForm] === 0);
+    
+    if (unratedFields.length > 0) {
+      toast({
+        title: "Rating Required",
+        description: `Please provide ratings for: ${unratedFields.join(', ')}`,
         variant: "destructive"
       });
       return;
