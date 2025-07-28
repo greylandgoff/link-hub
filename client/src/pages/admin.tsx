@@ -19,13 +19,13 @@ interface Review {
   professionalism: number;
   chemistry: number;
   discretion: number;
-  would_book_again: boolean;
-  booking_process_smooth: boolean;
-  matched_description: boolean;
-  service_types: string[];
-  additional_comments: string;
-  is_approved: boolean;
-  created_at: string;
+  wouldBookAgain: boolean;
+  bookingProcessSmooth: boolean;
+  matchedDescription: boolean;
+  serviceTypes: string[];
+  additionalComments: string;
+  isApproved: boolean;
+  createdAt: string;
 }
 
 interface Appointment {
@@ -33,15 +33,15 @@ interface Appointment {
   name: string;
   email: string;
   phone: string;
-  appointment_date: string;
-  appointment_time: string;
+  appointmentDate: string;
+  appointmentTime: string;
   duration: string;
-  service_type: string;
+  serviceType: string;
   location: string;
-  special_requests: string;
+  specialRequests: string;
   status: string;
   source: string;
-  created_at: string;
+  createdAt: string;
 }
 
 export default function Admin() {
@@ -335,7 +335,7 @@ export default function Admin() {
                           </div>
                           <div className="flex items-center gap-2 text-stone-600">
                             <Calendar className="w-3 h-3 text-amber-600" />
-                            {appointment.appointment_date} at {appointment.appointment_time}
+                            {appointment.appointmentDate} at {appointment.appointmentTime}
                           </div>
                           <div className="flex items-center gap-2 text-stone-600">
                             <Clock className="w-3 h-3 text-amber-600" />
@@ -347,21 +347,21 @@ export default function Admin() {
                           </div>
                           <div className="flex items-center gap-2 text-stone-600">
                             <Badge variant="outline" className="border-stone-300 text-stone-700 bg-white/50">
-                              {appointment.service_type}
+                              {appointment.serviceType}
                             </Badge>
                           </div>
                         </div>
                         
-                        {appointment.special_requests && (
+                        {appointment.specialRequests && (
                           <div className="mt-3 p-3 bg-amber-50/50 rounded-lg border border-amber-200/50">
                             <p className="text-stone-700 text-sm">
-                              <span className="font-medium">Special Requests:</span> {appointment.special_requests}
+                              <span className="font-medium">Special Requests:</span> {appointment.specialRequests}
                             </p>
                           </div>
                         )}
                         
                         <p className="text-stone-500 text-xs">
-                          Submitted: {new Date(appointment.created_at).toLocaleString()}
+                          Submitted: {new Date(appointment.createdAt).toLocaleString()}
                         </p>
                       </div>
                     </div>
@@ -381,23 +381,23 @@ export default function Admin() {
                         <h3 className="text-lg font-semibold text-stone-800">{review.name}</h3>
                         <p className="text-stone-600 text-sm">{review.email}</p>
                         <p className="text-stone-500 text-xs">
-                          {new Date(review.created_at).toLocaleDateString()}
+                          {new Date(review.createdAt).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="flex gap-2">
                         <Badge 
-                          variant={review.is_approved ? "default" : "secondary"}
-                          className={review.is_approved ? "bg-green-100 text-green-800 border-green-200" : "bg-stone-100 text-stone-600 border-stone-200"}
+                          variant={review.isApproved ? "default" : "secondary"}
+                          className={review.isApproved ? "bg-green-100 text-green-800 border-green-200" : "bg-stone-100 text-stone-600 border-stone-200"}
                         >
-                          {review.is_approved ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
-                          {review.is_approved ? "Published" : "Hidden"}
+                          {review.isApproved ? <Eye className="w-3 h-3 mr-1" /> : <EyeOff className="w-3 h-3 mr-1" />}
+                          {review.isApproved ? "Published" : "Hidden"}
                         </Badge>
                         <Button
                           size="sm"
-                          onClick={() => approveMutation.mutate({ id: review.id, approved: !review.is_approved })}
+                          onClick={() => approveMutation.mutate({ id: review.id, approved: !review.isApproved })}
                           className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md"
                         >
-                          {review.is_approved ? "Hide" : "Approve"}
+                          {review.isApproved ? "Hide" : "Approve"}
                         </Button>
                         <Button
                           size="sm"
