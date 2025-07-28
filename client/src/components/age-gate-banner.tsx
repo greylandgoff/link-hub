@@ -23,6 +23,7 @@ export function AgeGateBanner() {
     
     if (!requireAgeGate) {
       console.log('Age gate disabled by environment variable');
+      setIsVisible(false);
       return;
     }
     
@@ -34,6 +35,7 @@ export function AgeGateBanner() {
       setIsVisible(true);
     } else {
       console.log('Age gate already acknowledged');
+      setIsVisible(false);
     }
   }, [requireAgeGate]);
 

@@ -593,20 +593,20 @@ export default function Home() {
                           <h4 className="text-white font-semibold mb-3 text-base">Quick Questions</h4>
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="flex items-center gap-2">
-                              <span className={`text-lg ${review.wouldBookAgain ? 'text-green-400' : 'text-red-400'}`}>
-                                {review.wouldBookAgain ? '✓' : '✗'}
+                              <span className={`text-xl font-bold ${review.wouldBookAgain === true ? 'text-green-400' : 'text-red-400'}`}>
+                                {review.wouldBookAgain === true ? '✅' : '❌'}
                               </span>
                               <span className="text-gray-200 text-sm">Would book again</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className={`text-lg ${review.bookingProcessSmooth ? 'text-green-400' : 'text-red-400'}`}>
-                                {review.bookingProcessSmooth ? '✓' : '✗'}
+                              <span className={`text-xl font-bold ${review.bookingProcessSmooth === true ? 'text-green-400' : 'text-red-400'}`}>
+                                {review.bookingProcessSmooth === true ? '✅' : '❌'}
                               </span>
                               <span className="text-gray-200 text-sm">Smooth booking</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className={`text-lg ${review.matchedDescription ? 'text-green-400' : 'text-red-400'}`}>
-                                {review.matchedDescription ? '✓' : '✗'}
+                              <span className={`text-xl font-bold ${review.matchedDescription === true ? 'text-green-400' : 'text-red-400'}`}>
+                                {review.matchedDescription === true ? '✅' : '❌'}
                               </span>
                               <span className="text-gray-200 text-sm">Matched description</span>
                             </div>
