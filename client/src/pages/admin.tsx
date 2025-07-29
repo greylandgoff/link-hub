@@ -222,7 +222,7 @@ export default function Admin() {
   const filteredAppointments = appointments?.filter(appointment =>
     appointment.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     appointment.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    appointment.phone.toLowerCase().includes(searchTerm.toLowerCase())
+    (appointment.phone || '').toLowerCase().includes(searchTerm.toLowerCase())
   ) || [];
 
   const filteredReviews = reviews?.filter(review =>
