@@ -151,7 +151,7 @@ export default function Home() {
     {
       platform: "rentmen",
       name: "Rentmen",
-      description: "Companion services", 
+      description: "Boyfriend experience listings", 
       url: "https://rent.men/BobbyAtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
@@ -159,7 +159,7 @@ export default function Home() {
     {
       platform: "hunqz",
       name: "Hunqz",
-      description: "Professional directory", 
+      description: "GFE/BFE profile", 
       url: "https://hunqz.com/bobby-austin",
       icon: Users,
       neonColor: "hsl(160, 100%, 50%)"
@@ -316,7 +316,7 @@ export default function Home() {
               Austin private host + travel companion.
             </h2>
             <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto text-base">
-              Professional companion services based in Austin, TX. Available for domestic or international travel for authentic connections and meaningful experiences.
+              Professional companion services based in Austin, TX. Available for domestic or international travel. Specializing in authentic connections and boyfriend-style experiences.
             </p>
 
             {/* Primary CTA */}
@@ -396,9 +396,9 @@ export default function Home() {
                 <h3 className="text-lg font-semibold mb-3 text-white">LGBTQ-Friendly</h3>
                 <ul className="text-gray-300 text-sm space-y-2 text-left">
                   <li>• Open, affirming space</li>
-                  <li>• Understanding community</li>
+                  <li>• Natural chemistry preferred</li>
                   <li>• No judgment zone</li>
-                  <li>• Authentic connections</li>
+                  <li>• Genuine boyfriend vibes</li>
                 </ul>
               </div>
 
@@ -411,9 +411,9 @@ export default function Home() {
                 <h3 className="text-lg font-semibold mb-3 text-white">Travel & Local</h3>
                 <ul className="text-gray-300 text-sm space-y-2 text-left">
                   <li>• Austin-based availability</li>
-                  <li>• Domestic & international travel</li>
-                  <li>• Business events welcome</li>
-                  <li>• Social gatherings</li>
+                  <li>• Weekend getaways & trips</li>
+                  <li>• Plus-one for events</li>
+                  <li>• Natural date experiences</li>
                 </ul>
               </div>
             </div>

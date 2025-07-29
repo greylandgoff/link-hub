@@ -9,11 +9,19 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   {
     question: "Do you travel?",
-    answer: "Yes. Local, U.S., and international when travel + room handled in advance."
+    answer: "Yes. Local, U.S., and international when travel + room handled in advance. Perfect as your companion for trips or events."
   },
   {
     question: "Kink friendly?", 
     answer: "Open to explore; we talk limits first in screening."
+  },
+  {
+    question: "What's your vibe?",
+    answer: "Think boyfriend energy – genuine connection, easy conversation, natural chemistry. No awkward pretending."
+  },
+  {
+    question: "Overnight stays?",
+    answer: "Absolutely. Extended dates and overnights are perfect for that authentic boyfriend experience."
   }
 ];
 
