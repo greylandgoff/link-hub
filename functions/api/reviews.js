@@ -58,7 +58,19 @@ export async function onRequest(context) {
         console.log(`Public query successful: Found ${reviews.length} approved reviews`);
       }
       
-      return new Response(JSON.stringify(reviews), {
+      // Transform snake_case to camelCase for frontend compatibility
+      const transformedReviews = reviews.map(review => ({
+        ...review,
+        wouldBookAgain: review.would_book_again,
+        bookingProcessSmooth: review.booking_process_smooth,
+        matchedDescription: review.matched_description,
+        serviceTypes: review.service_types,
+        additionalComments: review.additional_comments,
+        isApproved: review.is_approved,
+        createdAt: review.created_at
+      }));
+      
+      return new Response(JSON.stringify(transformedReviews), {
         headers: { 
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*'

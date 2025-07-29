@@ -16,8 +16,13 @@ export async function onRequest(context) {
     try {
       const appointmentData = await request.json();
       
-      // Validate required fields
-      if (!appointmentData.name || !appointmentData.email || !appointmentData.date || !appointmentData.time) {
+      // Validate required fields - handle both snake_case and expected field names
+      const date = appointmentData.appointment_date || appointmentData.date;
+      const time = appointmentData.appointment_time || appointmentData.time;
+      const service = appointmentData.service_type || appointmentData.service;
+      const specialRequests = appointmentData.special_requests || appointmentData.specialRequests || appointmentData.message;
+      
+      if (!appointmentData.name || !appointmentData.email || !date || !time) {
         return new Response(JSON.stringify({ 
           error: 'Name, email, date, and time are required' 
         }), {
@@ -39,7 +44,7 @@ export async function onRequest(context) {
               from: { email: 'bobby@rentbobby.com', name: 'RentBobby Appointments' },
               to: [{ email: 'bobby@rentbobby.com' }],
               subject: `📅 New Appointment Request - ${appointmentData.name}`,
-              text: `New appointment request:\n\nClient: ${appointmentData.name}\nEmail: ${appointmentData.email}\nPhone: ${appointmentData.phone || 'Not provided'}\nDate: ${appointmentData.date}\nTime: ${appointmentData.time}\nDuration: ${appointmentData.duration || 'Not specified'}\nService: ${appointmentData.service || 'Not specified'}\nLocation: ${appointmentData.location || 'Not specified'}\n\nMessage: ${appointmentData.message || 'None'}\n\nConfirm via Calendly: ${env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}`
+              text: `New appointment request:\n\nClient: ${appointmentData.name}\nEmail: ${appointmentData.email}\nPhone: ${appointmentData.phone || 'Not provided'}\nDate: ${date}\nTime: ${time}\nDuration: ${appointmentData.duration || 'Not specified'}\nService: ${service || 'Not specified'}\nLocation: ${appointmentData.location || 'Not specified'}\n\nMessage: ${specialRequests || 'None'}\n\nConfirm via Calendly: ${env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}`
             })
           });
           
@@ -57,7 +62,7 @@ export async function onRequest(context) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               value1: `📅 New Appointment: ${appointmentData.name}`,
-              value2: `${appointmentData.date} at ${appointmentData.time} - ${appointmentData.service || 'Service not specified'}`,
+              value2: `${date} at ${time} - ${service || 'Service not specified'}`,
               value3: `Email: ${appointmentData.email}`
             })
           });
