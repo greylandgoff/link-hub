@@ -31,6 +31,20 @@ export async function onRequest(context) {
       
       const sql = neon(env.DATABASE_URL);
       
+      // First, check if the appointments table exists and has data
+      let tableCheck;
+      try {
+        tableCheck = await sql`
+          SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE table_name = 'appointments'
+          ) as table_exists
+        `;
+        console.log('Table existence check:', tableCheck);
+      } catch (checkError) {
+        console.error('Table check error:', checkError);
+      }
+      
       // Fetch all appointments
       const appointments = await sql`
         SELECT * FROM appointments 
