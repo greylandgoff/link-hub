@@ -18,11 +18,13 @@ export async function onRequest(context) {
     try {
       const appointmentData = await request.json();
       
-      // Validate required fields - handle both snake_case and expected field names
-      const date = appointmentData.appointment_date || appointmentData.date;
-      const time = appointmentData.appointment_time || appointmentData.time;
-      const service = appointmentData.service_type || appointmentData.service;
-      const specialRequests = appointmentData.special_requests || appointmentData.specialRequests || appointmentData.message;
+      // Handle field name variations from different forms
+      const date = appointmentData.appointment_date || appointmentData.date || appointmentData.appointmentDate;
+      const time = appointmentData.appointment_time || appointmentData.time || appointmentData.appointmentTime;
+      const service = appointmentData.service_type || appointmentData.service || appointmentData.serviceType;
+      const specialRequests = appointmentData.special_requests || appointmentData.specialRequests || appointmentData.message || appointmentData.notes;
+      const duration = appointmentData.duration || appointmentData.length || '2 hours';
+      const location = appointmentData.location || appointmentData.cityLocation || 'Austin';
       
       if (!appointmentData.name || !appointmentData.email || !date || !time) {
         return new Response(JSON.stringify({ 
@@ -52,7 +54,7 @@ export async function onRequest(context) {
       try {
         const sql = neon(env.DATABASE_URL);
         
-        // Insert appointment using raw SQL to handle schema differences
+        // Insert appointment using raw SQL with correct column names
         const newAppointment = await sql`
           INSERT INTO appointments (
             name, email, phone, appointment_date, appointment_time,
@@ -64,9 +66,9 @@ export async function onRequest(context) {
             ${appointmentData.phone || null},
             ${date},
             ${time},
-            ${appointmentData.duration || '2 hours'},
+            ${duration},
             ${service || 'Companion Services'},
-            ${appointmentData.location || 'Austin'},
+            ${location},
             ${specialRequests || null},
             'pending',
             ${appointmentData.source || 'website'},
