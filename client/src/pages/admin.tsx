@@ -79,7 +79,7 @@ export default function Admin() {
 
   const approveMutation = useMutation({
     mutationFn: async ({ id, approved }: { id: number; approved: boolean }) => {
-      const response = await fetch(`/api/reviews/${id}/approve`, {
+      const response = await fetch(`/api/admin/reviews/${id}/approve`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ approved }),
@@ -88,7 +88,7 @@ export default function Admin() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
       toast({
         title: "Success",
         description: "Review status updated successfully",
@@ -105,14 +105,14 @@ export default function Admin() {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await fetch(`/api/reviews/${id}`, {
+      const response = await fetch(`/api/admin/reviews/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Failed to delete review");
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/reviews"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/reviews"] });
       toast({
         title: "Success",
         description: "Review deleted successfully",
