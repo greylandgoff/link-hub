@@ -54,12 +54,12 @@ export async function onRequest(context) {
       try {
         const sql = neon(env.DATABASE_URL);
         
-        // Insert appointment using raw SQL with correct column names
+        // Insert appointment using raw SQL - adapted for production schema
         const newAppointment = await sql`
           INSERT INTO appointments (
             name, email, phone, appointment_date, appointment_time,
             duration, service_type, location, special_requests,
-            status, source, created_at, updated_at
+            status, created_at
           ) VALUES (
             ${appointmentData.name}, 
             ${appointmentData.email},
@@ -71,8 +71,6 @@ export async function onRequest(context) {
             ${location},
             ${specialRequests || null},
             'pending',
-            ${appointmentData.source || 'website'},
-            NOW(),
             NOW()
           ) RETURNING id
         `;

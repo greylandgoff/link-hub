@@ -124,6 +124,27 @@ export async function onRequest(context) {
               results.push('Added special_requests column');
             }
           }
+          
+          // Check for missing columns that might not exist in old schema
+          if (!columnNames.includes('source')) {
+            await sql`ALTER TABLE appointments ADD COLUMN source TEXT DEFAULT 'website' NOT NULL`;
+            results.push('Added source column');
+          }
+          
+          if (!columnNames.includes('make_webhook_sent')) {
+            await sql`ALTER TABLE appointments ADD COLUMN make_webhook_sent BOOLEAN DEFAULT false NOT NULL`;
+            results.push('Added make_webhook_sent column');
+          }
+          
+          if (!columnNames.includes('make_webhook_response')) {
+            await sql`ALTER TABLE appointments ADD COLUMN make_webhook_response TEXT`;
+            results.push('Added make_webhook_response column');
+          }
+          
+          if (!columnNames.includes('updated_at')) {
+            await sql`ALTER TABLE appointments ADD COLUMN updated_at TIMESTAMP DEFAULT NOW() NOT NULL`;
+            results.push('Added updated_at column');
+          }
         }
         
         // Get final count
