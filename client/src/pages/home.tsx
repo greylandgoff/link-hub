@@ -10,6 +10,7 @@ import { FAQAccordion } from "@/components/faq-accordion";
 import { ImageGallery } from "@/components/image-gallery";
 import { QuickChat } from "@/components/quick-chat";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useHaptic } from "@/hooks/use-haptic";
 // Analytics tracking with outbound link tracking
 const trackEvent = (event: string, category: string, label?: string) => {
   console.log('Analytics:', event, category, label);
@@ -38,6 +39,9 @@ export default function Home() {
   const [isScreeningFormOpen, setIsScreeningFormOpen] = useState(false);
   const [isQuickChatOpen, setIsQuickChatOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  
+  // Initialize haptic feedback
+  const { triggerHaptic } = useHaptic();
 
   // Fetch approved reviews
   const { data: reviews = [], isLoading: reviewsLoading, error: reviewsError } = useQuery({
@@ -272,13 +276,19 @@ export default function Home() {
               </div>
               <div className="flex gap-2">
                 <Button 
-                  onClick={() => setIsQRModalOpen(true)}
+                  onClick={() => {
+                    triggerHaptic('light');
+                    setIsQRModalOpen(true);
+                  }}
                   className="glass-effect px-3 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
                 >
                   <QrCode className="w-4 h-4" />
                 </Button>
                 <Button 
-                  onClick={() => setIsContactModalOpen(true)}
+                  onClick={() => {
+                    triggerHaptic('light');
+                    setIsContactModalOpen(true);
+                  }}
                   className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
                 >
                   <MessageCircle className="w-4 h-4 mr-2" />
@@ -323,6 +333,7 @@ export default function Home() {
             <div className="flex justify-center mb-8">
               <Button 
                 onClick={() => {
+                  triggerHaptic('medium');
                   trackEvent('appointment_request', 'engagement', 'hero_cta');
                   setIsScreeningFormOpen(true);
                 }}
@@ -336,7 +347,10 @@ export default function Home() {
             {/* Secondary Actions */}
             <div className="flex justify-center gap-3 mb-8 flex-wrap">
               <Button 
-                onClick={handleSaveContact}
+                onClick={() => {
+                  triggerHaptic('light');
+                  handleSaveContact();
+                }}
                 className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
               >
                 <User className="w-4 h-4" />
@@ -344,6 +358,7 @@ export default function Home() {
               </Button>
               <Button 
                 onClick={() => {
+                  triggerHaptic('light');
                   trackEvent('review_modal_open', 'engagement', 'profile_review');
                   setIsReviewModalOpen(true);
                 }}
@@ -461,6 +476,7 @@ export default function Home() {
               </p>
               <Button 
                 onClick={() => {
+                  triggerHaptic('medium');
                   trackEvent('appointment_request', 'engagement', 'booking_section');
                   setIsScreeningFormOpen(true);
                 }}
@@ -485,7 +501,10 @@ export default function Home() {
                 return (
                   <button
                     key={link.platform}
-                    onClick={() => handleLinkClick(link.platform, link.url)}
+                    onClick={() => {
+                      triggerHaptic('light');
+                      handleLinkClick(link.platform, link.url);
+                    }}
                     className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
                   >
                     <div className="flex items-center gap-4">
@@ -515,7 +534,10 @@ export default function Home() {
                   return (
                     <button
                       key={payment.platform}
-                      onClick={() => handleLinkClick(payment.platform, payment.url)}
+                      onClick={() => {
+                        triggerHaptic('light');
+                        handleLinkClick(payment.platform, payment.url);
+                      }}
                       className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20 mb-4"
                     >
                       <div className="flex items-center gap-4">
@@ -571,7 +593,10 @@ export default function Home() {
                   Help others discover quality companion services by sharing your authentic experience locally and during travel.
                 </p>
                 <Button 
-                  onClick={() => setIsReviewModalOpen(true)}
+                  onClick={() => {
+                    triggerHaptic('medium');
+                    setIsReviewModalOpen(true);
+                  }}
                   className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   ⭐ Leave Your Review
@@ -872,6 +897,7 @@ export default function Home() {
           {/* Quick Chat Button */}
           <Button 
             onClick={() => {
+              triggerHaptic('light');
               trackEvent('quick_chat_open', 'engagement', 'floating_chat');
               setIsQuickChatOpen(true);
             }}
@@ -888,6 +914,7 @@ export default function Home() {
           {/* Book Now Button */}
           <Button 
             onClick={() => {
+              triggerHaptic('medium');
               trackEvent('appointment_request', 'engagement', 'sticky_cta');
               setIsScreeningFormOpen(true);
             }}
@@ -910,21 +937,30 @@ export default function Home() {
         >
           <div className="flex flex-col gap-3">
             <Button 
-              onClick={() => setIsQuickChatOpen(true)}
+              onClick={() => {
+                triggerHaptic('light');
+                setIsQuickChatOpen(true);
+              }}
               className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
               title="Quick Chat"
             >
               <MessageCircle className="w-5 h-5 text-gray-300 group-hover:text-white" />
             </Button>
             <Button 
-              onClick={() => setIsQRModalOpen(true)}
+              onClick={() => {
+                triggerHaptic('light');
+                setIsQRModalOpen(true);
+              }}
               className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
               title="QR Code"
             >
               <QrCode className="w-5 h-5 text-gray-300 group-hover:text-white" />
             </Button>
             <Button 
-              onClick={() => setIsReviewModalOpen(true)}
+              onClick={() => {
+                triggerHaptic('light');
+                setIsReviewModalOpen(true);
+              }}
               className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
               title="Leave Review"
             >

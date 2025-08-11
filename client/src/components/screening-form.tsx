@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
+import { useHaptic } from "@/hooks/use-haptic";
 import { User, Mail, MapPin, Calendar, Clock, MessageSquare, Plane } from "lucide-react";
 
 interface ScreeningFormProps {
@@ -28,6 +29,7 @@ interface ScreeningFormData {
 
 export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
   const { toast } = useToast();
+  const { triggerHaptic } = useHaptic();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [formProgress, setFormProgress] = useState(0);
@@ -69,8 +71,12 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Trigger haptic feedback for form submission
+    triggerHaptic('medium');
+    
     // Validate required fields
     if (!formData.name || !formData.email || !formData.cityLocation || !formData.dates || !formData.length) {
+      triggerHaptic('error');
       toast({
         title: "Required fields missing",
         description: "Please fill in all required fields marked with *",
@@ -125,6 +131,9 @@ Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
       const result = await response.json();
       console.log('Screening submission result:', result);
 
+      // Success haptic feedback
+      triggerHaptic('success');
+      
       toast({
         title: "Screening Request Submitted",
         description: "Thank you! I'll review your information and get back to you within 24 hours.",
@@ -147,6 +156,8 @@ Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
       onClose();
     } catch (error) {
       console.error('Screening submission error:', error);
+      // Error haptic feedback
+      triggerHaptic('error');
       toast({
         title: "Submission Failed",
         description: error instanceof Error ? error.message : "Please try again or contact me directly.",

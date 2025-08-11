@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Star, User, Mail, MessageSquare, Heart, Clock, Users, Shield, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useHaptic } from "@/hooks/use-haptic";
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ const serviceOptions = [
 
 export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
   const { toast } = useToast();
+  const { triggerHaptic } = useHaptic();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStep, setSubmissionStep] = useState<'form' | 'submitting' | 'success'>('form');
   const [reviewId, setReviewId] = useState<number | null>(null);
@@ -64,7 +66,11 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Trigger haptic feedback on submit
+    triggerHaptic('medium');
+    
     if (!formData.name || !formData.email) {
+      triggerHaptic('error');
       toast({
         title: "Missing Information",
         description: "Please provide your name and email address.",
