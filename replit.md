@@ -101,6 +101,8 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - HAPTIC FEEDBACK IMPLEMENTATION: Added mobile vibration feedback to all button interactions using Vibration API - different patterns for navigation (light), CTAs (medium), errors, and success confirmations (August 11, 2025)
 - APPOINTMENT SUBMISSION ERROR 500 RESOLVED: Fixed production database schema mismatch causing submission failures - appointments now successfully save to production database with ID tracking (August 11, 2025)
 - SYSTEM HEALTH CHECK COMPLETED: Verified all components working correctly - appointment submissions, reviews display, admin panel, database connectivity all operational. User confirmed satisfaction with text message notifications system (August 11, 2025)
+- FORM-DATA DEPENDENCY SECURITY UPDATE VERIFIED: Confirmed app still works correctly after form-data package update - it's only a transitive dependency from Twilio/Axios, not directly used (August 18, 2025)
+- ONLYFANS LINK UPDATED: Changed OnlyFans URL from https://onlyfans.com/bobbyatx to https://onlyfans.com/bobbyatx/c1 per user request (August 18, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash

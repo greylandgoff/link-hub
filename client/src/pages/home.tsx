@@ -148,7 +148,7 @@ export default function Home() {
       platform: "onlyfans",
       name: "OnlyFans", 
       description: "Extra spicy content",
-      url: "https://onlyfans.com/bobbyatx",
+      url: "https://onlyfans.com/bobbyatx/c1",
       icon: User,
       neonColor: "hsl(320, 100%, 60%)"
     },
