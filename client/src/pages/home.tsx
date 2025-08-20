@@ -9,7 +9,7 @@ import { AgeGateBanner } from "@/components/age-gate-banner";
 import { FAQAccordion } from "@/components/faq-accordion";
 import { ImageGallery } from "@/components/image-gallery";
 import { QuickChat } from "@/components/quick-chat";
-import { QuickHelpTooltip } from "@/components/quick-help-tooltip";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useHaptic } from "@/hooks/use-haptic";
 // Analytics tracking with outbound link tracking
@@ -285,18 +285,16 @@ export default function Home() {
                 >
                   <QrCode className="w-4 h-4" />
                 </Button>
-                <QuickHelpTooltip context="contact">
-                  <Button 
-                    onClick={() => {
-                      triggerHaptic('light');
-                      setIsContactModalOpen(true);
-                    }}
-                    className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
-                  >
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    Contact
-                  </Button>
-                </QuickHelpTooltip>
+                <Button 
+                  onClick={() => {
+                    triggerHaptic('light');
+                    setIsContactModalOpen(true);
+                  }}
+                  className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Contact
+                </Button>
               </div>
             </nav>
           </div>
@@ -334,19 +332,17 @@ export default function Home() {
 
             {/* Primary CTA */}
             <div className="flex justify-center mb-8">
-              <QuickHelpTooltip context="booking">
-                <Button 
-                  onClick={() => {
-                    triggerHaptic('medium');
-                    trackEvent('appointment_request', 'engagement', 'hero_cta');
-                    setIsScreeningFormOpen(true);
-                  }}
-                  className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
-                >
-                  <Calendar className="w-5 h-5" />
-                  Book Now
-                </Button>
-              </QuickHelpTooltip>
+              <Button 
+                onClick={() => {
+                  triggerHaptic('medium');
+                  trackEvent('appointment_request', 'engagement', 'hero_cta');
+                  setIsScreeningFormOpen(true);
+                }}
+                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
+              >
+                <Calendar className="w-5 h-5" />
+                Book Now
+              </Button>
             </div>
 
             {/* Secondary Actions */}
@@ -361,19 +357,17 @@ export default function Home() {
                 <User className="w-4 h-4" />
                 Save Contact
               </Button>
-              <QuickHelpTooltip context="review">
-                <Button 
-                  onClick={() => {
-                    triggerHaptic('light');
-                    trackEvent('review_modal_open', 'engagement', 'profile_review');
-                    setIsReviewModalOpen(true);
-                  }}
-                  className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/30 hover:from-purple-600/30 hover:to-blue-600/30"
-                >
-                  <Star className="w-4 h-4" />
-                  Leave Review
-                </Button>
-              </QuickHelpTooltip>
+              <Button 
+                onClick={() => {
+                  triggerHaptic('light');
+                  trackEvent('review_modal_open', 'engagement', 'profile_review');
+                  setIsReviewModalOpen(true);
+                }}
+                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/30 hover:from-purple-600/30 hover:to-blue-600/30"
+              >
+                <Star className="w-4 h-4" />
+                Leave Review
+              </Button>
             </div>
           </div>
         </section>
@@ -384,8 +378,7 @@ export default function Home() {
           <div className="max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-6 text-center text-white">Connect</h2>
             
-            <QuickHelpTooltip context="social">
-              <div className="space-y-4">
+            <div className="space-y-4">
               {socialLinks.map((link) => {
                 const IconComponent = link.icon;
                 return (
@@ -417,8 +410,7 @@ export default function Home() {
               })}
 
               {/* Payment Options */}
-              <QuickHelpTooltip context="payment">
-                <div className="mt-8">
+              <div className="mt-8">
                   <h3 className="text-xl font-bold text-white mb-4 text-center">Support & Tips</h3>
                 {paymentLinks.map((payment) => {
                   const IconComponent = payment.icon;
@@ -454,10 +446,8 @@ export default function Home() {
                     Apple Cash available via text/contact form
                   </p>
                 </div>
-                </div>
-              </QuickHelpTooltip>
               </div>
-            </QuickHelpTooltip>
+            </div>
           </div>
         </section>
 
@@ -466,9 +456,7 @@ export default function Home() {
                  style={{transform: `translateY(${scrollY * 0.04}px)`}}>
           <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl font-bold mb-8 text-center text-white">Gallery & Testimonials</h2>
-            <QuickHelpTooltip context="gallery">
-              <ImageGallery />
-            </QuickHelpTooltip>
+            <ImageGallery />
           </div>
         </section>
 
@@ -566,19 +554,17 @@ export default function Home() {
                   : "Contact for current rates and availability."
                 }
               </p>
-              <QuickHelpTooltip context="screening">
-                <Button 
-                  onClick={() => {
-                    triggerHaptic('medium');
-                    trackEvent('appointment_request', 'engagement', 'booking_section');
-                    setIsScreeningFormOpen(true);
-                  }}
-                  className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
-                >
-                  <Calendar className="w-5 h-5" />
-                  Start Screening
-                </Button>
-              </QuickHelpTooltip>
+              <Button 
+                onClick={() => {
+                  triggerHaptic('medium');
+                  trackEvent('appointment_request', 'engagement', 'booking_section');
+                  setIsScreeningFormOpen(true);
+                }}
+                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
+              >
+                <Calendar className="w-5 h-5" />
+                Start Screening
+              </Button>
             </div>
           </div>
         </section>
