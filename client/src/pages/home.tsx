@@ -371,6 +371,85 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Connect Section - Moved to top */}
+        <section className="py-8 px-4"
+                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
+          <div className="max-w-md mx-auto">
+            <h2 className="text-2xl font-bold mb-6 text-center text-white">Connect</h2>
+            
+            <div className="space-y-4">
+              {socialLinks.map((link) => {
+                const IconComponent = link.icon;
+                return (
+                  <button
+                    key={link.platform}
+                    onClick={() => {
+                      triggerHaptic('light');
+                      handleLinkClick(link.platform, link.url);
+                    }}
+                    className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                           style={{background: `radial-gradient(circle, ${link.neonColor}, ${link.neonColor}80)`, 
+                                   boxShadow: `0 0 20px ${link.neonColor}60`}}>
+                        <IconComponent className="text-white text-xl w-6 h-6" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <h3 className="font-semibold text-white">{link.name}</h3>
+                        <p className="text-gray-300 text-sm">{link.description}</p>
+                      </div>
+                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
+                           style={{color: link.neonColor}}>
+                        →
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+
+              {/* Payment Options */}
+              <div className="mt-8">
+                <h3 className="text-xl font-bold text-white mb-4 text-center">Support & Tips</h3>
+                {paymentLinks.map((payment) => {
+                  const IconComponent = payment.icon;
+                  return (
+                    <button
+                      key={payment.platform}
+                      onClick={() => {
+                        triggerHaptic('light');
+                        handleLinkClick(payment.platform, payment.url);
+                      }}
+                      className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20 mb-4"
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                             style={{background: `radial-gradient(circle, ${payment.neonColor}, ${payment.neonColor}80)`, 
+                                     boxShadow: `0 0 20px ${payment.neonColor}60`}}>
+                          <IconComponent className="text-white text-xl w-6 h-6" />
+                        </div>
+                        <div className="flex-1 text-left">
+                          <h3 className="font-semibold text-white">{payment.name}</h3>
+                          <p className="text-gray-300 text-sm">{payment.handle}</p>
+                        </div>
+                        <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
+                             style={{color: payment.neonColor}}>
+                          →
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+                <div className="text-center mt-4">
+                  <p className="text-gray-400 text-xs">
+                    Apple Cash available via text/contact form
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Interactive Gallery Section */}
         <section className="py-12 px-4"
                  style={{transform: `translateY(${scrollY * 0.04}px)`}}>
@@ -485,85 +564,6 @@ export default function Home() {
                 <Calendar className="w-5 h-5" />
                 Start Screening
               </Button>
-            </div>
-          </div>
-        </section>
-
-        {/* Connect Section */}
-        <section className="py-8 px-4"
-                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
-          <div className="max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-center text-white">Connect</h2>
-            
-            <div className="space-y-4">
-              {socialLinks.map((link) => {
-                const IconComponent = link.icon;
-                return (
-                  <button
-                    key={link.platform}
-                    onClick={() => {
-                      triggerHaptic('light');
-                      handleLinkClick(link.platform, link.url);
-                    }}
-                    className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                           style={{background: `radial-gradient(circle, ${link.neonColor}, ${link.neonColor}80)`, 
-                                   boxShadow: `0 0 20px ${link.neonColor}60`}}>
-                        <IconComponent className="text-white text-xl w-6 h-6" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <h3 className="font-semibold text-white">{link.name}</h3>
-                        <p className="text-gray-300 text-sm">{link.description}</p>
-                      </div>
-                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
-                           style={{color: link.neonColor}}>
-                        →
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-
-              {/* Payment Options */}
-              <div className="mt-8">
-                <h3 className="text-xl font-bold text-white mb-4 text-center">Support & Tips</h3>
-                {paymentLinks.map((payment) => {
-                  const IconComponent = payment.icon;
-                  return (
-                    <button
-                      key={payment.platform}
-                      onClick={() => {
-                        triggerHaptic('light');
-                        handleLinkClick(payment.platform, payment.url);
-                      }}
-                      className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20 mb-4"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                             style={{background: `radial-gradient(circle, ${payment.neonColor}, ${payment.neonColor}80)`, 
-                                     boxShadow: `0 0 20px ${payment.neonColor}60`}}>
-                          <IconComponent className="text-white text-xl w-6 h-6" />
-                        </div>
-                        <div className="flex-1 text-left">
-                          <h3 className="font-semibold text-white">{payment.name}</h3>
-                          <p className="text-gray-300 text-sm">{payment.handle}</p>
-                        </div>
-                        <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
-                             style={{color: payment.neonColor}}>
-                          →
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-                <div className="text-center mt-4">
-                  <p className="text-gray-400 text-xs">
-                    Apple Cash available via text/contact form
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </section>
