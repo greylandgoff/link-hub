@@ -395,10 +395,10 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg font-semibold mb-3 text-white">Discreet Companion</h3>
                 <ul className="text-gray-300 text-sm space-y-2 text-left">
-                  <li>• Confidentiality guaranteed</li>
-                  <li>• Professional boundaries</li>
-                  <li>• Respectful interactions</li>
-                  <li>• Privacy always protected</li>
+                  <li>• Complete confidentiality at all times</li>
+                  <li>• Clear, professional boundaries</li>
+                  <li>• Courteous and respectful interactions</li>
+                  <li>• Privacy and discretion prioritized</li>
                 </ul>
               </div>
 
@@ -408,12 +408,12 @@ export default function Home() {
                      style={{background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(320, 100%, 40%))'}}>
                   <Heart className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold mb-3 text-white">LGBTQ-Friendly</h3>
+                <h3 className="text-lg font-semibold mb-3 text-white">LGBTQ+ Friendly</h3>
                 <ul className="text-gray-300 text-sm space-y-2 text-left">
-                  <li>• Open, affirming space</li>
-                  <li>• Natural chemistry preferred</li>
-                  <li>• No judgment zone</li>
-                  <li>• Genuine boyfriend vibes</li>
+                  <li>• Inclusive and welcoming environment</li>
+                  <li>• Comfortable space with no judgment</li>
+                  <li>• Genuine, personable connection</li>
+                  <li>• Professional yet natural presence</li>
                 </ul>
               </div>
 
@@ -425,10 +425,10 @@ export default function Home() {
                 </div>
                 <h3 className="text-lg font-semibold mb-3 text-white">Travel & Local</h3>
                 <ul className="text-gray-300 text-sm space-y-2 text-left">
-                  <li>• Austin-based availability</li>
-                  <li>• Weekend getaways & trips</li>
-                  <li>• Plus-one for events</li>
-                  <li>• Natural date experiences</li>
+                  <li>• Austin-based with flexible scheduling</li>
+                  <li>• Available for travel and weekend engagements</li>
+                  <li>• Professional plus-one for events or functions</li>
+                  <li>• Comfortable, natural companionship</li>
                 </ul>
               </div>
             </div>
