@@ -468,47 +468,50 @@ export default function Home() {
             
             <div className="grid md:grid-cols-3 gap-6">
               {/* Discreet & Professional */}
-              <div className="glass-effect p-6 rounded-2xl hover-lift text-center">
+              <div className="glass-effect p-6 rounded-2xl hover-lift">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                     style={{background: 'radial-gradient(circle, hsl(280, 100%, 60%), hsl(280, 100%, 40%))'}}>
-                  <Shield className="w-8 h-8 text-white" />
+                     style={{background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)', 
+                             border: '2px solid rgba(255,255,255,0.2)'}}>
+                  <Shield className="w-8 h-8 text-gray-300" />
                 </div>
-                <h3 className="text-lg font-semibold mb-3 text-white">Discreet Companion</h3>
-                <ul className="text-gray-300 text-sm space-y-2 text-left">
-                  <li>• Complete confidentiality at all times</li>
-                  <li>• Clear, professional boundaries</li>
-                  <li>• Courteous and respectful interactions</li>
-                  <li>• Privacy and discretion prioritized</li>
+                <h3 className="text-lg font-semibold mb-3 text-white text-center">Discreet Companion</h3>
+                <ul className="text-gray-300 text-sm space-y-2 text-center">
+                  <li>Complete confidentiality at all times</li>
+                  <li>Clear, professional boundaries</li>
+                  <li>Courteous and respectful interactions</li>
+                  <li>Privacy and discretion prioritized</li>
                 </ul>
               </div>
 
               {/* LGBTQ Friendly */}
-              <div className="glass-effect p-6 rounded-2xl hover-lift text-center">
+              <div className="glass-effect p-6 rounded-2xl hover-lift">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                     style={{background: 'radial-gradient(circle, hsl(320, 100%, 60%), hsl(320, 100%, 40%))'}}>
-                  <Heart className="w-8 h-8 text-white" />
+                     style={{background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)', 
+                             border: '2px solid rgba(255,255,255,0.2)'}}>
+                  <Heart className="w-8 h-8 text-gray-300" />
                 </div>
-                <h3 className="text-lg font-semibold mb-3 text-white">LGBTQ+ Friendly</h3>
-                <ul className="text-gray-300 text-sm space-y-2 text-left">
-                  <li>• Inclusive and welcoming environment</li>
-                  <li>• Comfortable space with no judgment</li>
-                  <li>• Genuine, personable connection</li>
-                  <li>• Professional yet natural presence</li>
+                <h3 className="text-lg font-semibold mb-3 text-white text-center">LGBTQ+ Friendly</h3>
+                <ul className="text-gray-300 text-sm space-y-2 text-center">
+                  <li>Inclusive and welcoming environment</li>
+                  <li>Comfortable space with no judgment</li>
+                  <li>Genuine, personable connection</li>
+                  <li>Professional yet natural presence</li>
                 </ul>
               </div>
 
               {/* Flexible & Available */}
-              <div className="glass-effect p-6 rounded-2xl hover-lift text-center">
+              <div className="glass-effect p-6 rounded-2xl hover-lift">
                 <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                     style={{background: 'radial-gradient(circle, hsl(200, 100%, 50%), hsl(200, 100%, 40%))'}}>
-                  <Globe className="w-8 h-8 text-white" />
+                     style={{background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)', 
+                             border: '2px solid rgba(255,255,255,0.2)'}}>
+                  <Globe className="w-8 h-8 text-gray-300" />
                 </div>
-                <h3 className="text-lg font-semibold mb-3 text-white">Travel & Local</h3>
-                <ul className="text-gray-300 text-sm space-y-2 text-left">
-                  <li>• Austin-based with flexible scheduling</li>
-                  <li>• Available for travel and weekend engagements</li>
-                  <li>• Professional plus-one for events or functions</li>
-                  <li>• Comfortable, natural companionship</li>
+                <h3 className="text-lg font-semibold mb-3 text-white text-center">Travel & Local</h3>
+                <ul className="text-gray-300 text-sm space-y-2 text-center">
+                  <li>Austin-based with flexible scheduling</li>
+                  <li>Available for travel and weekend engagements</li>
+                  <li>Professional plus-one for events or functions</li>
+                  <li>Comfortable, natural companionship</li>
                 </ul>
               </div>
             </div>
