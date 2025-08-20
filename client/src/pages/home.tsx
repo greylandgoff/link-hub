@@ -323,7 +323,7 @@ export default function Home() {
               Bobby
             </h1>
             <h2 className="text-gray-200 leading-relaxed mb-2 max-w-sm mx-auto text-xl font-medium">
-              Austin private host + travel companion.
+              Discreet local Austin companion.
             </h2>
             <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto text-base">
               Professional companion services based in Austin, TX. Available for domestic or international travel. Specializing in authentic connections and boyfriend-style experiences.
