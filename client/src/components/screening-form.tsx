@@ -249,10 +249,11 @@ Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
               </Label>
               <Input
                 id="dates"
+                type="date"
                 value={formData.dates}
                 onChange={(e) => handleInputChange("dates", e.target.value)}
                 className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
-                placeholder="Feb 15, next weekend, etc."
+                min={new Date().toISOString().split('T')[0]}
                 required
               />
             </div>
