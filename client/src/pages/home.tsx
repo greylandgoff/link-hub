@@ -631,10 +631,10 @@ export default function Home() {
                           </div>
                         </div>
                         
-                        {/* Public Comment */}
+                        {/* Full Comment */}
                         <div className="mb-4">
                           <p className="text-white text-base leading-relaxed text-center italic">
-                            "{review.publicComment || review.publiccomment || 'Great experience overall!'}"
+                            "{review.additionalComments || review.publicComment || review.publiccomment || 'Great experience overall!'}"
                           </p>
                         </div>
                         
