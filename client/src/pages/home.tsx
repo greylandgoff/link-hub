@@ -521,27 +521,28 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                
-                <div className="text-center mt-6">
-                  <p className="text-gray-300 mb-4 text-sm">
-                    {import.meta.env.VITE_SHOW_RATES !== 'true' 
-                      ? "Rates quoted by date / length after screening."
-                      : "Contact for current rates and availability."
-                    }
-                  </p>
-                  <Button 
-                    onClick={() => {
-                      triggerHaptic('medium');
-                      trackEvent('appointment_request', 'engagement', 'booking_section');
-                      setIsScreeningFormOpen(true);
-                    }}
-                    className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
-                  >
-                    <Calendar className="w-5 h-5" />
-                    Start Screening
-                  </Button>
-                </div>
               </div>
+            </div>
+            
+            {/* Centered CTA Button */}
+            <div className="text-center mt-8">
+              <p className="text-gray-300 mb-6 text-sm">
+                {import.meta.env.VITE_SHOW_RATES !== 'true' 
+                  ? "Rates quoted by date / length after screening."
+                  : "Contact for current rates and availability."
+                }
+              </p>
+              <Button 
+                onClick={() => {
+                  triggerHaptic('medium');
+                  trackEvent('appointment_request', 'engagement', 'booking_section');
+                  setIsScreeningFormOpen(true);
+                }}
+                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
+              >
+                <Calendar className="w-5 h-5" />
+                Start Screening
+              </Button>
             </div>
           </div>
         </section>
