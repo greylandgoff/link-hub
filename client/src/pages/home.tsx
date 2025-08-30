@@ -194,69 +194,51 @@ export default function Home() {
     <div className="min-h-screen relative">
       {/* Age Gate Banner */}
       <AgeGateBanner />
-      {/* Background Image with Frosted Effect */}
+      {/* Sleek Modern Background */}
       <div 
-        className="fixed bg-cover bg-center"
+        className="fixed inset-0"
         style={{
-          backgroundImage: `url(${backgroundImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat',
-          transform: `translateY(${scrollY * 0.2}px)`,
-          top: '-50vh',
-          left: 0,
-          right: 0,
-          height: '200vh',
-          zIndex: 1,
-          filter: 'blur(15px) brightness(0.7) saturate(1.3)',
-          opacity: 0.8
+          background: `
+            linear-gradient(135deg, hsl(220, 15%, 8%) 0%, hsl(0, 0%, 2%) 50%, hsl(230, 20%, 6%) 100%)
+          `,
+          zIndex: 1
         }}
       />
       
-      {/* Subtle Dark Overlay with Gradient */}
+      {/* Subtle Geometric Pattern Overlay */}
       <div 
-        className="fixed"
-        style={{ 
-          top: '-50vh',
-          left: 0,
-          right: 0,
-          height: '200vh',
-          zIndex: 2,
-          background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.5) 100%)'
+        className="fixed inset-0"
+        style={{
+          background: `
+            radial-gradient(circle at 25% 25%, hsl(240, 50%, 15%) 0%, transparent 30%),
+            radial-gradient(circle at 75% 75%, hsl(220, 40%, 12%) 0%, transparent 30%),
+            linear-gradient(45deg, transparent 30%, hsl(210, 30%, 5%) 50%, transparent 70%)
+          `,
+          opacity: 0.6,
+          zIndex: 2
         }}
       />
       
-      {/* Light Frosted Glass Layer */}
-      <div 
-        className="fixed"
-        style={{ 
-          top: '-50vh',
-          left: 0,
-          right: 0,
-          height: '200vh',
-          zIndex: 3,
-          backdropFilter: 'blur(8px) saturate(1.1)',
-          background: 'rgba(0,0,0,0.1)'
-        }}
-      />
-      
-      {/* Subtle Color Accent Overlays */}
-      <div className="fixed inset-0 opacity-15" style={{ zIndex: 4 }}>
-        <div className="absolute top-1/4 left-1/4 w-48 h-48 rounded-full mix-blend-soft-light filter blur-3xl"
-             style={{
-               background: 'radial-gradient(circle, hsl(320, 80%, 50%), transparent)',
-               transform: `translateY(${scrollY * 0.1}px)`
-             }}></div>
-        <div className="absolute bottom-1/3 right-1/4 w-56 h-56 rounded-full mix-blend-soft-light filter blur-3xl" 
-             style={{
-               background: 'radial-gradient(circle, hsl(200, 80%, 40%), transparent)', 
-               transform: `translateY(${scrollY * -0.08}px)`
-             }}></div>
-        <div className="absolute top-1/2 left-1/2 w-40 h-40 rounded-full mix-blend-overlay filter blur-3xl" 
-             style={{
-               background: 'radial-gradient(circle, hsl(280, 60%, 30%), transparent)', 
-               transform: `translate(-50%, -50%) translateY(${scrollY * 0.05}px)`
-             }}></div>
+      {/* Animated Subtle Accent Lines */}
+      <div className="fixed inset-0" style={{ zIndex: 3 }}>
+        <div 
+          className="absolute w-full h-px"
+          style={{
+            top: '30%',
+            background: 'linear-gradient(90deg, transparent, hsl(240, 80%, 70%) 50%, transparent)',
+            opacity: 0.1,
+            transform: `translateX(${scrollY * -0.3}px)`
+          }}
+        />
+        <div 
+          className="absolute w-full h-px"
+          style={{
+            top: '70%',
+            background: 'linear-gradient(90deg, transparent, hsl(280, 60%, 60%) 50%, transparent)',
+            opacity: 0.08,
+            transform: `translateX(${scrollY * 0.2}px)`
+          }}
+        />
       </div>
 
       {/* Main Container */}

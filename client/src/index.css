@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Text:wght@400;500;600;700&family=Wix+Madefor+Display:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -74,7 +74,7 @@
     @apply font-sans antialiased;
     background: var(--pure-black);
     color: white;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+    font-family: 'Wix Madefor Text', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;
     overflow-x: hidden;
   }
 }
