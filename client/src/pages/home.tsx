@@ -442,114 +442,106 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Why Book Section - Key Benefits Above the Fold */}
+        {/* Why Book & How It Works - Consolidated Section */}
         <section className="py-12 px-4"
                  style={{transform: `translateY(${scrollY * 0.05}px)`}}>
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 text-center text-white">Why Book</h2>
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-2xl font-bold mb-8 text-center text-white">Why Book & How It Works</h2>
             
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* Discreet & Professional */}
-              <div className="glass-effect p-6 rounded-2xl hover-lift">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                     style={{background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)', 
-                             border: '2px solid rgba(255,255,255,0.2)'}}>
-                  <Shield className="w-8 h-8 text-gray-300" />
-                </div>
-                <h3 className="text-lg font-semibold mb-3 text-white text-center">Discreet Companion</h3>
-                <ul className="text-gray-300 text-sm space-y-2 text-center">
-                  <li>Complete confidentiality at all times</li>
-                  <li>Clear, professional boundaries</li>
-                  <li>Courteous and respectful interactions</li>
-                  <li>Privacy and discretion prioritized</li>
-                </ul>
-              </div>
-
-              {/* LGBTQ Friendly */}
-              <div className="glass-effect p-6 rounded-2xl hover-lift">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                     style={{background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)', 
-                             border: '2px solid rgba(255,255,255,0.2)'}}>
-                  <Heart className="w-8 h-8 text-gray-300" />
-                </div>
-                <h3 className="text-lg font-semibold mb-3 text-white text-center">LGBTQ+ Friendly</h3>
-                <ul className="text-gray-300 text-sm space-y-2 text-center">
-                  <li>Inclusive and welcoming environment</li>
-                  <li>Comfortable space with no judgment</li>
-                  <li>Genuine, personable connection</li>
-                  <li>Professional yet natural presence</li>
-                </ul>
-              </div>
-
-              {/* Flexible & Available */}
-              <div className="glass-effect p-6 rounded-2xl hover-lift">
-                <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                     style={{background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)', 
-                             border: '2px solid rgba(255,255,255,0.2)'}}>
-                  <Globe className="w-8 h-8 text-gray-300" />
-                </div>
-                <h3 className="text-lg font-semibold mb-3 text-white text-center">Travel & Local</h3>
-                <ul className="text-gray-300 text-sm space-y-2 text-center">
-                  <li>Austin-based with flexible scheduling</li>
-                  <li>Available for travel and weekend engagements</li>
-                  <li>Professional plus-one for events or functions</li>
-                  <li>Comfortable, natural companionship</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works Section */}
-        <section id="booking-section" className="py-12 px-4"
-                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 text-center text-white">How It Works</h2>
-            
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
-              <div className="glass-effect p-6 rounded-2xl text-center">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/30 flex items-center justify-center text-white font-bold text-lg">
-                  1
-                </div>
-                <h3 className="font-semibold mb-2 text-white">Submit Request</h3>
-                <p className="text-gray-300 text-sm">Quick screening form with your preferences</p>
-              </div>
+            {/* Benefits and Process in One Row */}
+            <div className="grid lg:grid-cols-2 gap-8">
               
-              <div className="glass-effect p-6 rounded-2xl text-center">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/30 flex items-center justify-center text-white font-bold text-lg">
-                  2
+              {/* Why Book - Key Benefits */}
+              <div>
+                <h3 className="text-xl font-semibold mb-6 text-center text-white">Key Benefits</h3>
+                <div className="space-y-4">
+                  <div className="glass-effect p-4 rounded-xl hover-lift">
+                    <div className="flex items-center space-x-3">
+                      <Shield className="w-6 h-6 text-purple-400" />
+                      <div>
+                        <h4 className="font-semibold text-white">Discreet & Professional</h4>
+                        <p className="text-gray-300 text-sm">Complete confidentiality with clear boundaries</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-effect p-4 rounded-xl hover-lift">
+                    <div className="flex items-center space-x-3">
+                      <Heart className="w-6 h-6 text-pink-400" />
+                      <div>
+                        <h4 className="font-semibold text-white">LGBTQ+ Friendly</h4>
+                        <p className="text-gray-300 text-sm">Inclusive environment with genuine connections</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-effect p-4 rounded-xl hover-lift">
+                    <div className="flex items-center space-x-3">
+                      <Globe className="w-6 h-6 text-blue-400" />
+                      <div>
+                        <h4 className="font-semibold text-white">Travel & Local</h4>
+                        <p className="text-gray-300 text-sm">Austin-based, available for travel and events</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-semibold mb-2 text-white">Get Quote</h3>
-                <p className="text-gray-300 text-sm">Rates quoted based on date & duration</p>
               </div>
-              
-              <div className="glass-effect p-6 rounded-2xl text-center">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-gradient-to-r from-purple-600/30 to-pink-600/30 flex items-center justify-center text-white font-bold text-lg">
-                  3
-                </div>
-                <h3 className="font-semibold mb-2 text-white">Confirm Details</h3>
-                <p className="text-gray-300 text-sm">Finalize time, location & arrangements</p>
-              </div>
-            </div>
 
-            <div className="text-center">
-              <p className="text-gray-300 mb-6 leading-relaxed">
-                {import.meta.env.VITE_SHOW_RATES !== 'true' 
-                  ? "Rates quoted by date / length after screening."
-                  : "Contact for current rates and availability."
-                }
-              </p>
-              <Button 
-                onClick={() => {
-                  triggerHaptic('medium');
-                  trackEvent('appointment_request', 'engagement', 'booking_section');
-                  setIsScreeningFormOpen(true);
-                }}
-                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
-              >
-                <Calendar className="w-5 h-5" />
-                Start Screening
-              </Button>
+              {/* How It Works - Process Steps */}
+              <div>
+                <h3 className="text-xl font-semibold mb-6 text-center text-white">Simple Process</h3>
+                <div className="space-y-4">
+                  <div className="glass-effect p-4 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600/50 to-pink-600/50 flex items-center justify-center text-white font-bold text-sm">1</div>
+                      <div>
+                        <h4 className="font-semibold text-white">Submit Request</h4>
+                        <p className="text-gray-300 text-sm">Quick screening form with your preferences</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-effect p-4 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600/50 to-pink-600/50 flex items-center justify-center text-white font-bold text-sm">2</div>
+                      <div>
+                        <h4 className="font-semibold text-white">Get Quote</h4>
+                        <p className="text-gray-300 text-sm">Rates quoted based on date & duration</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="glass-effect p-4 rounded-xl">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-600/50 to-pink-600/50 flex items-center justify-center text-white font-bold text-sm">3</div>
+                      <div>
+                        <h4 className="font-semibold text-white">Confirm Details</h4>
+                        <p className="text-gray-300 text-sm">Finalize time, location & arrangements</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="text-center mt-6">
+                  <p className="text-gray-300 mb-4 text-sm">
+                    {import.meta.env.VITE_SHOW_RATES !== 'true' 
+                      ? "Rates quoted by date / length after screening."
+                      : "Contact for current rates and availability."
+                    }
+                  </p>
+                  <Button 
+                    onClick={() => {
+                      triggerHaptic('medium');
+                      trackEvent('appointment_request', 'engagement', 'booking_section');
+                      setIsScreeningFormOpen(true);
+                    }}
+                    className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
+                  >
+                    <Calendar className="w-5 h-5" />
+                    Start Screening
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
