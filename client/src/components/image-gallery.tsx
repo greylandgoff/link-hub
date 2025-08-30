@@ -27,6 +27,12 @@ const galleryImages: GalleryImage[] = [
     alt: "Social companion photo", 
     quote: "Made my business event so much more enjoyable. Natural social skills.",
     author: "Corporate Event Attendee"
+  },
+  {
+    src: "/images/new_photo_1756580037.jpeg",
+    alt: "Professional companion photo",
+    quote: "Outstanding companion with authentic charm and impeccable professionalism.",
+    author: "Satisfied Client"
   }
 ];
 
