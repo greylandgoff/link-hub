@@ -23,6 +23,8 @@ export const reviews = pgTable("reviews", {
   matchedDescription: boolean("matched_description").notNull(),
   serviceTypes: text("service_types").array().notNull(),
   additionalComments: text("additional_comments"),
+  publicRating: integer("public_rating").notNull(),
+  publicComment: text("public_comment").notNull(),
   isApproved: boolean("is_approved").default(false).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });

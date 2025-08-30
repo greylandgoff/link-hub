@@ -604,131 +604,48 @@ export default function Home() {
 
                 
                 {reviews.slice(0, 3).map((review: any, index: number) => {
-                  // Calculate average rating from individual categories
-                  const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
+                  // Use public rating instead of calculated average
+                  const publicRating = review.publicRating || review.publicrating || 5; // fallback for existing reviews
                   
                   return (
                     <div key={review.id} className="flex justify-center">
-                      <div className="bg-black/70 backdrop-blur-md p-10 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-3xl w-full"
+                      <div className="bg-black/70 backdrop-blur-md p-6 rounded-2xl border border-yellow-500/30 shadow-xl max-w-md w-full"
                            style={{
                              background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(20,20,20,0.9) 100%)',
-                             boxShadow: '0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.1), inset 0 1px 0 rgba(255,255,255,0.1)',
-                             opacity: 1, // Fixed opacity to always show reviews
-                             transform: `translateY(0px) scale(1)`, // Simplified transform
+                             boxShadow: '0 15px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1)',
+                             opacity: 1,
+                             transform: `translateY(0px) scale(1)`,
                              animationDelay: `${index * 0.15}s`
                            }}>
                         
-                        {/* Header with overall rating */}
-                        <div className="flex items-center justify-between mb-8 pb-4 border-b border-yellow-500/20">
-                          <div className="flex items-center gap-4">
-                            <div className="flex text-yellow-400 text-2xl">
-                              {"★".repeat(avgRating)}{"☆".repeat(5 - avgRating)}
+                        {/* Header with public rating */}
+                        <div className="text-center mb-4">
+                          <div className="flex items-center justify-center gap-2 mb-2">
+                            <div className="flex text-yellow-400 text-xl">
+                              {"★".repeat(publicRating)}{"☆".repeat(5 - publicRating)}
                             </div>
-                            <div className="text-yellow-300 font-semibold text-lg">{avgRating}/5 Overall</div>
+                            <span className="text-yellow-300 font-semibold">{publicRating}/5</span>
                           </div>
-                          <div className="bg-green-500/20 border border-green-500/30 px-4 py-2 rounded-full">
-                            <span className="text-green-300 text-sm font-medium">✓ Verified Review</span>
-                          </div>
-                        </div>
-                        
-                        {/* Rating Categories */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                            <h4 className="text-white font-semibold mb-3 text-base">Service Quality</h4>
-                            <div className="space-y-3">
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-200 text-sm">Appearance:</span>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.appearance || 0)}{"☆".repeat(5 - (review.appearance || 0))}</span>
-                                  <span className="text-white font-medium">{review.appearance || 0}/5</span>
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-200 text-sm">Professionalism:</span>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.professionalism || 0)}{"☆".repeat(5 - (review.professionalism || 0))}</span>
-                                  <span className="text-white font-medium">{review.professionalism || 0}/5</span>
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-200 text-sm">Chemistry:</span>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.chemistry || 0)}{"☆".repeat(5 - (review.chemistry || 0))}</span>
-                                  <span className="text-white font-medium">{review.chemistry || 0}/5</span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-                            <h4 className="text-white font-semibold mb-3 text-base">Experience</h4>
-                            <div className="space-y-3">
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-200 text-sm">Punctuality:</span>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.punctuality || 0)}{"☆".repeat(5 - (review.punctuality || 0))}</span>
-                                  <span className="text-white font-medium">{review.punctuality || 0}/5</span>
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-200 text-sm">Communication:</span>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.communication || 0)}{"☆".repeat(5 - (review.communication || 0))}</span>
-                                  <span className="text-white font-medium">{review.communication || 0}/5</span>
-                                </div>
-                              </div>
-                              <div className="flex justify-between items-center">
-                                <span className="text-gray-200 text-sm">Discretion:</span>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-yellow-400 text-lg">{"★".repeat(review.discretion || 0)}{"☆".repeat(5 - (review.discretion || 0))}</span>
-                                  <span className="text-white font-medium">{review.discretion || 0}/5</span>
-                                </div>
-                              </div>
-                            </div>
+                          <div className="bg-green-500/20 border border-green-500/30 px-3 py-1 rounded-full inline-block">
+                            <span className="text-green-300 text-xs font-medium">✓ Verified</span>
                           </div>
                         </div>
                         
-                        {/* Yes/No Questions */}
-                        <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
-                          <h4 className="text-white font-semibold mb-3 text-base">Quick Questions</h4>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="flex items-center gap-2">
-                              <span className={`text-xl font-bold ${review.wouldBookAgain === true ? 'text-green-400' : 'text-red-400'}`}>
-                                {review.wouldBookAgain === true ? '✅' : '❌'}
-                              </span>
-                              <span className="text-gray-200 text-sm">Would book again</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-xl font-bold ${review.bookingProcessSmooth === true ? 'text-green-400' : 'text-red-400'}`}>
-                                {review.bookingProcessSmooth === true ? '✅' : '❌'}
-                              </span>
-                              <span className="text-gray-200 text-sm">Smooth booking</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-xl font-bold ${review.matchedDescription === true ? 'text-green-400' : 'text-red-400'}`}>
-                                {review.matchedDescription === true ? '✅' : '❌'}
-                              </span>
-                              <span className="text-gray-200 text-sm">Matched description</span>
-                            </div>
-                          </div>
+                        {/* Public Comment */}
+                        <div className="mb-4">
+                          <p className="text-white text-base leading-relaxed text-center italic">
+                            "{review.publicComment || review.publiccomment || 'Great experience overall!'}"
+                          </p>
                         </div>
                         
                         {/* Service Types */}
-                        <div className="flex flex-wrap gap-2 mb-6">
-                          {review.serviceTypes?.map((serviceType: string, i: number) => (
-                            <span key={i} className="bg-blue-500/20 border border-blue-500/30 px-3 py-1 rounded-full text-blue-300 text-sm">
+                        <div className="flex flex-wrap gap-2 mb-4 justify-center">
+                          {review.serviceTypes?.slice(0, 2).map((serviceType: string, i: number) => (
+                            <span key={i} className="bg-blue-500/20 border border-blue-500/30 px-2 py-1 rounded-full text-blue-300 text-xs">
                               {serviceType}
                             </span>
                           ))}
                         </div>
-                        
-                        {/* Comments and Client Info */}
-                        {review.additionalComments && (
-                          <div className="bg-white/5 p-4 rounded-xl border border-white/10 mb-6">
-                            <h4 className="text-white font-semibold mb-2 text-base">Additional Comments</h4>
-                            <p className="text-gray-200 italic text-base leading-relaxed">"{review.additionalComments}"</p>
-                          </div>
-                        )}
                         
                         <div className="flex justify-between items-center pt-4 border-t border-white/10">
                           <div className="text-white font-medium text-lg">{review.name}</div>

@@ -24,6 +24,8 @@ interface ReviewForm {
   professionalism: number;
   chemistry: number;
   discretion: number;
+  publicRating: number;
+  publicComment: string;
   wouldBookAgain: boolean;
   bookingProcessSmooth: boolean;
   matchedDescription: boolean;
@@ -56,6 +58,8 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
     professionalism: 0,
     chemistry: 0,
     discretion: 0,
+    publicRating: 0,
+    publicComment: "",
     wouldBookAgain: true,
     bookingProcessSmooth: true,
     matchedDescription: true,
@@ -79,6 +83,24 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
       return;
     }
 
+    if (!formData.publicRating || formData.publicRating === 0) {
+      toast({
+        title: "Public Rating Required",
+        description: "Please provide an overall rating for the public review.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!formData.publicComment || formData.publicComment.trim() === "") {
+      toast({
+        title: "Public Comment Required",
+        description: "Please provide a brief comment for the public review.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (formData.serviceTypes.length === 0) {
       toast({
         title: "Service Type Required", 
@@ -88,14 +110,14 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
       return;
     }
 
-    // Validate that all ratings are provided (greater than 0)
+    // Validate that all detailed ratings are provided (greater than 0)
     const ratingFields = ['appearance', 'punctuality', 'communication', 'professionalism', 'chemistry', 'discretion'];
     const unratedFields = ratingFields.filter(field => formData[field as keyof ReviewForm] === 0);
     
     if (unratedFields.length > 0) {
       toast({
-        title: "Rating Required",
-        description: `Please provide ratings for: ${unratedFields.join(', ')}`,
+        title: "Private Rating Required",
+        description: `Please provide private ratings for: ${unratedFields.join(', ')}`,
         variant: "destructive"
       });
       return;
@@ -147,6 +169,8 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
           professionalism: 0,
           chemistry: 0,
           discretion: 0,
+          publicRating: 0,
+          publicComment: "",
           wouldBookAgain: true,
           bookingProcessSmooth: true,
           matchedDescription: true,
@@ -320,12 +344,13 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
             </div>
           </div>
 
-          {/* Service Experience Ratings */}
+          {/* Service Experience Ratings - Private Feedback */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-white flex items-center gap-2">
               <Star className="w-5 h-5" />
-              Rate Your Experience
+              Detailed Feedback
             </h3>
+            <p className="text-gray-400 text-sm italic">👁️ Bobby's eyes only - Private feedback for improvement</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {renderStarRating("appearance", "Appearance", <Heart className="w-4 h-4 text-pink-400" />)}
@@ -440,17 +465,63 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
             </div>
           </div>
 
-          {/* Additional Comments */}
+          {/* Public Review */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+              <Star className="w-5 h-5 text-yellow-400" />
+              Public Review
+            </h3>
+            <p className="text-gray-400 text-sm">🌟 This will appear on the website for other clients</p>
+            
+            <div>
+              <Label htmlFor="publicRating" className="text-white">
+                Overall Rating *
+              </Label>
+              <div className="flex gap-1 mt-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, publicRating: star })}
+                    className="transition-colors hover:scale-110 transform duration-200"
+                  >
+                    <Star 
+                      className={`w-8 h-8 ${star <= (formData.publicRating || 0) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <Label htmlFor="publicComment" className="text-white">
+                Short Public Comment *
+              </Label>
+              <Textarea
+                id="publicComment"
+                value={formData.publicComment || ''}
+                onChange={(e) => setFormData({ ...formData, publicComment: e.target.value })}
+                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[80px]"
+                placeholder="Brief comment for website (1-2 sentences max)"
+                maxLength={150}
+                required
+              />
+              <p className="text-gray-500 text-xs mt-1">{(formData.publicComment || '').length}/150 characters</p>
+            </div>
+          </div>
+          
+          {/* Private Additional Comments */}
           <div>
-            <Label htmlFor="comments" className="text-white">
-              Additional Comments
+            <Label htmlFor="comments" className="text-white flex items-center gap-2">
+              Additional Private Feedback
+              <span className="text-gray-400 text-xs italic">👁️ Bobby's eyes only</span>
             </Label>
             <Textarea
               id="comments"
               value={formData.additionalComments}
               onChange={(e) => setFormData({ ...formData, additionalComments: e.target.value })}
-              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[120px]"
-              placeholder="Share any additional thoughts about your experience..."
+              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[100px]"
+              placeholder="Private feedback, suggestions, or critiques for Bobby's improvement..."
             />
           </div>
 
