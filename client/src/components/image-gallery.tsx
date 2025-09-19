@@ -1,38 +1,28 @@
 import { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface GalleryImage {
   src: string;
   alt: string;
-  quote?: string;
-  author?: string;
 }
 
 const galleryImages: GalleryImage[] = [
   {
     src: "/images/IMG_2862_1751936715707.jpg",
-    alt: "Professional companion photo",
-    quote: "Exceptional companion with genuine conversation skills and professional discretion.",
-    author: "Austin Business Executive"
+    alt: "Professional companion photo"
   },
   {
     src: "/images/IMG_2876_1752841940506.jpeg", 
-    alt: "Travel companion photo",
-    quote: "Perfect travel companion - engaging, adaptable, and completely professional.",
-    author: "Frequent Business Traveler"
+    alt: "Travel companion photo"
   },
   {
     src: "/images/IMG_2889_1751926461838.jpg",
-    alt: "Social companion photo", 
-    quote: "Made my business event so much more enjoyable. Natural social skills.",
-    author: "Corporate Event Attendee"
+    alt: "Social companion photo"
   },
   {
     src: "/images/new_photo_1756580037.jpeg",
-    alt: "Professional companion photo",
-    quote: "Outstanding companion with authentic charm and impeccable professionalism.",
-    author: "Satisfied Client"
+    alt: "Professional companion photo"
   }
 ];
 
@@ -78,23 +68,8 @@ export function ImageGallery() {
           className="w-full h-full object-cover transition-all duration-500"
         />
         
-        {/* Overlay gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-        
-        {/* Quote Overlay */}
-        {currentImage.quote && (
-          <div className="absolute bottom-0 left-0 right-0 p-8">
-            <div className="glass-effect bg-black/60 backdrop-blur-lg p-6 rounded-xl border border-white/20">
-              <Quote className="w-8 h-8 text-purple-400 mb-3" />
-              <blockquote className="text-white text-lg mb-3 italic">
-                "{currentImage.quote}"
-              </blockquote>
-              <cite className="text-gray-300 text-sm">
-                — {currentImage.author}
-              </cite>
-            </div>
-          </div>
-        )}
+        {/* Subtle overlay for better navigation visibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
         {/* Navigation Buttons */}
         <Button
