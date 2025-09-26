@@ -306,10 +306,10 @@ export default function Home() {
               Bobby
             </h1>
             <h2 className="text-gray-200 leading-relaxed mb-2 max-w-sm mx-auto text-xl font-medium">
-              Discreet local Austin companion.
+              Discreet professional companion.
             </h2>
             <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto text-base">
-              Professional companion services based in Austin, TX. Available for domestic or international travel. Specializing in authentic connections and boyfriend-style experiences.
+              Professional companion services available for domestic or international travel. Specializing in authentic connections and boyfriend-style experiences.
             </p>
 
             {/* Primary CTA */}
@@ -581,7 +581,7 @@ export default function Home() {
             <div className="glass-effect p-8 rounded-3xl border border-white/20">
               <h3 className="text-xl font-semibold text-white mb-4">Book Premium Companion Services</h3>
               <p className="text-gray-300 mb-6">
-                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections. Based in Austin, TX and available for domestic or international travel for premium companion experiences tailored to your needs.
+                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections. Available for domestic or international travel for premium companion experiences tailored to your needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button 

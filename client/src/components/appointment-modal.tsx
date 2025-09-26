@@ -54,13 +54,8 @@ const services = [
 ];
 
 const locations = [
-  { value: "incall_austin", label: "🏠 Incall - My Place (Austin)" },
-  { value: "outcall_hotel", label: "🏨 Outcall - Hotel/Resort" },
-  { value: "outcall_residence", label: "🏡 Outcall - Your Residence" },
-  { value: "outcall_restaurant", label: "🍽️ Outcall - Restaurant/Venue" },
-  { value: "outcall_travel", label: "✈️ Outcall - Travel Destination" },
-  { value: "outcall_other", label: "📍 Outcall - Other Location" },
-  { value: "virtual", label: "💻 Virtual Meeting" }
+  { value: "incall", label: "🏠 Incall (My hotel/place)" },
+  { value: "outcall", label: "📍 Outcall (Your location)" }
 ];
 
 export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
@@ -368,10 +363,10 @@ export function AppointmentModal({ isOpen, onClose }: AppointmentModalProps) {
                 value={formData.special_requests}
                 onChange={(e) => setFormData({ ...formData, special_requests: e.target.value })}
                 className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[100px]"
-                placeholder="For outcalls, please provide address or area (e.g., 'Downtown Austin', '123 Main St'). Include any special requests, dress code preferences, or other important details..."
+                placeholder="For outcalls, please provide address or area (e.g., 'Downtown area', '123 Main St'). Include any special requests, dress code preferences, or other important details..."
               />
               <p className="text-xs text-gray-400 mt-2">
-                💡 <strong>Incall:</strong> Appointment at my place in Austin<br/>
+                💡 <strong>Incall:</strong> Appointment at my hotel or place<br/>
                 💡 <strong>Outcall:</strong> I'll come to your location - please specify address or general area
               </p>
             </div>

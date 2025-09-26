@@ -12,7 +12,7 @@ interface QuickChatProps {
 const quickReplies = [
   "What are your rates?",
   "Are you available this weekend?", 
-  "Do you travel outside Austin?",
+  "Do you travel to different cities?",
   "What services do you offer?",
   "How do I book an appointment?"
 ];
