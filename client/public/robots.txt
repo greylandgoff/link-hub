@@ -1,0 +1,8 @@
+# Robots.txt for https://rentbobby.com
+# Allow all crawlers to access all content
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://rentbobby.com/sitemap.xml
