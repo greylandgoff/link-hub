@@ -290,7 +290,7 @@ export default function Home() {
             <div className="relative mb-6">
               <img 
                 src={`${profileImage}?t=${Date.now()}`} 
-                alt="Bobby's Profile" 
+                alt="Austin male companion Bobby LGBTQ-friendly professional services" 
                 className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
                 key="profile-updated-2025-01-08"
               />
@@ -799,7 +799,7 @@ export default function Home() {
         <DialogContent className="max-w-2xl bg-black/90 border border-white/20">
           <img 
             src={profileImage} 
-            alt="Bobby - Professional Companion" 
+            alt="Discreet companion Bobby offering travel and social event services" 
             className="w-full h-auto rounded-lg"
           />
         </DialogContent>
