@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Austin male companion for events, travel, and content creation. Discreet, LGBTQ-friendly service with a casual, approachable vibe. Book Bobby today.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Austin Male Companion | RentBobby – Discreet & LGBTQ-Friendly</title>
+</head>
+<body>
+  <header>
+    <h1>Austin Male Companion</h1>
+    <p>Discreet, LGBTQ-Friendly, and always up for making your night better.</p>
+    <a href="#booking" class="cta-button">Book Bobby Now</a>
+  </header>
+
+  <section id="about">
+    <h2>Who is Bobby?</h2>
+    <p>I’m Bobby — your go-to Austin male companion. Whether you need someone for a night out, a plus-one for an event, or just good company, I bring confidence, humor, and an easy-going vibe. Think of me as the reliable friend who always looks good at your side.</p>
+  </section>
+
+  <section id="services">
+    <h2>Services</h2>
+    <ul>
+      <li><strong>Events & Travel:</strong> Need a plus-one for a wedding, party, or trip? Done.</li>
+      <li><strong>Discreet Companion:</strong> Privacy comes first, always.</li>
+      <li><strong>Content Collaboration:</strong> Available for digital projects, collabs, and creative shoots.</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2>FAQs</h2>
+    <div class="faq-item">
+      <h3>How do I rent a companion in Austin discreetly?</h3>
+      <p>Easy — hit the booking button, send a message, and I’ll get back to you fast. All communication stays private.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What does LGBTQ-friendly companion mean?</h3>
+      <p>It means this is a safe, inclusive space for everyone. No judgment, just genuine connection.</p>
+    </div>
+    <div class="faq-item">
+      <h3>What’s a “twunk” escort?</h3>
+      <p>It’s shorthand for someone who’s a mix of twink and hunk — youthful, fit, and confident. That’s me in a nutshell.</p>
+    </div>
+    <div class="faq-item">
+      <h3>Can I book you outside of Austin?</h3>
+      <p>Yes, travel bookings are available across Texas (and beyond) with arrangements.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Booking</h2>
+    <p>Click below to reach me directly. Fast, discreet, and simple.</p>
+    <a href="YOUR_BOOKING_LINK" id="booking" class="cta-button">Book Discreetly Now</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 RentBobby – Austin Male Companion</p>
+    <p>Connect: <a href="https://instagram.com/graydoutx">@graydoutx</a></p>
+  </footer>
+</body>
+</html>

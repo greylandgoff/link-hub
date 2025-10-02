@@ -1,0 +1,58 @@
+# Task: Improve SEO for rentbobby.com
+
+## Objectives
+- Optimize the website for search engines (Google, Bing, etc.)
+- Increase visibility for local and niche searches
+- Improve on-page, technical, and off-page SEO
+- Strengthen brand authority while maintaining a discreet, approachable tone
+
+## Keywords
+- Primary: Austin male companion
+- Secondary: twunk escort Austin, rent a companion in Texas, discreet companion service, LGBTQ-friendly escort Austin, digital link hub for escorts, rentbobby, gay companion Austin
+
+## Requirements
+1. **Keyword Optimization**
+   - Add primary keyword into `<title>`, meta description, and one H1.
+   - Use secondary keywords in H2/H3 headings, body copy, and image alt text.
+   - Create FAQ section targeting long-tail searches (e.g., “How to rent a companion in Austin discreetly?”).
+
+2. **On-Page SEO**
+   - Write meta descriptions for each page (~150 chars, keyword + CTA).
+   - Add descriptive alt text for all images with natural keyword placement.
+   - Add internal links between booking page, bio, and content hub.
+   - Refresh or expand existing content with keywords.
+
+3. **Content Strategy**
+   - Create short-form articles (300–600 words) targeting secondary keywords:
+     - “Top 5 Reasons to Book a Discreet Austin Companion for Events”
+     - “What Does LGBTQ-Friendly Escorting Mean in Austin?”
+   - Ensure each article is optimized as a landing page.
+
+4. **Technical SEO**
+   - Check mobile performance with Google PageSpeed Insights and optimize.
+   - Add LocalBusiness schema markup (companion/personal services).
+   - Confirm sitemap.xml and robots.txt exist and submit to Google Search Console.
+
+5. **Off-Page SEO**
+   - Build backlinks from LGBTQ+ blogs, Austin event sites, or niche forums.
+   - Create or optimize Google Business Profile (discreet but service-accurate).
+   - Connect website to socials (@graydoutx, etc.).
+
+6. **UX + Conversion**
+   - Place booking/contact button above the fold.
+   - Use clear CTAs (“Book discreetly now” / “Message Bobby in Austin”).
+   - Highlight trust signals: LGBTQ-friendly, discreet, professional.
+
+## Deliverables
+- Rewritten homepage copy with keyword-rich headings, improved meta tags, and FAQ section.
+- At least 2 new short-form landing-page articles.
+- Updated sitemap.xml and robots.txt (if missing).
+- LocalBusiness schema.json file.
+- Internal link updates across pages.
+
+## Style & Tone
+- Casual, witty, confident but approachable.
+- No corporate jargon — keep it friendly and authentic.
+- Discreet language for sensitive searches.
+
+---
