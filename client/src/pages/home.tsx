@@ -575,6 +575,14 @@ export default function Home() {
           </div>
         </section>
 
+        {/* FAQ Section - SEO Optimized */}
+        <section className="py-16 px-4"
+                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
+          <div className="max-w-4xl mx-auto">
+            <FAQAccordion />
+          </div>
+        </section>
+
         {/* Call to Action */}
         <section className="py-16 px-4">
           <div className="max-w-md mx-auto text-center">
