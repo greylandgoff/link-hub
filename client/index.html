@@ -26,11 +26,46 @@
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "ProfessionalService",
       "name": "RentBobby Concierge",
       "url": "https://rentbobby.com",
-      "areaServed": ["Austin", "United States"],
-      "description": "Austin-based personal host and travel companion services. Professional, discreet, and screening-required.",
+      "description": "Austin male companion offering LGBTQ-friendly, discreet companion services for events, travel, and personal experiences. Professional companion services with a casual, approachable vibe.",
+      "priceRange": "$$$$",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "Austin",
+          "addressRegion": "TX",
+          "addressCountry": "US"
+        },
+        {
+          "@type": "State",
+          "name": "Texas",
+          "addressCountry": "US"
+        },
+        {
+          "@type": "Country",
+          "name": "United States",
+          "description": "Travel availability nationwide"
+        }
+      ],
+      "knowsAbout": [
+        "companion services",
+        "event companionship",
+        "travel companion",
+        "LGBTQ-friendly services",
+        "personal host services",
+        "discreet companionship",
+        "social companion services"
+      ],
+      "openingHours": "Mo-Su 00:00-24:00",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "00:00",
+        "closes": "24:00",
+        "description": "Available 24/7 by appointment - advance booking required"
+      },
       "potentialAction": {
         "@type": "ReserveAction",
         "target": "https://rentbobby.com/#booking-section"
