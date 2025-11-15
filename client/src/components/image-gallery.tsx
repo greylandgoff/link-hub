@@ -14,7 +14,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     src: "/images/IMG_2876_1752841940506.jpeg", 
-    alt: "LGBTQ-friendly travel companion for domestic and international trips"
+    alt: "LGBTQ-friendly companion for dates and weekend getaways"
   },
   {
     src: "/images/IMG_2889_1751926461838.jpg",

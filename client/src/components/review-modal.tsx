@@ -37,7 +37,7 @@ const serviceOptions = [
   "Companion Services",
   "Social Events", 
   "Business Events",
-  "Travel Companion",
+  "Overnight/Weekend",
   "Dinner Dates",
   "Cultural Events",
   "Private Parties"

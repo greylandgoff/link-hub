@@ -32,17 +32,17 @@ const faqData: FAQItem[] = [
   // Additional SEO-optimized FAQs
   {
     question: "What services does a male companion in Austin offer?",
-    answer: "I offer boyfriend-style companionship, engaging conversation, dinner dates, event attendance, travel companionship, and authentic connection. Each experience is tailored to your preferences — whether you need a charming plus-one for an event or a genuine companion for travel.",
+    answer: "I offer boyfriend-style companionship, engaging conversation, dinner dates, event attendance, and authentic connection. Each experience is tailored to your preferences — whether you need a charming plus-one for an event or simply good company for the evening.",
     keywords: ["male companion", "austin", "services", "boyfriend experience", "events"]
   },
   {
     question: "How much notice do you need for bookings?",
-    answer: "While I appreciate 24-48 hours advance notice for most bookings, I understand spontaneous moments happen. Same-day bookings may be available depending on my schedule. For travel or multi-day experiences, please book at least 3-5 days in advance.",
+    answer: "While I appreciate 24-48 hours advance notice for most bookings, I understand spontaneous moments happen. Same-day bookings may be available depending on my schedule. For overnight or weekend plans, please book at least 3-5 days in advance.",
     keywords: ["booking", "notice", "advance", "same-day", "schedule"]
   },
   {
-    question: "Are you available for overnight or weekend trips?",
-    answer: "Absolutely! Extended dates, overnights, and weekend trips are my specialty. These longer experiences allow for genuine connection and create memorable moments. Whether it's a weekend getaway or accompanying you on business travel, I'm here to make it special.",
+    question: "Are you available for overnight or extended dates?",
+    answer: "Yes! I'm available for overnights and extended dates. These longer experiences allow for genuine connection and create memorable moments. Whether it's a special evening, overnight, or weekend getaway, I'm here to make it special.",
     keywords: ["overnight", "weekend", "trips", "extended", "travel"]
   },
   {

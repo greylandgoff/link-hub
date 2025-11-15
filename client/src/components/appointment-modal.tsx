@@ -47,8 +47,8 @@ const durations = [
 const services = [
   { value: "companion", label: "Companion Services" },
   { value: "social", label: "Social Events" },
-  { value: "dinner", label: "Dinner Companion" },
-  { value: "travel", label: "Travel Companion" },
+  { value: "dinner", label: "Dinner Date" },
+  { value: "overnight", label: "Overnight/Weekend" },
   { value: "business", label: "Business Events" },
   { value: "custom", label: "Custom Service (specify in message)" }
 ];
