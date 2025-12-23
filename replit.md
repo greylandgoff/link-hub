@@ -104,6 +104,9 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - FORM-DATA DEPENDENCY SECURITY UPDATE VERIFIED: Confirmed app still works correctly after form-data package update - it's only a transitive dependency from Twilio/Axios, not directly used (August 18, 2025)
 - ONLYFANS LINK UPDATED: Changed OnlyFans URL from https://onlyfans.com/bobbyatx to https://onlyfans.com/bobbyatx/c1 per user request (August 18, 2025)
 - COMPREHENSIVE SEO OPTIMIZATION IMPLEMENTATION: Added keyword-rich meta tags, FAQ section with 8 long-tail search queries, enhanced LocalBusiness schema, created sitemap.xml and robots.txt, optimized all image alt text with natural keyword placement (October 2, 2025)
+- REMOVED INTERNATIONAL TRAVEL REFERENCES: Updated site content to be more accessible by replacing international travel messaging with "dates, events, and getaways" (December 23, 2025)
+- ENHANCED SCREENING FORM: Added phone number field to screening form, separated screening data into individual database fields (notes, travel_request, arrival_airport, hotel_booked, interests_boundaries) instead of combining into single message (December 23, 2025)
+- IMPROVED ADMIN PANEL DISPLAY: Updated admin panel to show screening data in separate color-coded snippets instead of messy combined special requests field (December 23, 2025)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
