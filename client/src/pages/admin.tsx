@@ -39,6 +39,11 @@ interface Appointment {
   serviceType: string;
   location: string;
   specialRequests: string;
+  notes: string;
+  travelRequest: boolean;
+  arrivalAirport: string;
+  hotelBooked: string;
+  interestsBoundaries: string;
   status: string;
   source: string;
   createdAt: string;
@@ -352,13 +357,49 @@ export default function Admin() {
                           </div>
                         </div>
                         
-                        {appointment.specialRequests && (
-                          <div className="mt-3 p-3 bg-amber-50/50 rounded-lg border border-amber-200/50">
-                            <p className="text-stone-700 text-sm">
-                              <span className="font-medium">Special Requests:</span> {appointment.specialRequests}
-                            </p>
-                          </div>
-                        )}
+                        {/* Separate field snippets for screening data */}
+                        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {appointment.notes && (
+                            <div className="p-3 bg-blue-50/50 rounded-lg border border-blue-200/50">
+                              <p className="text-stone-700 text-sm">
+                                <span className="font-medium text-blue-700">Notes:</span><br/>
+                                {appointment.notes}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {appointment.travelRequest && (
+                            <div className="p-3 bg-purple-50/50 rounded-lg border border-purple-200/50">
+                              <p className="text-stone-700 text-sm">
+                                <span className="font-medium text-purple-700">Travel Request:</span> Yes
+                                {appointment.arrivalAirport && (
+                                  <><br/>Airport: {appointment.arrivalAirport}</>
+                                )}
+                                {appointment.hotelBooked && (
+                                  <><br/>Hotel: {appointment.hotelBooked}</>
+                                )}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {appointment.interestsBoundaries && (
+                            <div className="p-3 bg-pink-50/50 rounded-lg border border-pink-200/50">
+                              <p className="text-stone-700 text-sm">
+                                <span className="font-medium text-pink-700">Interests/Boundaries:</span><br/>
+                                {appointment.interestsBoundaries}
+                              </p>
+                            </div>
+                          )}
+                          
+                          {appointment.specialRequests && (
+                            <div className="p-3 bg-amber-50/50 rounded-lg border border-amber-200/50">
+                              <p className="text-stone-700 text-sm">
+                                <span className="font-medium text-amber-700">Special Requests:</span><br/>
+                                {appointment.specialRequests}
+                              </p>
+                            </div>
+                          )}
+                        </div>
                         
                         <p className="text-stone-500 text-xs">
                           Submitted: {new Date(appointment.createdAt).toLocaleString()}

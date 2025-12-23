@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import { useHaptic } from "@/hooks/use-haptic";
-import { User, Mail, MapPin, Calendar, Clock, MessageSquare, Plane } from "lucide-react";
+import { User, Mail, Phone, MapPin, Calendar, Clock, MessageSquare, Plane } from "lucide-react";
 
 interface ScreeningFormProps {
   isOpen: boolean;
@@ -17,6 +17,7 @@ interface ScreeningFormProps {
 interface ScreeningFormData {
   name: string;
   email: string;
+  phone: string;
   cityLocation: string;
   dates: string;
   length: string;
@@ -36,6 +37,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
   const [formData, setFormData] = useState<ScreeningFormData>({
     name: "",
     email: "",
+    phone: "",
     cityLocation: "",
     dates: "",
     length: "",
@@ -91,19 +93,18 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
       const screeningData = {
         name: formData.name,
         email: formData.email,
-        phone: null, // Phone is optional in screening
-        date: formData.dates, // Map dates to date field
-        time: "TBD", // Default time for screening requests
-        duration: formData.length, // Map length to duration
-        service: "Companion Services", // Default service type for screening
-        location: formData.cityLocation, // Map cityLocation to location
-        message: `Screening Request:
-Length: ${formData.length}
-Notes: ${formData.notes}
-Travel Request: ${formData.requestTravel ? 'Yes' : 'No'}
-${formData.requestTravel ? `Airport: ${formData.arrivalAirport || 'Not specified'}
-Hotel: ${formData.hotelBooked || 'Not specified'}` : ''}
-Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
+        phone: formData.phone || null,
+        date: formData.dates,
+        time: "TBD",
+        duration: formData.length,
+        service: "Companion Services",
+        location: formData.cityLocation,
+        message: null,
+        notes: formData.notes || null,
+        travel_request: formData.requestTravel,
+        arrival_airport: formData.arrivalAirport || null,
+        hotel_booked: formData.hotelBooked || null,
+        interests_boundaries: formData.interestsBoundaries || null,
         source: "website_screening_form"
       };
 
@@ -143,6 +144,7 @@ Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
       setFormData({
         name: "",
         email: "",
+        phone: "",
         cityLocation: "",
         dates: "",
         length: "",
@@ -224,6 +226,21 @@ Interests/Boundaries: ${formData.interestsBoundaries || 'Not specified'}`,
                 required
               />
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="phone" className="text-white flex items-center gap-2">
+              <Phone className="w-4 h-4" />
+              Phone Number (Optional)
+            </Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={formData.phone}
+              onChange={(e) => handleInputChange("phone", e.target.value)}
+              className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+              placeholder="+1 (555) 123-4567"
+            />
           </div>
 
           <div className="space-y-2">

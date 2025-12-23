@@ -391,7 +391,12 @@ To approve/manage reviews, use the admin panel.
         duration: req.body.duration || "2",
         serviceType: req.body.service,
         location: req.body.location || "austin",
-        specialRequests: req.body.message || null,
+        specialRequests: req.body.message || req.body.special_requests || null,
+        notes: req.body.notes || null,
+        travelRequest: req.body.travel_request || false,
+        arrivalAirport: req.body.arrival_airport || null,
+        hotelBooked: req.body.hotel_booked || null,
+        interestsBoundaries: req.body.interests_boundaries || null,
         status: "pending",
         source: req.body.source || "website"
       });

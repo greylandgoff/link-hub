@@ -40,6 +40,11 @@ export const appointments = pgTable("appointments", {
   serviceType: text("service_type").notNull(),
   location: text("location"),
   specialRequests: text("special_requests"),
+  notes: text("notes"),
+  travelRequest: boolean("travel_request").default(false),
+  arrivalAirport: text("arrival_airport"),
+  hotelBooked: text("hotel_booked"),
+  interestsBoundaries: text("interests_boundaries"),
   status: text("status").default("pending").notNull(), // pending, confirmed, cancelled, completed
   makeWebhookSent: boolean("make_webhook_sent").default(false).notNull(),
   makeWebhookResponse: text("make_webhook_response"),
