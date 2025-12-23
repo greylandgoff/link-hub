@@ -498,7 +498,7 @@ export default function Home() {
                 
 
                 
-                {reviews.slice(0, 3).map((review: any, index: number) => {
+                {reviews.map((review: any, index: number) => {
                   // Use public rating instead of calculated average
                   const publicRating = review.publicRating || review.publicrating || 5; // fallback for existing reviews
                   
