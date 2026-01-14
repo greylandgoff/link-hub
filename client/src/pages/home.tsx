@@ -360,74 +360,75 @@ export default function Home() {
           <div className="max-w-md mx-auto">
             <h2 className="text-2xl font-bold mb-6 text-center text-white">Connect</h2>
             
-            <div className="space-y-4">
-              {socialLinks.map((link) => {
-                const IconComponent = link.icon;
-                return (
+            {/* Liquid Glass Container */}
+            <div 
+              className="rounded-3xl p-6 backdrop-blur-xl"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}
+            >
+              <div className="space-y-1">
+                {socialLinks.map((link, index) => (
                   <button
                     key={link.platform}
                     onClick={() => {
                       triggerHaptic('light');
                       handleLinkClick(link.platform, link.url);
                     }}
-                    className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20"
+                    className="group flex items-center w-full py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/5"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                           style={{background: `radial-gradient(circle, ${link.neonColor}, ${link.neonColor}80)`, 
-                                   boxShadow: `0 0 20px ${link.neonColor}60`}}>
-                        <IconComponent className="text-white text-xl w-6 h-6" />
-                      </div>
-                      <div className="flex-1 text-left">
-                        <h3 className="font-semibold text-white">{link.name}</h3>
-                        <p className="text-gray-300 text-sm">{link.description}</p>
-                      </div>
-                      <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
-                           style={{color: link.neonColor}}>
-                        →
-                      </div>
-                    </div>
-                  </button>
-                );
-              })}
-
-              {/* Payment Options */}
-              <div className="mt-8">
-                  <h3 className="text-xl font-bold text-white mb-4 text-center">Support & Tips</h3>
-                {paymentLinks.map((payment) => {
-                  const IconComponent = payment.icon;
-                  return (
-                    <button
-                      key={payment.platform}
-                      onClick={() => {
-                        triggerHaptic('light');
-                        handleLinkClick(payment.platform, payment.url);
+                    {/* Accent Line */}
+                    <div 
+                      className="w-0.5 h-5 rounded-full mr-4 transition-all duration-300 group-hover:h-6"
+                      style={{
+                        background: link.neonColor,
+                        opacity: 0.4,
+                        boxShadow: `0 0 8px ${link.neonColor}40`
                       }}
-                      className="block w-full glass-effect p-4 rounded-2xl hover-lift group bg-transparent border border-white/20 mb-4"
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                             style={{background: `radial-gradient(circle, ${payment.neonColor}, ${payment.neonColor}80)`, 
-                                     boxShadow: `0 0 20px ${payment.neonColor}60`}}>
-                          <IconComponent className="text-white text-xl w-6 h-6" />
-                        </div>
-                        <div className="flex-1 text-left">
-                          <h3 className="font-semibold text-white">{payment.name}</h3>
-                          <p className="text-gray-300 text-sm">{payment.handle}</p>
-                        </div>
-                        <div className="text-gray-400 group-hover:text-white group-hover:translate-x-1 transition-all"
-                             style={{color: payment.neonColor}}>
-                          →
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-                <div className="text-center mt-4">
-                  <p className="text-gray-400 text-xs">
-                    Apple Cash available via text/contact form
-                  </p>
-                </div>
+                    />
+                    {/* Site Name */}
+                    <span className="text-white/80 text-lg font-medium tracking-wide transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
+                      {link.name}
+                    </span>
+                    {/* Subtle Arrow */}
+                    <span className="ml-auto text-white/20 text-sm transition-all duration-300 group-hover:text-white/50 group-hover:translate-x-1">
+                      ›
+                    </span>
+                  </button>
+                ))}
+
+                {/* Divider */}
+                <div className="my-4 border-t border-white/10" />
+                
+                {/* Payment - Same Style */}
+                <p className="text-white/40 text-xs uppercase tracking-widest mb-2 px-4">Tips</p>
+                {paymentLinks.map((payment) => (
+                  <button
+                    key={payment.platform}
+                    onClick={() => {
+                      triggerHaptic('light');
+                      handleLinkClick(payment.platform, payment.url);
+                    }}
+                    className="group flex items-center w-full py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/5"
+                  >
+                    <div 
+                      className="w-0.5 h-5 rounded-full mr-4 transition-all duration-300 group-hover:h-6"
+                      style={{
+                        background: payment.neonColor,
+                        opacity: 0.4,
+                        boxShadow: `0 0 8px ${payment.neonColor}40`
+                      }}
+                    />
+                    <span className="text-white/80 text-lg font-medium tracking-wide transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
+                      {payment.name}
+                    </span>
+                    <span className="ml-auto text-white/20 text-sm transition-all duration-300 group-hover:text-white/50 group-hover:translate-x-1">
+                      ›
+                    </span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
