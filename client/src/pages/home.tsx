@@ -443,6 +443,30 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Live Chat Section */}
+        <section className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold mb-6 text-center text-white">Chat</h2>
+            <div 
+              className="rounded-3xl overflow-hidden backdrop-blur-xl"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}
+            >
+              <iframe 
+                src="https://cbxyz.com/in/?tour=SHBY&campaign=2KzrM&track=embed&room=bobbydfw"
+                className="w-full rounded-3xl"
+                style={{ height: '528px', border: 'none' }}
+                title="Live Chat"
+                allow="camera; microphone"
+              />
+            </div>
+          </div>
+        </section>
+
         {/* Reviews Section - Scroll-Triggered Showcase */}
         <section id="reviews-section" className="py-16 px-4 relative overflow-hidden"
                  style={{transform: `translateY(${scrollY * 0.02}px)`}}>
