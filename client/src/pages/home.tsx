@@ -434,6 +434,58 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Partner in Crime Section */}
+        <section className="py-12 px-4"
+                 style={{transform: `translateY(${scrollY * 0.045}px)`}}>
+          <div className="max-w-md mx-auto">
+            <h2 className="text-2xl font-bold mb-6 text-center text-white">Partner in Crime</h2>
+            <div 
+              className="rounded-3xl p-6 backdrop-blur-xl"
+              style={{
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
+                border: '1px solid rgba(255,255,255,0.1)'
+              }}
+            >
+              <div className="text-center mb-4">
+                <h3 className="text-xl font-semibold text-white tracking-wide">Nick</h3>
+                <p className="text-white/50 text-sm mt-1">Austin, TX</p>
+              </div>
+              <p className="text-white/60 text-sm leading-relaxed text-center mb-5">
+                Athletic, laid-back, and always down for a good time. Available solo or as a duo for double the fun.
+              </p>
+              <div className="space-y-1">
+                <button
+                  onClick={() => {
+                    triggerHaptic('light');
+                    trackEvent('partner_link', 'outbound', 'rentmen_nick');
+                    window.open('https://rent.men/Nickbrodude', '_blank');
+                  }}
+                  className="group flex items-center w-full py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/5"
+                >
+                  <div 
+                    className="w-0.5 h-5 rounded-full mr-4 transition-all duration-300 group-hover:h-6"
+                    style={{
+                      background: '#e74c3c',
+                      opacity: 0.4,
+                      boxShadow: '0 0 8px rgba(231,76,60,0.4)'
+                    }}
+                  />
+                  <span className="text-white/80 text-lg font-medium tracking-wide transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
+                    Rentmen
+                  </span>
+                  <span className="ml-auto text-white/20 text-sm transition-all duration-300 group-hover:text-white/50 group-hover:translate-x-1">
+                    ›
+                  </span>
+                </button>
+              </div>
+              <div className="mt-5 pt-4 border-t border-white/10 text-center">
+                <p className="text-white/40 text-xs">Ask about duo sessions when booking</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Interactive Gallery Section */}
         <section className="py-12 px-4"
                  style={{transform: `translateY(${scrollY * 0.04}px)`}}>
