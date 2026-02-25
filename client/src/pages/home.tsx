@@ -452,7 +452,7 @@ export default function Home() {
                 <p className="text-white/50 text-sm mt-1">Austin, TX</p>
               </div>
               <p className="text-white/60 text-sm leading-relaxed text-center mb-5">
-                Athletic, laid-back, and always down for a good time. Available solo or as a duo for double the fun.
+                Rugged, American, dom, daddy for good time
               </p>
               <div className="space-y-1">
                 <button
