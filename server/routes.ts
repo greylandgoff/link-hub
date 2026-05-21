@@ -4,8 +4,7 @@ import { storage } from "./storage";
 import QRCode from "qrcode";
 import { sendEmail, isEmailConfigured } from "./email-service";
 import { sendGoogleSheetsWebhook, isGoogleSheetsConfigured } from "./webhook-sms";
-// Webhooks disabled - import { sendToMakeWebhook, isMakeWebhookConfigured } from "./make-webhook";
-// Webhooks disabled - import { sendIOSNotification, isIOSNotificationConfigured, parseLocationDetails } from "./ios-notifications";
+import { sendAppointmentSMS, isTwilioConfigured } from "./twilio-sms";
 import { insertAppointmentSchema } from "@shared/schema";
 import * as fs from "fs";
 import * as path from "path";
@@ -362,189 +361,76 @@ To approve/manage reviews, use the admin panel.
   // Appointment booking endpoint
   app.post("/api/appointments", async (req, res) => {
     try {
-      console.log("Appointment booking request received:", req.body);
-      console.log("Request headers:", req.headers);
+      const b = req.body;
 
-      // Check for required fields first
-      if (!req.body.name || !req.body.email || !req.body.date || !req.body.time || !req.body.service) {
-        console.log("Missing required fields:", {
-          name: !!req.body.name,
-          email: !!req.body.email,
-          date: !!req.body.date,
-          time: !!req.body.time,
-          service: !!req.body.service
-        });
+      if (!b.name || !b.email || !b.date) {
         return res.status(400).json({
-          message: "Missing required fields",
-          required: ["name", "email", "date", "time", "service"],
-          received: Object.keys(req.body)
+          message: "Name, email, and date are required",
         });
       }
 
-      // Validate appointment data
       const appointmentData = insertAppointmentSchema.parse({
-        name: req.body.name,
-        email: req.body.email,
-        phone: req.body.phone || null,
-        appointmentDate: req.body.date,
-        appointmentTime: req.body.time,
-        duration: req.body.duration || "2",
-        serviceType: req.body.service,
-        location: req.body.location || "austin",
-        specialRequests: req.body.message || req.body.special_requests || null,
-        notes: req.body.notes || null,
-        travelRequest: req.body.travel_request || false,
-        arrivalAirport: req.body.arrival_airport || null,
-        hotelBooked: req.body.hotel_booked || null,
-        interestsBoundaries: req.body.interests_boundaries || null,
+        name: b.name,
+        email: b.email,
+        phone: b.phone || null,
+        appointmentDate: b.date,
+        appointmentTime: b.time || "TBD",
+        duration: b.duration || null,
+        serviceType: b.service || "Companion Services",
+        location: b.location || null,
+        specialRequests: null,
+        notes: b.notes || null,
+        travelRequest: b.travel_request || false,
+        arrivalAirport: b.arrival_airport || null,
+        hotelBooked: b.hotel_booked || null,
+        interestsBoundaries: b.interests_boundaries || null,
         status: "pending",
-        source: req.body.source || "website"
+        source: b.source || "website",
       });
 
-      // Create appointment in database
       const appointment = await storage.createAppointment(appointmentData);
-      console.log("Appointment created:", appointment);
+      console.log("Appointment saved to database, id:", appointment.id);
 
-      // Simple location details (webhook functionality disabled)
-      const locationDetails = {
-        isIncall: true,
-        type: appointmentData.location?.toLowerCase().includes('outcall') ? 'Outcall' : 'Incall'
-      };
-
-      // Send email notification for new appointment
-      let emailNotificationSent = false;
+      // Fire Twilio SMS — primary notification
+      let smsSent = false;
       try {
-        console.log("Sending appointment email notification...");
-        
-        emailNotificationSent = await sendEmail({
-          from: 'bobby@rentbobby.com',
-          to: 'bobby@rentbobby.com',
-          subject: `🗓️ New Appointment Request: ${appointmentData.name}`,
-          text: `New appointment booking received:
-
-Client: ${appointmentData.name}
-Email: ${appointmentData.email}
-Phone: ${appointmentData.phone || 'Not provided'}
-
-Appointment Details:
-Date: ${appointmentData.appointmentDate}
-Time: ${appointmentData.appointmentTime}
-Duration: ${appointmentData.duration}
-Service: ${appointmentData.serviceType}
-Location: ${appointmentData.location}
-
-Special Requests: ${appointmentData.specialRequests || 'None'}
-
-Calendly Link: ${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h2 style="color: #2563eb;">🗓️ New Appointment Request</h2>
-              
-              <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0; color: #1e293b;">Client Information</h3>
-                <p><strong>Name:</strong> ${appointmentData.name}</p>
-                <p><strong>Email:</strong> ${appointmentData.email}</p>
-                <p><strong>Phone:</strong> ${appointmentData.phone || 'Not provided'}</p>
-              </div>
-              
-              <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0; color: #1e293b;">Appointment Details</h3>
-                <p><strong>Date:</strong> ${appointmentData.appointmentDate}</p>
-                <p><strong>Time:</strong> ${appointmentData.appointmentTime}</p>
-                <p><strong>Duration:</strong> ${appointmentData.duration}</p>
-                <p><strong>Service:</strong> ${appointmentData.serviceType}</p>
-                <p><strong>Location:</strong> ${appointmentData.location}</p>
-              </div>
-              
-              ${appointmentData.specialRequests ? `
-              <div style="background: #fef3f2; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="margin-top: 0; color: #1e293b;">Special Requests</h3>
-                <p>${appointmentData.specialRequests}</p>
-              </div>
-              ` : ''}
-              
-              <div style="text-align: center; margin: 30px 0;">
-                <a href="${process.env.CALENDLY_BOOKING_URL || 'https://calendly.com/bobby-rentbobby'}" 
-                   style="background: #2563eb; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">
-                  Schedule via Calendly
-                </a>
-              </div>
-            </div>
-          `
-        });
-        
-        console.log("Email notification sent:", emailNotificationSent);
-      } catch (emailError) {
-        console.error("Error sending appointment email:", emailError);
-      }
-
-      // Send comprehensive appointment data to Google Sheets
-      let sheetsNotificationSent = false;
-      try {
-        if (isGoogleSheetsConfigured()) {
-          console.log("Sending appointment data to Google Sheets...");
-          
-          sheetsNotificationSent = await sendGoogleSheetsWebhook({
+        if (isTwilioConfigured()) {
+          smsSent = await sendAppointmentSMS({
             name: appointmentData.name,
             email: appointmentData.email,
-            phone: appointmentData.phone || "",
-            appointmentDate: appointmentData.appointmentDate,
-            appointmentTime: appointmentData.appointmentTime,
+            phone: appointmentData.phone,
+            date: appointmentData.appointmentDate,
             duration: appointmentData.duration || "Not specified",
-            serviceType: appointmentData.serviceType,
             location: appointmentData.location || "Not specified",
-            specialRequests: appointmentData.specialRequests || "",
-            source: appointmentData.source || "website",
-            status: appointmentData.status || "pending",
-            createdAt: appointment.createdAt.toISOString()
+            duo: !!(b.duo),
+            travel: !!(appointmentData.travelRequest),
+            arrivalAirport: appointmentData.arrivalAirport,
+            hotelBooked: appointmentData.hotelBooked,
+            notes: appointmentData.notes,
+            interests: appointmentData.interestsBoundaries,
           });
-          
-          console.log("Google Sheets notification sent:", sheetsNotificationSent);
-        } else {
-          console.log("Google Sheets webhook not configured");
+          console.log("Twilio SMS sent:", smsSent);
         }
-      } catch (sheetsError) {
-        console.error("Error sending Google Sheets notification:", sheetsError);
+      } catch (smsError) {
+        console.error("Twilio SMS error:", smsError);
       }
 
-      console.log("Appointment stored in database successfully");
-
-      // Update notification status in database
-      const notificationStatus = sheetsNotificationSent 
-        ? "Google Sheets: logged successfully" 
-        : "Google Sheets: not configured or failed";
-        
       await storage.updateAppointmentWebhookStatus(
-        appointment.id, 
-        sheetsNotificationSent, 
-        notificationStatus
+        appointment.id,
+        smsSent,
+        smsSent ? "Twilio SMS sent" : "Twilio SMS failed or not configured"
       );
 
-      res.json({ 
+      res.json({
         message: "Appointment request submitted successfully",
-        appointment: {
-          id: appointment.id,
-          status: appointment.status,
-          emailSent: emailNotificationSent,
-          googleSheetsSent: sheetsNotificationSent,
-          notificationStatus: notificationStatus,
-          locationDetails
-        }
+        appointment: { id: appointment.id, status: appointment.status, smsSent },
       });
-
     } catch (error) {
       console.error("Error creating appointment:", error);
-      
-      if (error instanceof Error && error.name === 'ZodError') {
-        return res.status(400).json({ 
-          message: "Invalid appointment data",
-          errors: (error as any).errors
-        });
+      if (error instanceof Error && error.name === "ZodError") {
+        return res.status(400).json({ message: "Invalid data", errors: (error as any).errors });
       }
-      
-      res.status(500).json({ 
-        message: "Failed to create appointment request" 
-      });
+      res.status(500).json({ message: "Failed to create appointment request" });
     }
   });
 
