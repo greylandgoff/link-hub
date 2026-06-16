@@ -157,7 +157,7 @@ export default function Home() {
       platform: "rentmen",
       name: "Rentmen",
       description: "Boyfriend experience listings", 
-      url: "https://rent.men/BobbyAtx",
+      url: "https://rent.men/bobbydtx",
       icon: Calendar,
       neonColor: "hsl(30, 100%, 50%)"
     },
