@@ -26,7 +26,7 @@ const trackEvent = (event: string, category: string, label?: string) => {
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 
-import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode, Shield, Heart, Globe } from "lucide-react";
+import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode, Shield, Heart, Globe, Video } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 const profileImage = "/images/IMG_2876_1752841940506.jpeg";
 const backgroundImage = "/images/IMG_2862_1751936715707.jpg";
@@ -168,6 +168,14 @@ export default function Home() {
       url: "https://hunqz.com/bobby-austin",
       icon: Users,
       neonColor: "hsl(160, 100%, 50%)"
+    },
+    {
+      platform: "chaturbate",
+      name: "Chaturbate",
+      description: "Live cam shows",
+      url: "https://chaturbate.com/bobbydfw/",
+      icon: Video,
+      neonColor: "hsl(45, 100%, 55%)"
     },
     {
       platform: "twitter",
