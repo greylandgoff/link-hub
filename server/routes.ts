@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import QRCode from "qrcode";
-import { sendEmail, isEmailConfigured } from "./email-service";
+import { sendEmail, sendQuickChatEmail, isEmailConfigured } from "./email-service";
 import { sendGoogleSheetsWebhook, isGoogleSheetsConfigured } from "./webhook-sms";
 import { sendAppointmentSMS, isTwilioConfigured } from "./twilio-sms";
 import { insertAppointmentSchema } from "@shared/schema";
@@ -118,70 +118,36 @@ END:VCARD`;
       const { name, email, message, phone } = req.body;
 
       if (!name || !message) {
-        return res.status(400).json({ 
-          message: "Name and message are required" 
-        });
+        return res.status(400).json({ message: "Name and message are required" });
       }
 
       if (!email && !phone) {
-        return res.status(400).json({ 
-          message: "Either email or phone is required" 
-        });
+        return res.status(400).json({ message: "Either email or phone is required" });
       }
 
-      console.log("Text contact request:", {
-        from: `${name} <${email}>`,
-        phone: phone,
-        message: message,
+      const visitorContact = email || phone || "";
+
+      console.log("Quick chat contact request:", {
+        from: name,
+        contact: visitorContact,
+        message,
         timestamp: new Date().toISOString()
       });
 
-      // Send contact data to Google Sheets
-      let sheetsNotificationSent = false;
-      try {
-        if (isGoogleSheetsConfigured()) {
-          console.log("Sending contact form data to Google Sheets...");
-          
-          const contactPayload = {
-            occurred_at: new Date().toISOString(),
-            event_name: "contact_form",
-            value1: name,
-            value2: email || "",
-            value3: phone || "",
-            message: message,
-            contact_type: "text_request"
-          };
+      const emailSent = await sendQuickChatEmail({
+        visitorName: name,
+        visitorContact,
+        message,
+      });
 
-          const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
-          if (!webhookUrl) {
-            throw new Error('Google Sheets webhook URL not configured');
-          }
-          
-          const response = await fetch(webhookUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(contactPayload)
-          });
-
-          sheetsNotificationSent = response.ok;
-          console.log("Contact form Google Sheets notification sent:", sheetsNotificationSent);
-        }
-      } catch (sheetsError) {
-        console.error("Error sending contact form to Google Sheets:", sheetsError);
-      }
-
-      res.json({ 
+      res.json({
         message: "Contact form submitted successfully",
         success: true,
-        googleSheetsSent: sheetsNotificationSent
+        emailSent,
       });
     } catch (error) {
       console.error("Error processing text contact:", error);
-      res.status(500).json({ 
-        message: "Failed to send notification" 
-      });
+      res.status(500).json({ message: "Failed to send notification" });
     }
   });
 

@@ -178,6 +178,14 @@ export default function Home() {
       neonColor: "hsl(45, 100%, 55%)"
     },
     {
+      platform: "stripchat",
+      name: "Stripchat",
+      description: "Live cam & interactive shows",
+      url: "https://stripchat.com/rentbobbydfw",
+      icon: Globe,
+      neonColor: "hsl(270, 100%, 65%)"
+    },
+    {
       platform: "twitter",
       name: "X",
       description: "Mild spicy content, shower thoughts, and other nonsense",
