@@ -26,7 +26,7 @@ const trackEvent = (event: string, category: string, label?: string) => {
 import { useQuery } from "@tanstack/react-query";
 import { Star } from "lucide-react";
 
-import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode, Shield, Heart, Globe, Video } from "lucide-react";
+import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode, Shield, Heart, Globe, Video, Radio } from "lucide-react";
 import { SiApple, SiCashapp } from "react-icons/si";
 const profileImage = "/images/IMG_2876_1752841940506.jpeg";
 const backgroundImage = "/images/IMG_2862_1751936715707.jpg";
@@ -39,6 +39,8 @@ export default function Home() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [isScreeningFormOpen, setIsScreeningFormOpen] = useState(false);
   const [isQuickChatOpen, setIsQuickChatOpen] = useState(false);
+  const [showChaturbateEmbed, setShowChaturbateEmbed] = useState(false);
+  const [showStripchatEmbed, setShowStripchatEmbed] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   
   // Initialize haptic feedback
@@ -80,6 +82,29 @@ export default function Home() {
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
+
+  const { data: chaturbateStatus } = useQuery({
+    queryKey: ['/api/chaturbate-status'],
+    queryFn: async () => {
+      const res = await fetch('/api/chaturbate-status');
+      return res.json() as Promise<{ live: boolean }>;
+    },
+    refetchInterval: 60000,
+    staleTime: 30000,
+  });
+
+  const { data: stripchatStatus } = useQuery({
+    queryKey: ['/api/stripchat-status'],
+    queryFn: async () => {
+      const res = await fetch('/api/stripchat-status');
+      return res.json() as Promise<{ live: boolean }>;
+    },
+    refetchInterval: 60000,
+    staleTime: 30000,
+  });
+
+  const chaturbateIsLive = chaturbateStatus?.live ?? false;
+  const stripchatIsLive = stripchatStatus?.live ?? false;
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -511,27 +536,121 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Live Chat Section */}
+        {/* Live Streams Section */}
         <section className="py-12 px-4"
                  style={{transform: `translateY(${scrollY * 0.03}px)`}}>
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-center text-white">Chat</h2>
-            <div 
-              className="rounded-3xl overflow-hidden backdrop-blur-xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.1)'
-              }}
-            >
-              <iframe 
-                src="https://cbxyz.com/in/?tour=SHBY&campaign=2KzrM&track=embed&room=bobbydfw"
-                className="w-full rounded-3xl"
-                style={{ height: '528px', border: 'none' }}
-                title="Live Chat"
-                allow="camera; microphone"
-              />
-            </div>
+            <h2 className="text-2xl font-bold mb-6 text-center text-white">Live Streams</h2>
+            <Tabs defaultValue="chaturbate" className="w-full">
+              <TabsList className="grid grid-cols-2 mb-6 h-auto p-1 rounded-2xl"
+                style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  border: '1px solid rgba(255,255,255,0.1)'
+                }}>
+                <TabsTrigger value="chaturbate"
+                  className="rounded-xl py-2.5 data-[state=active]:bg-white/10 text-gray-400 data-[state=active]:text-white flex items-center justify-center gap-2 transition-all">
+                  {chaturbateIsLive && <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0" />}
+                  <span>Chaturbate</span>
+                </TabsTrigger>
+                <TabsTrigger value="stripchat"
+                  className="rounded-xl py-2.5 data-[state=active]:bg-white/10 text-gray-400 data-[state=active]:text-white flex items-center justify-center gap-2 transition-all">
+                  {stripchatIsLive && <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0" />}
+                  <span>Stripchat</span>
+                </TabsTrigger>
+              </TabsList>
+
+              {/* Chaturbate tab */}
+              <TabsContent value="chaturbate">
+                {(chaturbateIsLive || showChaturbateEmbed) ? (
+                  <div className="rounded-3xl overflow-hidden backdrop-blur-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
+                      border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                    <iframe
+                      src="https://cbxyz.com/in/?tour=SHBY&campaign=2KzrM&track=embed&room=bobbydfw"
+                      className="w-full rounded-3xl"
+                      style={{ height: '500px', border: 'none' }}
+                      title="Live on Chaturbate"
+                      allow="camera; microphone"
+                    />
+                  </div>
+                ) : (
+                  <div className="rounded-3xl p-8 text-center backdrop-blur-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+                      border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                    <Radio className="w-10 h-10 text-gray-500 mx-auto mb-4" />
+                    <p className="text-white font-semibold mb-1">Currently offline on Chaturbate</p>
+                    <p className="text-gray-400 text-sm mb-6">Follow me to get notified when I go live</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Button
+                        onClick={() => setShowChaturbateEmbed(true)}
+                        className="bg-gradient-to-r from-orange-500/30 to-amber-500/30 border border-orange-400/40 hover:from-orange-500/50 hover:to-amber-500/50 text-white rounded-xl"
+                      >
+                        Watch Live
+                      </Button>
+                      <a
+                        href="https://chaturbate.com/bobbydfw/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm text-gray-300 hover:text-white border border-white/10 hover:border-white/20 transition-colors"
+                      >
+                        View Profile ↗
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+
+              {/* Stripchat tab */}
+              <TabsContent value="stripchat">
+                {(stripchatIsLive || showStripchatEmbed) ? (
+                  <div className="rounded-3xl overflow-hidden backdrop-blur-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
+                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
+                      border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                    <iframe
+                      src="https://stripchat.com/embed/rentbobbydfw"
+                      className="w-full rounded-3xl"
+                      style={{ height: '500px', border: 'none' }}
+                      title="Live on Stripchat"
+                      allow="camera; microphone"
+                    />
+                  </div>
+                ) : (
+                  <div className="rounded-3xl p-8 text-center backdrop-blur-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
+                      border: '1px solid rgba(255,255,255,0.1)'
+                    }}>
+                    <Radio className="w-10 h-10 text-gray-500 mx-auto mb-4" />
+                    <p className="text-white font-semibold mb-1">Currently offline on Stripchat</p>
+                    <p className="text-gray-400 text-sm mb-6">Follow me to get notified when I go live</p>
+                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                      <Button
+                        onClick={() => setShowStripchatEmbed(true)}
+                        className="bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/40 hover:from-purple-500/50 hover:to-pink-500/50 text-white rounded-xl"
+                      >
+                        Watch Live
+                      </Button>
+                      <a
+                        href="https://stripchat.com/rentbobbydfw"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm text-gray-300 hover:text-white border border-white/10 hover:border-white/20 transition-colors"
+                      >
+                        View Profile ↗
+                      </a>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
 

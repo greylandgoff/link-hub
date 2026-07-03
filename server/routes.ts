@@ -151,6 +151,48 @@ END:VCARD`;
     }
   });
 
+  // Stripchat live status check (server-side to avoid CORS)
+  app.get("/api/stripchat-status", async (req, res) => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+      const response = await fetch(
+        "https://stripchat.com/api/front/v2/models/by-username/rentbobbydfw",
+        { signal: controller.signal, headers: { "Accept": "application/json" } }
+      );
+      clearTimeout(timeout);
+      if (!response.ok) {
+        return res.json({ live: false, source: "api_error" });
+      }
+      const data = await response.json() as { user?: { isLive?: boolean; streamId?: string | null } };
+      const live = !!(data?.user?.isLive || data?.user?.streamId);
+      res.json({ live, source: "stripchat_api" });
+    } catch {
+      res.json({ live: false, source: "timeout" });
+    }
+  });
+
+  // Chaturbate live status check (server-side to avoid CORS)
+  app.get("/api/chaturbate-status", async (req, res) => {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+      const response = await fetch(
+        "https://chaturbate.com/api/public/affiliates/onlinerooms/?wm=&client_ip=0.0.0.0&rooms=bobbydfw",
+        { signal: controller.signal }
+      );
+      clearTimeout(timeout);
+      if (!response.ok) {
+        return res.json({ live: false, source: "api_error" });
+      }
+      const data = await response.json() as { count?: number; results?: unknown[] };
+      const live = (data.count ?? 0) > 0;
+      res.json({ live, source: "chaturbate_api" });
+    } catch {
+      res.json({ live: false, source: "timeout" });
+    }
+  });
+
   // QR Code generation endpoint
   app.post("/api/generate-qr", async (req, res) => {
     try {
