@@ -25,7 +25,7 @@ export async function sendEmail(params: {
     return false;
   }
   try {
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: FROM,
       to: params.to,
       subject: params.subject,
@@ -33,7 +33,7 @@ export async function sendEmail(params: {
       html: params.html,
     });
     if (error) { console.error('Resend error:', error); return false; }
-    console.log('Email sent via Resend:', params.subject);
+    console.log('Email sent via Resend:', params.subject, '| id:', data?.id);
     return true;
   } catch (err) {
     console.error('Resend error:', err);
@@ -64,7 +64,7 @@ export async function sendQuickChatEmail(params: {
     </div>`;
 
   try {
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: FROM,
       to: TO,
       subject: `[RentBobby] Quick Chat from ${params.visitorName}`,
@@ -72,7 +72,7 @@ export async function sendQuickChatEmail(params: {
       html,
     });
     if (error) { console.error('Resend quick chat error:', error); return false; }
-    console.log('Quick Chat email sent via Resend');
+    console.log('Quick Chat email sent via Resend | id:', data?.id);
     return true;
   } catch (err) {
     console.error('Resend quick chat error:', err);
@@ -130,7 +130,7 @@ export async function sendAppointmentEmail(params: {
     </div>`;
 
   try {
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: FROM,
       to: TO,
       subject: `[RentBobby] New Appointment Request — ${params.name} on ${params.date}`,
@@ -138,7 +138,7 @@ export async function sendAppointmentEmail(params: {
       html,
     });
     if (error) { console.error('Resend appointment email error:', error); return false; }
-    console.log('Appointment email sent via Resend');
+    console.log('Appointment email sent via Resend | id:', data?.id);
     return true;
   } catch (err) {
     console.error('Resend appointment email error:', err);
@@ -184,7 +184,7 @@ export async function sendReviewEmail(params: {
     </div>`;
 
   try {
-    const { error } = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: FROM,
       to: TO,
       subject: `[RentBobby] New Review — ${params.avgRating}/5 from ${params.name}`,
@@ -192,7 +192,7 @@ export async function sendReviewEmail(params: {
       html,
     });
     if (error) { console.error('Resend review email error:', error); return false; }
-    console.log('Review email sent via Resend');
+    console.log('Review email sent via Resend | id:', data?.id);
     return true;
   } catch (err) {
     console.error('Resend review email error:', err);
