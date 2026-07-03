@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import QRCode from "qrcode";
-import { sendEmail, sendQuickChatEmail, isEmailConfigured } from "./email-service";
+import { sendEmail, sendQuickChatEmail, sendAppointmentEmail, sendReviewEmail, isEmailConfigured } from "./email-service";
 import { sendGoogleSheetsWebhook, isGoogleSheetsConfigured } from "./webhook-sms";
 import { sendAppointmentSMS, isTwilioConfigured } from "./twilio-sms";
 import { insertAppointmentSchema } from "@shared/schema";
@@ -77,32 +77,16 @@ END:VCARD`;
         timestamp: new Date().toISOString()
       });
 
-      // Try to send real email if SendGrid is configured
-      if (isEmailConfigured()) {
-        const emailSent = await sendEmail({
-          from: "bobby@rentbobby.com", // Your verified SendGrid email
-          to: "bobby@rentbobby.com", // Where you want to receive contact messages
-          subject: `New Contact Form Message from ${name}`,
-          text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\nReply to: ${email}`
-        });
+      const emailSent = await sendEmail({
+        to: "notification@rentbobby.com",
+        subject: `[RentBobby] Contact Form — ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}\n\nReply to: ${email}`,
+      });
 
-        if (emailSent) {
-          res.json({ 
-            message: "Email sent successfully",
-            success: true 
-          });
-        } else {
-          res.status(500).json({ 
-            message: "Failed to send email" 
-          });
-        }
+      if (emailSent) {
+        res.json({ message: "Email sent successfully", success: true });
       } else {
-        // Fallback when SendGrid is not configured
-        console.log("SendGrid not configured, email logged only");
-        res.json({ 
-          message: "Email logged (SendGrid not configured)",
-          success: true 
-        });
+        res.status(500).json({ message: "Failed to send email — please try the contact form or book an appointment." });
       }
     } catch (error) {
       console.error("Error processing email contact:", error);
@@ -265,52 +249,23 @@ END:VCARD`;
       // Send email notification about new review
       try {
         const avgRating = Math.round((review.appearance + review.punctuality + review.communication + review.professionalism + review.chemistry + review.discretion) / 6);
-        
-        const emailSubject = `⭐ New Review Submitted - ${avgRating}/5 Stars from ${review.name}`;
-        const emailText = `
-New review submitted for approval:
-
-Reviewer: ${review.name}
-Email: ${review.email}
-Overall Rating: ${avgRating}/5 stars
-
-Individual Ratings:
-- Appearance: ${review.appearance}/5
-- Punctuality: ${review.punctuality}/5  
-- Communication: ${review.communication}/5
-- Professionalism: ${review.professionalism}/5
-- Chemistry: ${review.chemistry}/5
-- Discretion: ${review.discretion}/5
-
-Service Types: ${review.serviceTypes.join(', ')}
-
-Would book again: ${review.wouldBookAgain ? 'Yes' : 'No'}
-Booking process smooth: ${review.bookingProcessSmooth ? 'Yes' : 'No'}  
-Matched description: ${review.matchedDescription ? 'Yes' : 'No'}
-
-Additional Comments:
-${review.additionalComments || 'None'}
-
-Review ID: ${review.id}
-Submitted: ${review.createdAt}
-
-To approve/manage reviews, use the admin panel.
-        `;
-
-        const emailSent = await sendEmail({
-          from: "bobby@rentbobby.com",
-          to: "bobby@rentbobby.com",
-          subject: emailSubject,
-          text: emailText
+        await sendReviewEmail({
+          name: review.name,
+          email: review.email,
+          avgRating,
+          ratings: {
+            Appearance: review.appearance,
+            Punctuality: review.punctuality,
+            Communication: review.communication,
+            Professionalism: review.professionalism,
+            Chemistry: review.chemistry,
+            Discretion: review.discretion,
+          },
+          serviceTypes: review.serviceTypes,
+          wouldBookAgain: review.wouldBookAgain,
+          additionalComments: review.additionalComments,
+          reviewId: review.id,
         });
-
-        if (emailSent) {
-          console.log('Review notification email sent successfully');
-        } else {
-          console.log('Review notification email failed to send');
-        }
-
-        // Webhook notifications disabled for reviews
       } catch (emailError) {
         console.error('Error sending review notification email:', emailError);
       }
@@ -399,7 +354,29 @@ To approve/manage reviews, use the admin panel.
       const appointment = await storage.createAppointment(appointmentData);
       console.log("Appointment saved to database, id:", appointment.id);
 
-      // Fire Twilio SMS — primary notification
+      // Primary notification — Resend email
+      let emailSent = false;
+      try {
+        emailSent = await sendAppointmentEmail({
+          name: appointmentData.name,
+          email: appointmentData.email,
+          phone: appointmentData.phone,
+          date: appointmentData.appointmentDate,
+          duration: appointmentData.duration,
+          location: appointmentData.location,
+          duo: !!(b.duo),
+          travel: !!(appointmentData.travelRequest),
+          arrivalAirport: appointmentData.arrivalAirport,
+          hotelBooked: appointmentData.hotelBooked,
+          notes: appointmentData.notes,
+          interests: appointmentData.interestsBoundaries,
+        });
+        console.log("Appointment email sent:", emailSent);
+      } catch (emailError) {
+        console.error("Appointment email error:", emailError);
+      }
+
+      // Secondary notification — Twilio SMS (non-blocking, best-effort)
       let smsSent = false;
       try {
         if (isTwilioConfigured()) {
@@ -425,13 +402,13 @@ To approve/manage reviews, use the admin panel.
 
       await storage.updateAppointmentWebhookStatus(
         appointment.id,
-        smsSent,
-        smsSent ? "Twilio SMS sent" : "Twilio SMS failed or not configured"
+        emailSent || smsSent,
+        emailSent ? "Resend email sent" : smsSent ? "Twilio SMS sent" : "All notifications failed"
       );
 
       res.json({
         message: "Appointment request submitted successfully",
-        appointment: { id: appointment.id, status: appointment.status, smsSent },
+        appointment: { id: appointment.id, status: appointment.status, emailSent, smsSent },
       });
     } catch (error) {
       console.error("Error creating appointment:", error);
