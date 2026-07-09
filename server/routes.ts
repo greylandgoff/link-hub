@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 import { sendEmail, sendQuickChatEmail, sendAppointmentEmail, sendReviewEmail, isEmailConfigured } from "./email-service";
 import { sendGoogleSheetsWebhook, isGoogleSheetsConfigured } from "./webhook-sms";
 import { sendAppointmentSMS, isTwilioConfigured } from "./twilio-sms";
-import { insertAppointmentSchema } from "@shared/schema";
+import { insertAppointmentSchema, insertReviewSchema } from "@shared/schema";
 import * as fs from "fs";
 import * as path from "path";
 import { fileURLToPath } from "url";
@@ -235,13 +235,13 @@ END:VCARD`;
 
   app.post("/api/reviews", async (req, res) => {
     try {
-      const reviewData = req.body;
-      
-      if (!reviewData.name || !reviewData.email) {
+      if (!req.body.name || !req.body.email) {
         return res.status(400).json({ 
           message: "Name and email are required" 
         });
       }
+
+      const reviewData = insertReviewSchema.parse(req.body);
 
       const review = await storage.createReview(reviewData);
       console.log('Review created:', review);
@@ -273,6 +273,9 @@ END:VCARD`;
       res.json({ message: "Review submitted for approval", review });
     } catch (error) {
       console.error("Error creating review:", error);
+      if (error instanceof Error && error.name === "ZodError") {
+        return res.status(400).json({ message: "Invalid data", errors: (error as any).errors });
+      }
       res.status(500).json({ message: "Failed to submit review" });
     }
   });
