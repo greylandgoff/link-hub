@@ -1,11 +1,11 @@
 :root {
-  --sm-bg: #FBFBFD;
-  --sm-card: #FFFFFF;
-  --sm-text: #1D1D1F;
-  --sm-text-muted: #86868B;
-  --sm-accent: #0071E3;
-  --sm-accent-hover: #0077ED;
-  --sm-border: rgba(0, 0, 0, 0.05);
+  --sm-bg: #DDD6B9;
+  --sm-card: #FBF9F0;
+  --sm-text: #283A2C;
+  --sm-text-muted: #6B7362;
+  --sm-accent: #3E5F44;
+  --sm-accent-hover: #33503A;
+  --sm-border: rgba(62, 95, 68, 0.12);
 }
 
 .soft-minimal-wrapper {
@@ -19,27 +19,27 @@
 .sm-card {
   background-color: var(--sm-card);
   border-radius: 32px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 8px 32px rgba(62, 95, 68, 0.08);
   border: 1px solid var(--sm-border);
 }
 
 .sm-btn-primary {
-  background-color: var(--sm-text);
-  color: #FFF;
+  background-color: var(--sm-accent);
+  color: #FBF9F0;
   border-radius: 9999px;
   transition: all 0.2s ease;
 }
 .sm-btn-primary:hover {
-  background-color: #000;
+  background-color: var(--sm-accent-hover);
   transform: scale(1.02);
 }
 
 .sm-btn-secondary {
-  background-color: #F5F5F7;
-  color: var(--sm-text);
+  background-color: #EFE9D3;
+  color: var(--sm-accent);
   border-radius: 9999px;
   transition: all 0.2s ease;
 }
 .sm-btn-secondary:hover {
-  background-color: #E8E8ED;
+  background-color: #E6DEC2;
 }

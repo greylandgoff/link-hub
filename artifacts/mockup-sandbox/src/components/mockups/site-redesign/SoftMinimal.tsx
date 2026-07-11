@@ -6,7 +6,7 @@ export function SoftMinimal() {
   return (
     <div className="soft-minimal-wrapper w-full flex flex-col items-center">
       {/* Sticky Nav */}
-      <nav className="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center backdrop-blur-xl bg-white/70 border-b border-black/5">
+      <nav className="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center backdrop-blur-xl bg-[#DDD6B9]/80 border-b border-[#3E5F44]/10">
         <div className="font-['Outfit'] font-bold text-xl tracking-tight">Bobby.</div>
         <button className="sm-btn-primary px-5 py-2.5 text-sm font-medium flex items-center gap-2">
           Request Booking
@@ -25,13 +25,13 @@ export function SoftMinimal() {
             />
           </div>
           <div className="space-y-4 max-w-2xl">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#283A2C] leading-tight">
               Genuine connection.<br/>No pretenses.
             </h1>
-            <p className="text-xl md:text-2xl text-gray-500 font-medium">
+            <p className="text-xl md:text-2xl text-[#3E5F44] font-medium">
               Austin private host & travel companion.
             </p>
-            <p className="text-lg text-gray-600 max-w-xl mx-auto pt-4 leading-relaxed">
+            <p className="text-lg text-[#4A574A] max-w-xl mx-auto pt-4 leading-relaxed">
               I specialize in creating authentic, boyfriend-vibe experiences that feel completely natural. Whether we're exploring Austin or jet-setting for a weekend, my goal is to make every moment unforgettable.
             </p>
           </div>
@@ -50,7 +50,7 @@ export function SoftMinimal() {
           <h2 className="text-2xl font-semibold mb-8">Connect & Verify</h2>
           <div className="flex flex-wrap justify-center gap-4">
             {["OnlyFans", "Rentmen", "X / Twitter", "Hunqz", "CashApp", "Apple Cash"].map((link) => (
-              <a key={link} href="#" className="px-6 py-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors font-medium text-gray-800">
+              <a key={link} href="#" className="px-6 py-3 rounded-full bg-[#3E5F44]/10 hover:bg-[#3E5F44]/20 transition-colors font-medium text-[#3E5F44]">
                 {link}
               </a>
             ))}
@@ -61,7 +61,7 @@ export function SoftMinimal() {
         <section className="sm-card p-10 md:p-14">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">What to expect</h2>
-            <p className="text-gray-500 text-lg">Curated experiences tailored to you.</p>
+            <p className="text-[#6B7362] text-lg">Curated experiences tailored to you.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
             <ServiceCard 
@@ -86,7 +86,7 @@ export function SoftMinimal() {
             />
           </div>
           <div className="mt-12 text-center">
-            <p className="text-sm text-gray-400">Rates quoted privately after screening.</p>
+            <p className="text-sm text-[#6B7362]">Rates quoted privately after screening.</p>
           </div>
         </section>
 
@@ -98,8 +98,8 @@ export function SoftMinimal() {
           <div className="sm-card overflow-hidden aspect-square md:aspect-auto">
              <img src="/__mockup/images/bobby-profile.jpeg" className="w-full h-full object-cover" alt="Portrait" />
           </div>
-          <div className="sm-card bg-gray-100 aspect-square flex items-center justify-center">
-            <span className="text-gray-400 font-medium">Private Gallery</span>
+          <div className="sm-card aspect-square flex items-center justify-center" style={{ backgroundColor: "#EFE9D3" }}>
+            <span className="text-[#6B7362] font-medium">Private Gallery</span>
           </div>
         </section>
 
@@ -111,7 +111,7 @@ export function SoftMinimal() {
               name="Alex T." 
               text="Genuine, easygoing, and a total gentleman. Bobby made me feel completely at ease from the moment we met. The weekend flew by way too fast."
             />
-            <div className="w-full h-px bg-gray-100" />
+            <div className="w-full h-px bg-[#3E5F44]/10" />
             <Review 
               name="Michael R." 
               text="I was a bit nervous since it was my first time arranging something like this, but Bobby was incredibly professional while still feeling like a close friend. Highly recommend."
@@ -141,17 +141,17 @@ export function SoftMinimal() {
       </main>
 
       {/* Footer */}
-      <footer className="w-full border-t border-gray-200 bg-white py-12 px-6 mt-auto text-center">
+      <footer className="w-full border-t border-[#3E5F44]/15 bg-[#3E5F44] py-12 px-6 mt-auto text-center">
         <div className="max-w-4xl mx-auto flex flex-col items-center gap-6">
-          <div className="flex gap-6 text-sm text-gray-500 font-medium">
-            <a href="#" className="hover:text-gray-900 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-gray-900 transition-colors">Terms of Use</a>
-            <a href="#" className="hover:text-gray-900 transition-colors">Support</a>
+          <div className="flex gap-6 text-sm text-[#DDD6B9]/80 font-medium">
+            <a href="#" className="hover:text-[#FBF9F0] transition-colors">Privacy Policy</a>
+            <a href="#" className="hover:text-[#FBF9F0] transition-colors">Terms of Use</a>
+            <a href="#" className="hover:text-[#FBF9F0] transition-colors">Support</a>
           </div>
-          <div className="px-4 py-2 bg-gray-100 text-gray-500 rounded-lg text-xs font-bold tracking-widest uppercase">
+          <div className="px-4 py-2 bg-[#DDD6B9]/15 text-[#DDD6B9] rounded-lg text-xs font-bold tracking-widest uppercase">
             Must be 21+
           </div>
-          <p className="text-xs text-gray-400">© {new Date().getFullYear()} Bobby. All rights reserved.</p>
+          <p className="text-xs text-[#DDD6B9]/60">© {new Date().getFullYear()} Bobby. All rights reserved.</p>
         </div>
       </footer>
     </div>
@@ -161,11 +161,11 @@ export function SoftMinimal() {
 function ServiceCard({ icon, title, desc }: { icon: React.ReactNode, title: string, desc: string }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="w-12 h-12 rounded-2xl bg-gray-100 flex items-center justify-center text-gray-800">
+      <div className="w-12 h-12 rounded-2xl bg-[#3E5F44]/10 flex items-center justify-center text-[#3E5F44]">
         {icon}
       </div>
       <h3 className="text-xl font-bold">{title}</h3>
-      <p className="text-gray-500 leading-relaxed">{desc}</p>
+      <p className="text-[#6B7362] leading-relaxed">{desc}</p>
     </div>
   );
 }
@@ -173,11 +173,11 @@ function ServiceCard({ icon, title, desc }: { icon: React.ReactNode, title: stri
 function Review({ name, text }: { name: string, text: string }) {
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex text-yellow-400">
+      <div className="flex text-[#3E5F44]">
         {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
       </div>
-      <p className="text-lg text-gray-800 leading-relaxed italic">"{text}"</p>
-      <span className="font-semibold text-gray-900">— {name}</span>
+      <p className="text-lg text-[#33443A] leading-relaxed italic">"{text}"</p>
+      <span className="font-semibold text-[#283A2C]">— {name}</span>
     </div>
   );
 }
@@ -188,10 +188,10 @@ function FAQItem({ q, a }: { q: string, a: string }) {
     <div className="sm-card px-6 py-5 cursor-pointer hover:shadow-md transition-shadow" onClick={() => setIsOpen(!isOpen)}>
       <div className="flex justify-between items-center">
         <h4 className="font-semibold text-lg">{q}</h4>
-        <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-5 h-5 text-[#3E5F44] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </div>
       {isOpen && (
-        <p className="text-gray-500 mt-4 leading-relaxed animate-in fade-in duration-300">
+        <p className="text-[#6B7362] mt-4 leading-relaxed animate-in fade-in duration-300">
           {a}
         </p>
       )}
