@@ -7,7 +7,7 @@ export function SoftMinimal() {
     <div className="soft-minimal-wrapper w-full flex flex-col items-center">
       {/* Sticky Nav */}
       <nav className="fixed top-0 w-full z-50 px-6 py-4 flex justify-between items-center backdrop-blur-xl bg-[#DDD6B9]/80 border-b border-[#3E5F44]/10">
-        <div className="font-['Outfit'] font-bold text-xl tracking-tight">Bobby.</div>
+        <div className="sm-logo text-xl tracking-tight">Bobby.</div>
         <button className="sm-btn-primary px-5 py-2.5 text-sm font-medium flex items-center gap-2">
           Request Booking
         </button>
@@ -25,7 +25,7 @@ export function SoftMinimal() {
             />
           </div>
           <div className="space-y-4 max-w-2xl">
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-[#283A2C] leading-tight">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#283A2C] leading-tight">
               Genuine connection.<br/>No pretenses.
             </h1>
             <p className="text-xl md:text-2xl text-[#3E5F44] font-medium">

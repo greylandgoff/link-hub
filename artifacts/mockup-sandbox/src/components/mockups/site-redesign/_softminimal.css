@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
 :root {
   --sm-bg: #DDD6B9;
   --sm-card: #FBF9F0;
@@ -11,9 +13,25 @@
 .soft-minimal-wrapper {
   background-color: var(--sm-bg);
   color: var(--sm-text);
-  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: 'Jost', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 1.02rem;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+}
+
+.soft-minimal-wrapper h1,
+.soft-minimal-wrapper h2,
+.soft-minimal-wrapper h3,
+.soft-minimal-wrapper h4 {
+  font-family: 'Unbounded', 'Jost', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.sm-logo {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  transform: skewX(-8deg);
+  display: inline-block;
 }
 
 .sm-card {
