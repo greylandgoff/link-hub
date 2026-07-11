@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap');
+
+.editorial-theme {
+  --bg-color: #F9F8F6;
+  --text-main: #111111;
+  --text-muted: #555555;
+  --accent-gold: #9E8C70;
+  
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.editorial-theme h1,
+.editorial-theme h2,
+.editorial-theme h3,
+.editorial-theme h4,
+.editorial-theme .font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.editorial-theme .thin-rule {
+  border-top: 1px solid rgba(17, 17, 17, 0.15);
+}
+
+.editorial-theme .thin-rule-bottom {
+  border-bottom: 1px solid rgba(17, 17, 17, 0.15);
+}
+
+.editorial-theme .small-caps-label {
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}

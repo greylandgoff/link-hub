@@ -1,0 +1,14 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "bhOLnFI72iPlKV_Bte-kG"
+uri = "file://artifacts/mockup-sandbox/public/images/editorial-gallery-1.png"
+type = "image"
+title = "Tasteful minimal lifestyle shadow detail"
+
+[[generated]]
+id = "XIEgUQdnXcgyTeC6joJYz"
+uri = "file://artifacts/mockup-sandbox/public/images/editorial-gallery-2.png"
+type = "image"
+title = "Elegant cocktail on table"

@@ -1,0 +1,45 @@
+:root {
+  --sm-bg: #FBFBFD;
+  --sm-card: #FFFFFF;
+  --sm-text: #1D1D1F;
+  --sm-text-muted: #86868B;
+  --sm-accent: #0071E3;
+  --sm-accent-hover: #0077ED;
+  --sm-border: rgba(0, 0, 0, 0.05);
+}
+
+.soft-minimal-wrapper {
+  background-color: var(--sm-bg);
+  color: var(--sm-text);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+.sm-card {
+  background-color: var(--sm-card);
+  border-radius: 32px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--sm-border);
+}
+
+.sm-btn-primary {
+  background-color: var(--sm-text);
+  color: #FFF;
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+.sm-btn-primary:hover {
+  background-color: #000;
+  transform: scale(1.02);
+}
+
+.sm-btn-secondary {
+  background-color: #F5F5F7;
+  color: var(--sm-text);
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+.sm-btn-secondary:hover {
+  background-color: #E8E8ED;
+}

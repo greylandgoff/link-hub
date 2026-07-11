@@ -1,0 +1,50 @@
+.midnight-noir-theme {
+  --bg-base: #050505;
+  --bg-surface: #111111;
+  --bg-surface-elevated: #1c1c1c;
+  --text-main: #fafafa;
+  --text-muted: #a1a1aa;
+  --accent-gold: #c5a059;
+  --accent-gold-light: #e6c887;
+  --accent-gold-dark: #8b6d3b;
+  --accent-gold-muted: rgba(197, 160, 89, 0.15);
+  
+  background-color: var(--bg-base);
+  color: var(--text-main);
+}
+
+.midnight-noir-theme ::selection {
+  background-color: var(--accent-gold-muted);
+  color: var(--accent-gold-light);
+}
+
+.font-serif-luxury {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-sans-luxury {
+  font-family: 'Outfit', sans-serif;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(to right, var(--accent-gold-light), var(--accent-gold), var(--accent-gold-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-gold-subtle {
+  border-color: var(--accent-gold-muted);
+}
+
+.bg-gold-subtle {
+  background-color: var(--accent-gold-muted);
+}
+
+.text-gold {
+  color: var(--accent-gold);
+}
+
+.hover-gold:hover {
+  color: var(--accent-gold-light);
+}
