@@ -53,11 +53,10 @@ export async function sendToMakeWebhook(appointmentData: AppointmentData): Promi
   try {
     // Parse location to determine incall/outcall
     const isIncall = appointmentData.location?.toLowerCase().includes('incall') || 
-                     appointmentData.location?.toLowerCase().includes('my place') || 
-                     appointmentData.location?.toLowerCase().includes('austin');
+                     appointmentData.location?.toLowerCase().includes('my place');
     
     const locationType = isIncall ? 'Incall' : 'Outcall';
-    const locationDisplay = isIncall ? 'Your place (Austin)' : (appointmentData.location || 'Client location');
+    const locationDisplay = isIncall ? 'My place (incall)' : (appointmentData.location || 'Client location');
     
     // Create iOS notification content
     const notificationTitle = `📅 New Appointment: ${appointmentData.name}`;
@@ -85,7 +84,7 @@ ${appointmentData.service} - ${locationType}
       appointment_time: appointmentData.time,
       duration: appointmentData.duration || "2", // Default 2 hours
       service_type: appointmentData.service,
-      location: appointmentData.location || "austin",
+      location: appointmentData.location || "Not specified",
       
       // Additional information
       special_requests: appointmentData.message || "",
@@ -143,7 +142,7 @@ export async function testMakeWebhook(): Promise<boolean> {
     time: "14:00",
     duration: "2",
     service: "companion",
-    location: "austin",
+    location: "Incall (my place)",
     message: "This is a test appointment booking from the website",
     timestamp: new Date().toISOString(),
     status: "test",

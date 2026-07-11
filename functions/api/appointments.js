@@ -24,7 +24,7 @@ export async function onRequest(context) {
       const service = appointmentData.service_type || appointmentData.service || appointmentData.serviceType;
       const specialRequests = appointmentData.special_requests || appointmentData.specialRequests || appointmentData.message || appointmentData.notes;
       const duration = appointmentData.duration || appointmentData.length || '2 hours';
-      const location = appointmentData.location || appointmentData.cityLocation || 'Austin';
+      const location = appointmentData.location || appointmentData.cityLocation || 'Not specified';
       
       if (!appointmentData.name || !appointmentData.email || !date || !time) {
         return new Response(JSON.stringify({ 

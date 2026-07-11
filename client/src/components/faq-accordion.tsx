@@ -10,9 +10,9 @@ interface FAQItem {
 const faqData: FAQItem[] = [
   // SEO-specific FAQs from the document
   {
-    question: "How do I rent a companion in Austin discreetly?",
+    question: "How do I rent a companion discreetly?",
     answer: "Easy — hit the booking button, send a message, and I'll get back to you fast. All communication stays private.",
-    keywords: ["austin", "discreet", "companion", "rent", "private"]
+    keywords: ["discreet", "companion", "rent", "private"]
   },
   {
     question: "What does LGBTQ-friendly companion mean?",
@@ -25,15 +25,15 @@ const faqData: FAQItem[] = [
     keywords: ["twunk", "escort", "twink", "hunk", "youthful"]
   },
   {
-    question: "Can I book you outside of Austin?",
-    answer: "Yes, travel bookings are available across Texas (and beyond) with arrangements.",
-    keywords: ["travel", "booking", "texas", "austin", "outside"]
+    question: "Do you travel for bookings?",
+    answer: "Yes, travel bookings are available near and far with advance arrangements.",
+    keywords: ["travel", "booking", "outside", "getaway"]
   },
   // Additional SEO-optimized FAQs
   {
-    question: "What services does a male companion in Austin offer?",
+    question: "What services does a male companion offer?",
     answer: "I offer boyfriend-style companionship, engaging conversation, dinner dates, event attendance, and authentic connection. Each experience is tailored to your preferences — whether you need a charming plus-one for an event or simply good company for the evening.",
-    keywords: ["male companion", "austin", "services", "boyfriend experience", "events"]
+    keywords: ["male companion", "services", "boyfriend experience", "events"]
   },
   {
     question: "How much notice do you need for bookings?",
@@ -120,7 +120,7 @@ export function FAQAccordion() {
       {/* Additional SEO text */}
       <div className="mt-8 text-center">
         <p className="text-[#6B7362] text-sm">
-          Have more questions about companion services in Austin? 
+          Have more questions about companion services? 
           <button 
             className="text-[#3E5F44] hover:text-[#33503A] ml-2 underline transition-colors"
             onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}

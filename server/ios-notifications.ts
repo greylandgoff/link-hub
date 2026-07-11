@@ -68,7 +68,7 @@ async function sendMakeIOSNotification(appointment: AppointmentNotification): Pr
 
   try {
     const locationDetails = appointment.isIncall 
-      ? "Your place (Austin, TX)" 
+      ? "My place (incall)" 
       : appointment.address || appointment.area || "Client specified location";
 
     const calendlyUrl = appointment.calendlyLink || process.env.CALENDLY_BOOKING_URL;
@@ -152,11 +152,9 @@ export function parseLocationDetails(location: string, message: string): {
   const messageLower = message.toLowerCase();
   
   // Check for incall indicators
-  if (locationLower.includes('austin') || 
-      locationLower.includes('your location') || 
-      locationLower.includes('your place') ||
-      messageLower.includes('incall') ||
-      messageLower.includes('your place')) {
+  if (locationLower.includes('incall') || 
+      locationLower.includes('my place') ||
+      messageLower.includes('incall')) {
     return { isIncall: true };
   }
   

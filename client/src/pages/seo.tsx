@@ -36,7 +36,7 @@ export default function SEOPage() {
           <div className="max-w-4xl mx-auto">
             <div className="sm-card p-8 mb-8">
               <h1 className="text-4xl md:text-6xl font-bold mb-4 text-center text-[#3E5F44]">
-                Austin Male Companion | RentBobby Digital Hub
+                Male Companion | RentBobby Digital Hub
               </h1>
               <p className="text-xl text-center text-[#6B7362] font-medium">
                 <strong>Real connections. Real fun. All in one place.</strong>
@@ -52,7 +52,7 @@ export default function SEOPage() {
             {/* Welcome section */}
             <section className="sm-card p-8">
               <p className="text-lg leading-relaxed text-[#283A2C] mb-6">
-                Welcome to the digital link hub of <strong className="text-[#3E5F44]">Bobby</strong>—your go-to <em className="text-[#3E5F44]">Austin male companion</em> for good times, great company, and zero awkward small talk (unless you're into that). Whether you're planning a night out, a weekend getaway, or just want someone who shows up, vibes, and looks good doing it—you're in the right place.
+                Welcome to the digital link hub of <strong className="text-[#3E5F44]">Bobby</strong>—your go-to <em className="text-[#3E5F44]">male companion</em> for good times, great company, and zero awkward small talk (unless you're into that). Whether you're planning a night out, a weekend getaway, or just want someone who shows up, vibes, and looks good doing it—you're in the right place.
               </p>
 
               <div className="rounded-2xl p-6" style={{ backgroundColor: '#EFE9D3' }}>
@@ -83,7 +83,7 @@ export default function SEOPage() {
                 Why RentBobby?
               </h2>
               <p className="text-lg text-[#283A2C] mb-6 text-center">
-                Not your average <em className="text-[#3E5F44]">twunk escort in Austin</em>. Think: charm meets cheek. Aesthetics meet attitude. And yes, the biceps are real.
+                Not your average <em className="text-[#3E5F44]">twunk escort</em>. Think: charm meets cheek. Aesthetics meet attitude. And yes, the biceps are real.
               </p>
 
               <div className="grid md:grid-cols-2 gap-4">
@@ -106,7 +106,7 @@ export default function SEOPage() {
 
               <div className="mt-6 rounded-2xl p-4 text-center" style={{ backgroundColor: '#EFE9D3' }}>
                 <p className="text-[#283A2C]">
-                  <strong className="text-[#3E5F44]">Austin-based, Texas-ready</strong> — yes, you can <em className="text-[#3E5F44]">rent a companion in Texas</em>
+                  <strong className="text-[#3E5F44]">Local or long-distance</strong> — yes, you can <em className="text-[#3E5F44]">rent a companion who travels</em>
                 </p>
               </div>
             </section>
@@ -120,8 +120,8 @@ export default function SEOPage() {
               
               <div className="grid md:grid-cols-2 gap-4 mb-6">
                 {[
-                  "A gay man in or passing through Austin",
-                  "Looking for a gay companion Austin that's actually personable",
+                  "A gay man looking for genuinely good company",
+                  "Looking for a gay companion that's actually personable",
                   "Interested in one-on-one time that feels natural, not transactional",
                   "Wanting someone who blends into a dinner party but can also, uh, stand out when needed"
                 ].map((item, index) => (

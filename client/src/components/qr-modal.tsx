@@ -110,7 +110,7 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
               ) : qrCodeUrl ? (
                 <img 
                   src={qrCodeUrl} 
-                  alt="QR code for Austin male companion Bobby's profile at rentbobby.com" 
+                  alt="QR code for male companion Bobby's profile at rentbobby.com" 
                   className="w-48 h-48 rounded-lg"
                 />
               ) : (

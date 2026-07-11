@@ -27,8 +27,8 @@ const DURATIONS = [
 ];
 
 const LOCATIONS = [
-  "Austin (incall)",
-  "Austin (outcall)",
+  "Incall (my place)",
+  "Outcall (your place)",
   "Dallas",
   "Houston",
   "San Antonio",

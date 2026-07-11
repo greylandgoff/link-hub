@@ -49,7 +49,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
       : `Hi Bobby! ${formData.name ? `This is ${formData.name}. ` : ''}I'd like to get in touch with you.`;
     
     const encodedMessage = encodeURIComponent(message);
-    const smsUrl = `sms:+18177918598${window.navigator.userAgent.includes('iPhone') ? '&' : '?'}body=${encodedMessage}`;
+    const smsUrl = `sms:+17372972747${window.navigator.userAgent.includes('iPhone') ? '&' : '?'}body=${encodedMessage}`;
     
     window.location.href = smsUrl;
     
@@ -64,7 +64,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
   };
 
   const handleQuickText = () => {
-    const smsUrl = `sms:+18177918598`;
+    const smsUrl = `sms:+17372972747`;
     window.location.href = smsUrl;
     
     toast({
@@ -95,7 +95,7 @@ export function ContactModal({ isOpen, onClose }: ContactModalProps) {
               className="w-full rounded-full bg-[#3E5F44] hover:bg-[#33503A] font-medium text-[#FBF9F0] h-12"
             >
               <Phone className="w-5 h-5 mr-3" />
-              Text Bobby: (817) 791-8598
+              Text Bobby: (737) 297-2747
             </Button>
             
             <div className="relative">

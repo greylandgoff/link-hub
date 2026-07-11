@@ -205,7 +205,7 @@ export default function Home() {
           >
             <img
               src={profileImage}
-              alt="Austin male companion Bobby LGBTQ-friendly professional services"
+              alt="Male companion Bobby LGBTQ-friendly professional services"
               className="w-full h-full object-cover object-center"
             />
           </button>
@@ -214,7 +214,7 @@ export default function Home() {
               Genuine connection.<br />No pretenses.
             </h1>
             <p className="text-xl md:text-2xl text-[#3E5F44] font-medium">
-              Austin private host & travel companion.
+              Private host & travel companion.
             </p>
             <p className="text-lg text-[#4A574A] max-w-xl mx-auto pt-4 leading-relaxed">
               Professional companion services specializing in authentic connections and boyfriend-style experiences. Available for dates, events, and getaways.
@@ -301,7 +301,7 @@ export default function Home() {
         <section className="sm-card p-8 md:p-12 text-center">
           <h2 className="text-2xl font-semibold mb-2 text-[#283A2C]">Partner in Crime</h2>
           <h3 className="text-xl font-bold text-[#3E5F44] mt-6">Nick</h3>
-          <p className="text-[#6B7362] text-sm mt-1">Austin, TX</p>
+          <p className="text-[#6B7362] text-sm mt-1">Companion & duo partner</p>
           <p className="text-[#4A574A] leading-relaxed mt-4 mb-6 max-w-md mx-auto">
             Rugged, American, dom, daddy for good time
           </p>

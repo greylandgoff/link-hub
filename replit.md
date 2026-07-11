@@ -11,7 +11,8 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - Images: Prefer bleek/minimal imagery as stylistic choice
 
 ## Contact Info
-- Phone (SMS/vCard): (817) 791-8598 — updated July 2026, used in contact modal and /api/contact-card vCard
+- Phone (SMS/vCard): (737) 297-2747 — used in contact modal and /api/contact-card vCard
+- Location-neutral branding: no Austin/Texas mentions anywhere on the site (July 2026) — copy uses "companion"/"escort" wording only; booking form uses "Incall (my place)" / "Outcall (your place)"
 
 ## Project Architecture
 - Frontend: React with Vite
@@ -112,7 +113,7 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - ENHANCED SCREENING FORM: Added phone number field to screening form, separated screening data into individual database fields (notes, travel_request, arrival_airport, hotel_booked, interests_boundaries) instead of combining into single message (December 23, 2025)
 - IMPROVED ADMIN PANEL DISPLAY: Updated admin panel to show screening data in separate color-coded snippets instead of messy combined special requests field (December 23, 2025)
 - SOFT MINIMAL REDESIGN GRADUATED: Replaced dark neon theme with approved "Soft Minimal" light theme (sand/cream/forest green, Unbounded + Jost fonts) across home page, 404, SEO page, and all modals/overlays; all functionality preserved and verified via e2e test (July 11, 2026)
-- PHONE NUMBER UPDATED: Changed contact/SMS/vCard phone to (817) 791-8598 in contact modal and server vCard endpoint (July 11, 2026)
+- LOCATION-NEUTRAL REWORDING: Removed all Austin/Texas mentions from meta tags, structured data, hero copy, FAQ, gallery alt text, SEO page, screening form locations, and server notification helpers; phone number kept as (737) 297-2747 (July 11, 2026)
 
 ## Features
 1. **Social Media Integration**: Links to OnlyFans, Rentmen, Hunqz, Chaturbate, Stripchat, Twitter, CashApp

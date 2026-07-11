@@ -10,7 +10,7 @@ interface GalleryImage {
 const galleryImages: GalleryImage[] = [
   {
     src: "/images/IMG_2862_1751936715707.jpg",
-    alt: "Austin male companion Bobby in professional attire"
+    alt: "Male companion Bobby in professional attire"
   },
   {
     src: "/images/IMG_2876_1752841940506.jpeg", 
@@ -18,11 +18,11 @@ const galleryImages: GalleryImage[] = [
   },
   {
     src: "/images/IMG_2889_1751926461838.jpg",
-    alt: "Discreet male escort services for social events in Austin"
+    alt: "Discreet male escort services for social events"
   },
   {
     src: "/images/new_photo_1756580037.jpeg",
-    alt: "Professional twunk companion Bobby available in Austin Texas"
+    alt: "Professional twunk companion Bobby available for booking"
   }
 ];
 
