@@ -32,7 +32,7 @@ FN:Bobby
 ORG:Personal Companion
 TITLE:Personal Companion
 EMAIL:bobby@rentbobby.com
-TEL:+17372972747
+TEL:+18177918598
 URL:https://rentbobby.com
 NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.${photoBase64 ? `\nPHOTO;ENCODING=BASE64;TYPE=JPEG:${photoBase64}` : ''}
 END:VCARD`;
@@ -49,7 +49,7 @@ FN:Bobby
 ORG:Personal Companion
 TITLE:Personal Companion
 EMAIL:bobby@rentbobby.com
-TEL:+17372972747
+TEL:+18177918598
 URL:https://rentbobby.com
 NOTE:Genuine, laid-back companion for relaxed chats, thoughtful talks, or playful fun. Life's short—let's enjoy it.
 END:VCARD`;

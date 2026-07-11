@@ -61,7 +61,7 @@ export function ImageGallery() {
   return (
     <div className="relative w-full max-w-4xl mx-auto">
       {/* Main Image Container */}
-      <div className="relative h-96 rounded-2xl overflow-hidden">
+      <div className="relative h-96 rounded-[32px] overflow-hidden shadow-lg border border-[#3E5F44]/10">
         <img
           src={currentImage.src}
           alt={currentImage.alt}
@@ -97,8 +97,8 @@ export function ImageGallery() {
             onClick={() => goToSlide(index)}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
               index === currentIndex
-                ? 'bg-purple-500 scale-125'
-                : 'bg-gray-500 hover:bg-gray-400'
+                ? 'bg-[#3E5F44] scale-125'
+                : 'bg-[#3E5F44]/30 hover:bg-[#3E5F44]/50'
             }`}
           />
         ))}
@@ -108,7 +108,7 @@ export function ImageGallery() {
       <div className="text-center mt-4">
         <button
           onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-          className="text-xs text-gray-400 hover:text-white transition-colors"
+          className="text-xs text-[#6B7362] hover:text-[#3E5F44] transition-colors"
         >
           {isAutoPlaying ? '⏸ Pause slideshow' : '▶ Resume slideshow'}
         </button>

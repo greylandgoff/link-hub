@@ -132,24 +132,24 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
   };
 
   const glassInput =
-    "bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-white/30 rounded-xl h-11 px-4 w-full text-sm outline-none transition-all";
+    "bg-white border border-[#3E5F44]/20 text-[#283A2C] placeholder-[#6B7362] focus:border-[#3E5F44] rounded-xl h-11 px-4 w-full text-sm outline-none transition-all";
   const glassTextarea =
-    "bg-white/5 border border-white/10 text-white placeholder-white/30 focus:border-white/30 rounded-xl px-4 py-3 w-full text-sm outline-none transition-all resize-none min-h-[90px]";
+    "bg-white border border-[#3E5F44]/20 text-[#283A2C] placeholder-[#6B7362] focus:border-[#3E5F44] rounded-xl px-4 py-3 w-full text-sm outline-none transition-all resize-none min-h-[90px]";
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent
         className="sm:max-w-[520px] max-h-[90vh] overflow-y-auto border-0 p-0"
         style={{
-          background: "linear-gradient(135deg, rgba(15,15,20,0.97) 0%, rgba(10,10,15,0.99) 100%)",
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.08), 0 30px 60px rgba(0,0,0,0.6)",
-          border: "1px solid rgba(255,255,255,0.08)",
+          backgroundColor: "#FBF9F0",
+          boxShadow: "0 30px 60px rgba(62,95,68,0.15)",
+          border: "1px solid rgba(62,95,68,0.15)",
           borderRadius: "24px",
         }}
       >
         <div className="p-7">
           <DialogHeader className="mb-6">
-            <DialogTitle className="text-white text-xl font-semibold tracking-tight">
+            <DialogTitle className="text-[#283A2C] text-xl font-semibold tracking-tight">
               {step === "done" ? "Request received" : "Request appointment"}
             </DialogTitle>
             {step !== "done" && (
@@ -161,13 +161,13 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                       className="flex-1 h-0.5 rounded-full transition-all duration-500"
                       style={{
                         background: i <= stepIndex
-                          ? "rgba(255,255,255,0.5)"
-                          : "rgba(255,255,255,0.1)",
+                          ? "#3E5F44"
+                          : "rgba(62,95,68,0.15)",
                       }}
                     />
                   ))}
                 </div>
-                <p className="text-white/30 text-xs mt-2">
+                <p className="text-[#6B7362] text-xs mt-2">
                   Step {stepIndex + 1} of 3
                 </p>
               </div>
@@ -177,7 +177,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
           {step === "contact" && (
             <div className="space-y-4">
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Name *</Label>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Name *</Label>
                 <input
                   className={glassInput}
                   placeholder="Your name"
@@ -186,7 +186,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Email *</Label>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Email *</Label>
                 <input
                   type="email"
                   className={glassInput}
@@ -196,8 +196,8 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
-                  Phone <span className="normal-case text-white/30">(optional — for faster replies)</span>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">
+                  Phone <span className="normal-case text-[#6B7362]">(optional — for faster replies)</span>
                 </Label>
                 <input
                   type="tel"
@@ -213,28 +213,28 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
           {step === "booking" && (
             <div className="space-y-4">
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Date *</Label>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Date *</Label>
                 <input
                   type="date"
                   className={glassInput}
                   value={booking.date}
                   min={new Date().toISOString().split("T")[0]}
                   onChange={e => setBooking(b => ({ ...b, date: e.target.value }))}
-                  style={{ colorScheme: "dark" }}
+                  style={{ colorScheme: "light" }}
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Duration *</Label>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Duration *</Label>
                 <Select value={booking.duration} onValueChange={v => setBooking(b => ({ ...b, duration: v }))}>
                   <SelectTrigger
-                    className="bg-white/5 border border-white/10 text-white rounded-xl h-11 focus:border-white/30"
-                    style={{ background: "rgba(255,255,255,0.05)" }}
+                    className="bg-white border border-[#3E5F44]/20 text-[#283A2C] rounded-xl h-11 focus:border-[#3E5F44]"
+                    style={{ background: "#ffffff" }}
                   >
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
-                  <SelectContent className="bg-zinc-900 border-white/10 text-white">
+                  <SelectContent className="bg-[#FBF9F0] border-[#3E5F44]/15 text-[#283A2C]">
                     {DURATIONS.map(d => (
-                      <SelectItem key={d} value={d} className="focus:bg-white/10">
+                      <SelectItem key={d} value={d} className="focus:bg-[#EFE9D3]">
                         {d}
                       </SelectItem>
                     ))}
@@ -242,17 +242,17 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                 </Select>
               </div>
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Location *</Label>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Location *</Label>
                 <Select value={booking.location} onValueChange={v => setBooking(b => ({ ...b, location: v }))}>
                   <SelectTrigger
-                    className="bg-white/5 border border-white/10 text-white rounded-xl h-11 focus:border-white/30"
-                    style={{ background: "rgba(255,255,255,0.05)" }}
+                    className="bg-white border border-[#3E5F44]/20 text-[#283A2C] rounded-xl h-11 focus:border-[#3E5F44]"
+                    style={{ background: "#ffffff" }}
                   >
                     <SelectValue placeholder="Select location" />
                   </SelectTrigger>
-                  <SelectContent className="bg-zinc-900 border-white/10 text-white">
+                  <SelectContent className="bg-[#FBF9F0] border-[#3E5F44]/15 text-[#283A2C]">
                     {LOCATIONS.map(l => (
-                      <SelectItem key={l} value={l} className="focus:bg-white/10">
+                      <SelectItem key={l} value={l} className="focus:bg-[#EFE9D3]">
                         {l}
                       </SelectItem>
                     ))}
@@ -265,22 +265,22 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                   onClick={() => setBooking(b => ({ ...b, duo: !b.duo }))}
                   className="w-full py-3 px-4 rounded-xl border transition-all duration-300 text-left flex items-center justify-between"
                   style={{
-                    background: booking.duo ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.03)",
-                    border: booking.duo ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(255,255,255,0.08)",
+                    background: booking.duo ? "rgba(62,95,68,0.1)" : "#FBF9F0",
+                    border: booking.duo ? "1px solid #3E5F44" : "1px solid rgba(62,95,68,0.15)",
                   }}
                 >
                   <div>
-                    <p className="text-white/80 text-sm font-medium">Duo session with Nick</p>
-                    <p className="text-white/30 text-xs mt-0.5">Bobby + Nick together</p>
+                    <p className="text-[#283A2C] text-sm font-medium">Duo session with Nick</p>
+                    <p className="text-[#6B7362] text-xs mt-0.5">Bobby + Nick together</p>
                   </div>
                   <div
                     className="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all"
                     style={{
-                      borderColor: booking.duo ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)",
-                      background: booking.duo ? "rgba(255,255,255,0.15)" : "transparent",
+                      borderColor: booking.duo ? "#3E5F44" : "rgba(62,95,68,0.3)",
+                      background: booking.duo ? "rgba(62,95,68,0.15)" : "transparent",
                     }}
                   >
-                    {booking.duo && <div className="w-2 h-2 rounded-full bg-white/80" />}
+                    {booking.duo && <div className="w-2 h-2 rounded-full bg-[#3E5F44]" />}
                   </div>
                 </button>
               </div>
@@ -290,8 +290,8 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
           {step === "details" && (
             <div className="space-y-4">
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
-                  Notes <span className="normal-case text-white/30">(tell me about yourself, what you're looking for)</span>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">
+                  Notes <span className="normal-case text-[#6B7362]">(tell me about yourself, what you're looking for)</span>
                 </Label>
                 <textarea
                   className={glassTextarea}
@@ -301,8 +301,8 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                 />
               </div>
               <div>
-                <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">
-                  Interests / Limits <span className="normal-case text-white/30">(private, just for me)</span>
+                <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">
+                  Interests / Limits <span className="normal-case text-[#6B7362]">(private, just for me)</span>
                 </Label>
                 <textarea
                   className={glassTextarea}
@@ -316,28 +316,28 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                 onClick={() => setDetails(d => ({ ...d, travel: !d.travel }))}
                 className="w-full py-3 px-4 rounded-xl border transition-all duration-300 text-left flex items-center justify-between"
                 style={{
-                  background: details.travel ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.03)",
-                  border: details.travel ? "1px solid rgba(255,255,255,0.2)" : "1px solid rgba(255,255,255,0.08)",
+                  background: details.travel ? "rgba(62,95,68,0.1)" : "#FBF9F0",
+                  border: details.travel ? "1px solid #3E5F44" : "1px solid rgba(62,95,68,0.15)",
                 }}
               >
                 <div>
-                  <p className="text-white/80 text-sm font-medium">Requesting travel</p>
-                  <p className="text-white/30 text-xs mt-0.5">I'll need to fly to you</p>
+                  <p className="text-[#283A2C] text-sm font-medium">Requesting travel</p>
+                  <p className="text-[#6B7362] text-xs mt-0.5">I'll need to fly to you</p>
                 </div>
                 <div
                   className="w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all"
                   style={{
-                    borderColor: details.travel ? "rgba(255,255,255,0.6)" : "rgba(255,255,255,0.2)",
-                    background: details.travel ? "rgba(255,255,255,0.15)" : "transparent",
+                    borderColor: details.travel ? "#3E5F44" : "rgba(62,95,68,0.3)",
+                    background: details.travel ? "rgba(62,95,68,0.15)" : "transparent",
                   }}
                 >
-                  {details.travel && <div className="w-2 h-2 rounded-full bg-white/80" />}
+                  {details.travel && <div className="w-2 h-2 rounded-full bg-[#3E5F44]" />}
                 </div>
               </button>
               {details.travel && (
-                <div className="space-y-3 pl-4 border-l border-white/10">
+                <div className="space-y-3 pl-4 border-l border-[#3E5F44]/15">
                   <div>
-                    <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Arrival airport</Label>
+                    <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Arrival airport</Label>
                     <input
                       className={glassInput}
                       placeholder="AUS, DFW, LAX..."
@@ -346,7 +346,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                     />
                   </div>
                   <div>
-                    <Label className="text-white/60 text-xs uppercase tracking-widest mb-2 block">Hotel booked?</Label>
+                    <Label className="text-[#6B7362] text-xs uppercase tracking-widest mb-2 block">Hotel booked?</Label>
                     <input
                       className={glassInput}
                       placeholder="Yes / No / Hotel name if booked"
@@ -363,12 +363,12 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
             <div className="text-center py-8">
               <div
                 className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
-                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}
+                style={{ background: "rgba(62,95,68,0.1)", border: "1px solid rgba(62,95,68,0.2)" }}
               >
-                <span className="text-2xl">✓</span>
+                <span className="text-2xl text-[#3E5F44]">✓</span>
               </div>
-              <p className="text-white/80 text-base mb-2">Got it — I'll be in touch soon.</p>
-              <p className="text-white/40 text-sm">Usually within a few hours.</p>
+              <p className="text-[#283A2C] text-base mb-2">Got it — I'll be in touch soon.</p>
+              <p className="text-[#6B7362] text-sm">Usually within a few hours.</p>
             </div>
           )}
 
@@ -380,8 +380,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                   triggerHaptic("light");
                   setStep(step === "details" ? "booking" : "contact");
                 }}
-                className="px-5 py-3 rounded-xl text-white/50 text-sm transition-all hover:text-white/80"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                className="px-5 py-3 rounded-full text-[#3E5F44] text-sm transition-all bg-[#EFE9D3] hover:bg-[#E6DEC2]"
               >
                 Back
               </button>
@@ -390,8 +389,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
               <button
                 type="button"
                 onClick={handleClose}
-                className="flex-1 py-3 rounded-xl text-white text-sm font-medium transition-all"
-                style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)" }}
+                className="flex-1 py-3 rounded-full text-[#3E5F44] text-sm font-medium transition-all bg-[#EFE9D3] hover:bg-[#E6DEC2]"
               >
                 Close
               </button>
@@ -400,8 +398,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
                 type="button"
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="flex-1 py-3 rounded-xl text-white text-sm font-medium transition-all disabled:opacity-50"
-                style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)" }}
+                className="flex-1 py-3 rounded-full text-[#FBF9F0] text-sm font-medium transition-all disabled:opacity-50 bg-[#3E5F44] hover:bg-[#33503A]"
               >
                 {isSubmitting ? "Sending..." : "Submit request"}
               </button>
@@ -409,8 +406,7 @@ export function ScreeningForm({ isOpen, onClose }: ScreeningFormProps) {
               <button
                 type="button"
                 onClick={nextStep}
-                className="flex-1 py-3 rounded-xl text-white text-sm font-medium transition-all"
-                style={{ background: "rgba(255,255,255,0.12)", border: "1px solid rgba(255,255,255,0.2)" }}
+                className="flex-1 py-3 rounded-full text-[#FBF9F0] text-sm font-medium transition-all bg-[#3E5F44] hover:bg-[#33503A]"
               >
                 Continue
               </button>

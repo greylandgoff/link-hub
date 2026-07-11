@@ -84,16 +84,16 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
 
   return (
     <div className="fixed bottom-6 right-20 z-50 w-80">
-      <div className="glass-effect bg-black/90 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-2xl">
+      <div className="bg-[#FBF9F0] border border-[#3E5F44]/15 rounded-2xl shadow-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-white/10">
+        <div className="flex items-center justify-between p-4 border-b border-[#3E5F44]/15">
           <div className="flex items-center gap-2">
-            <MessageCircle className="w-5 h-5 text-purple-400" />
-            <span className="text-white font-semibold">Quick Chat</span>
+            <MessageCircle className="w-5 h-5 text-[#3E5F44]" />
+            <span className="text-[#283A2C] font-semibold">Quick Chat</span>
           </div>
           <Button
             onClick={onClose}
-            className="p-1 h-auto bg-transparent hover:bg-white/10 text-gray-400 hover:text-white"
+            className="p-1 h-auto bg-transparent hover:bg-[#EFE9D3] text-[#6B7362] hover:text-[#283A2C]"
           >
             <X className="w-4 h-4" />
           </Button>
@@ -101,12 +101,12 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
 
         {/* Quick Replies */}
         <div className="px-4 pt-4 space-y-2">
-          <p className="text-gray-300 text-sm mb-2">Quick questions:</p>
+          <p className="text-[#6B7362] text-sm mb-2">Quick questions:</p>
           {quickReplies.map((reply, index) => (
             <button
               key={index}
               onClick={() => handleQuickReply(reply)}
-              className="w-full text-left p-2 text-sm bg-white/5 hover:bg-white/10 rounded-lg text-gray-300 hover:text-white transition-colors border border-white/10 hover:border-purple-500/30"
+              className="w-full text-left p-2 text-sm bg-[#EFE9D3] hover:bg-[#E6DEC2] rounded-lg text-[#283A2C] hover:text-[#283A2C] transition-colors border border-[#3E5F44]/15 hover:border-[#3E5F44]/30"
             >
               {reply}
             </button>
@@ -114,12 +114,12 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-4 space-y-3 border-t border-white/10 mt-4">
+        <form onSubmit={handleSubmit} className="p-4 space-y-3 border-t border-[#3E5F44]/15 mt-4">
           <Input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Your name"
-            className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+            className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder-[#6B7362] focus:border-[#3E5F44]"
             disabled={isSubmitting}
             required
           />
@@ -127,7 +127,7 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
             value={contact}
             onChange={(e) => setContact(e.target.value)}
             placeholder="Email or phone number"
-            className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+            className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder-[#6B7362] focus:border-[#3E5F44]"
             disabled={isSubmitting}
             required
           />
@@ -136,18 +136,18 @@ export function QuickChat({ isOpen, onClose }: QuickChatProps) {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Your message..."
-              className="bg-black/20 border-purple-500/30 text-white placeholder-gray-400 focus:border-purple-500"
+              className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder-[#6B7362] focus:border-[#3E5F44]"
               disabled={isSubmitting}
             />
             <Button
               type="submit"
               disabled={!name.trim() || !contact.trim() || !message.trim() || isSubmitting}
-              className="px-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 shrink-0"
+              className="px-3 rounded-full bg-[#3E5F44] text-[#FBF9F0] hover:bg-[#33503A] shrink-0"
             >
               <Send className="w-4 h-4" />
             </Button>
           </div>
-          <p className="text-xs text-gray-400">I'll respond within a few hours</p>
+          <p className="text-xs text-[#6B7362]">I'll respond within a few hours</p>
         </form>
       </div>
     </div>

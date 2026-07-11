@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { ContactModal } from "@/components/contact-modal";
@@ -24,13 +24,10 @@ const trackEvent = (event: string, category: string, label?: string) => {
   }
 };
 import { useQuery } from "@tanstack/react-query";
-import { Star } from "lucide-react";
+import { Star, ArrowRight, Heart, MapPin, Lock } from "lucide-react";
 
-import { User, Calendar, MessageCircle, DollarSign, Twitter, Users, QrCode, Shield, Heart, Globe, Video, Radio } from "lucide-react";
-import { SiApple, SiCashapp } from "react-icons/si";
+import { User, Calendar, MessageCircle, QrCode, Shield, Radio } from "lucide-react";
 const profileImage = "/images/IMG_2876_1752841940506.jpeg";
-const backgroundImage = "/images/IMG_2862_1751936715707.jpg";
-// Note: ReviewModal component needs to be created
 
 export default function Home() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
@@ -42,42 +39,22 @@ export default function Home() {
   const [showChaturbateEmbed, setShowChaturbateEmbed] = useState(false);
   const [showStripchatEmbed, setShowStripchatEmbed] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  
+
   // Initialize haptic feedback
   const { triggerHaptic } = useHaptic();
 
   // Fetch approved reviews
-  const { data: reviews = [], isLoading: reviewsLoading, error: reviewsError } = useQuery({
+  const { data: reviews = [], isLoading: reviewsLoading } = useQuery({
     queryKey: ['/api/reviews'],
     queryFn: async () => {
-      // Determine correct API URL based on environment
-      let apiUrl;
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        // Development: Use Express server
-        apiUrl = '/api/reviews';
-      } else if (window.location.hostname.includes('.pages.dev') || window.location.hostname.includes('rentbobby.com')) {
-        // Production: Use Cloudflare Functions
-        apiUrl = '/api/reviews';
-      } else {
-        // Fallback: Use relative URL
-        apiUrl = '/api/reviews';
-      }
-        
-      console.log('Fetching reviews from:', apiUrl, 'on hostname:', window.location.hostname);
-      
+      const apiUrl = '/api/reviews';
       const response = await fetch(apiUrl);
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.error('Reviews API error:', response.status, response.statusText, errorData);
         throw new Error(`Failed to fetch reviews: ${response.status} - ${errorData.message || response.statusText || 'Unknown error'}`);
       }
-      const data = await response.json();
-      console.log('Reviews fetched successfully:', data); 
-      console.log('Number of reviews found:', data.length);
-      if (data.length > 0) {
-        console.log('First review data:', data[0]);
-      }
-      return data;
+      return response.json();
     },
     retry: 3,
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
@@ -109,11 +86,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', handleScroll);
-    
-    // Debug: Check if Google Analytics is loaded
-    console.log('Google Analytics loaded:', !!window.gtag);
-    console.log('Current URL:', window.location.href);
-    
+
     // Handle direct links to reviews section
     if (window.location.hash === '#reviews') {
       setTimeout(() => {
@@ -121,30 +94,28 @@ export default function Home() {
         if (reviewsSection) {
           reviewsSection.scrollIntoView({ behavior: 'smooth' });
         }
-      }, 500); // Small delay to ensure page is loaded
+      }, 500);
     }
-    
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleSaveContact = async () => {
     try {
-      // Track analytics event
       trackEvent('save_contact', 'engagement', 'contact_card');
-      
-      // Use absolute URL for external devices, relative for development
-      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+
+      const apiUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? '/api/contact-card'
         : `${window.location.protocol}//${window.location.host}/api/contact-card`;
-        
+
       const response = await fetch(apiUrl, {
         method: "GET",
       });
-      
+
       if (!response.ok) {
         throw new Error("Failed to generate contact card");
       }
-      
+
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -162,860 +133,598 @@ export default function Home() {
   };
 
   const handleLinkClick = (platform: string, url: string) => {
-    // Track outbound link click with platform-specific categorization
     const category = ['hunqz', 'gaycities', 'chamber'].includes(platform) ? 'directory' : 'social_media';
     trackEvent('outbound_link', category, platform);
-    console.log(`Clicked: ${platform}`);
     window.open(url, "_blank");
   };
 
   const socialLinks = [
-    {
-      platform: "onlyfans",
-      name: "OnlyFans", 
-      description: "Extra spicy content",
-      url: "https://onlyfans.com/bobbyatx/c1",
-      icon: User,
-      neonColor: "hsl(320, 100%, 60%)"
-    },
-    {
-      platform: "rentmen",
-      name: "Rentmen",
-      description: "Boyfriend experience listings", 
-      url: "https://rent.men/bobbydtx",
-      icon: Calendar,
-      neonColor: "hsl(30, 100%, 50%)"
-    },
-    {
-      platform: "hunqz",
-      name: "Hunqz",
-      description: "GFE/BFE profile", 
-      url: "https://hunqz.com/bobby-austin",
-      icon: Users,
-      neonColor: "hsl(160, 100%, 50%)"
-    },
-    {
-      platform: "chaturbate",
-      name: "Chaturbate",
-      description: "Live cam shows",
-      url: "https://chaturbate.com/bobbydfw/",
-      icon: Video,
-      neonColor: "hsl(45, 100%, 55%)"
-    },
-    {
-      platform: "stripchat",
-      name: "Stripchat",
-      description: "Live cam & interactive shows",
-      url: "https://stripchat.com/rentbobbydfw",
-      icon: Globe,
-      neonColor: "hsl(270, 100%, 65%)"
-    },
-    {
-      platform: "twitter",
-      name: "X",
-      description: "Mild spicy content, shower thoughts, and other nonsense",
-      url: "https://twitter.com/graydoutx", 
-      icon: Twitter,
-      neonColor: "hsl(200, 100%, 50%)"
-    }
-  ];
-
-  const paymentLinks = [
-    {
-      platform: "cashapp",
-      name: "CashApp",
-      handle: "@grey1and",
-      url: "https://cash.app/$grey1and",
-      icon: SiCashapp,
-      neonColor: "hsl(120, 100%, 50%)"
-    }
+    { platform: "onlyfans", name: "OnlyFans", url: "https://onlyfans.com/bobbyatx/c1" },
+    { platform: "rentmen", name: "Rentmen", url: "https://rent.men/bobbydtx" },
+    { platform: "hunqz", name: "Hunqz", url: "https://hunqz.com/bobby-austin" },
+    { platform: "chaturbate", name: "Chaturbate", url: "https://chaturbate.com/bobbydfw/" },
+    { platform: "stripchat", name: "Stripchat", url: "https://stripchat.com/rentbobbydfw" },
+    { platform: "twitter", name: "X / Twitter", url: "https://twitter.com/graydoutx" },
+    { platform: "cashapp", name: "CashApp", url: "https://cash.app/$grey1and" },
   ];
 
   return (
-    <div className="min-h-screen relative">
+    <div className="min-h-screen relative" style={{ backgroundColor: '#DDD6B9' }}>
       {/* Age Gate Banner */}
       <AgeGateBanner />
-      {/* Sleek Modern Background */}
-      <div 
-        className="fixed inset-0"
-        style={{
-          background: `
-            linear-gradient(135deg, hsl(220, 15%, 8%) 0%, hsl(0, 0%, 2%) 50%, hsl(230, 20%, 6%) 100%)
-          `,
-          zIndex: 1
-        }}
-      />
-      
-      {/* Subtle Geometric Pattern Overlay */}
-      <div 
-        className="fixed inset-0"
-        style={{
-          background: `
-            radial-gradient(circle at 25% 25%, hsl(240, 50%, 15%) 0%, transparent 30%),
-            radial-gradient(circle at 75% 75%, hsl(220, 40%, 12%) 0%, transparent 30%),
-            linear-gradient(45deg, transparent 30%, hsl(210, 30%, 5%) 50%, transparent 70%)
-          `,
-          opacity: 0.6,
-          zIndex: 2
-        }}
-      />
-      
-      {/* Animated Subtle Accent Lines */}
-      <div className="fixed inset-0" style={{ zIndex: 3 }}>
-        <div 
-          className="absolute w-full h-px"
-          style={{
-            top: '30%',
-            background: 'linear-gradient(90deg, transparent, hsl(240, 80%, 70%) 50%, transparent)',
-            opacity: 0.1,
-            transform: `translateX(${scrollY * -0.3}px)`
-          }}
-        />
-        <div 
-          className="absolute w-full h-px"
-          style={{
-            top: '70%',
-            background: 'linear-gradient(90deg, transparent, hsl(280, 60%, 60%) 50%, transparent)',
-            opacity: 0.08,
-            transform: `translateX(${scrollY * 0.2}px)`
-          }}
-        />
-      </div>
 
-      {/* Main Container */}
-      <div className="relative" style={{ zIndex: 10 }}>
-        {/* Header */}
-        <header className="py-6 px-4">
-          <div className="max-w-md mx-auto">
-            <nav className="flex justify-between items-center">
-              <div className="text-xl font-bold tracking-tight" 
-                   style={{
-                     color: 'rgba(255, 255, 255, 0.9)',
-                     textShadow: '0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.2)',
-                     backdropFilter: 'blur(1px)',
-                     WebkitTextStroke: '1px rgba(255, 255, 255, 0.1)',
-                     filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
-                   }}>
-                rentbobby.com
-              </div>
-              <div className="flex gap-2">
-                <Button 
-                  onClick={() => {
-                    triggerHaptic('light');
-                    setIsQRModalOpen(true);
-                  }}
-                  className="glass-effect px-3 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
-                >
-                  <QrCode className="w-4 h-4" />
-                </Button>
-                <Button 
-                  onClick={() => {
-                    triggerHaptic('light');
-                    setIsContactModalOpen(true);
-                  }}
-                  className="glass-effect px-4 py-2 rounded-full text-sm font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Contact
-                </Button>
-              </div>
-            </nav>
-          </div>
-        </header>
+      {/* Sticky Nav */}
+      <nav className="fixed top-0 w-full z-50 px-4 md:px-6 py-4 flex justify-between items-center backdrop-blur-xl border-b"
+           style={{ backgroundColor: 'rgba(221, 214, 185, 0.8)', borderColor: 'rgba(62, 95, 68, 0.1)' }}>
+        <div className="sm-logo text-xl tracking-tight text-[#283A2C]">Bobby.</div>
+        <div className="flex gap-2 items-center">
+          <Button
+            onClick={() => {
+              triggerHaptic('light');
+              setIsQRModalOpen(true);
+            }}
+            variant="ghost"
+            className="rounded-full p-2.5 text-[#3E5F44] hover:bg-[#3E5F44]/10 bg-transparent"
+            title="Share QR Code"
+          >
+            <QrCode className="w-4 h-4" />
+          </Button>
+          <Button
+            onClick={() => {
+              triggerHaptic('light');
+              setIsContactModalOpen(true);
+            }}
+            variant="ghost"
+            className="rounded-full px-4 py-2 text-sm font-medium text-[#3E5F44] hover:bg-[#3E5F44]/10 bg-transparent"
+          >
+            <MessageCircle className="w-4 h-4 mr-2" />
+            Contact
+          </Button>
+          <Button
+            onClick={() => {
+              triggerHaptic('medium');
+              trackEvent('appointment_request', 'engagement', 'nav_cta');
+              setIsScreeningFormOpen(true);
+            }}
+            className="sm-btn-primary px-5 py-2.5 text-sm font-medium border-none"
+          >
+            Book Now
+          </Button>
+        </div>
+      </nav>
+
+      <main className="w-full max-w-4xl mx-auto px-4 md:px-8 pt-32 pb-24 flex flex-col gap-16 md:gap-24">
 
         {/* Hero Section */}
-        <section className="py-8 px-4" 
-                 style={{transform: `translateY(${scrollY * 0.1}px)`}}>
-          <div className="max-w-md mx-auto text-center">
-            {/* Profile Avatar */}
-            <div className="relative mb-6">
-              <img 
-                src={`${profileImage}?t=${Date.now()}`} 
-                alt="Austin male companion Bobby LGBTQ-friendly professional services" 
-                className="w-32 h-32 rounded-full mx-auto object-cover border-4 border-white/20 shadow-2xl"
-                key="profile-updated-2025-01-08"
-              />
-            </div>
-
-            {/* Profile Info */}
-            <h1 className="text-3xl font-bold mb-2 tracking-tight" 
-                style={{background: 'linear-gradient(45deg, hsl(320, 100%, 60%), hsl(200, 100%, 50%), hsl(280, 100%, 60%))', 
-                        WebkitBackgroundClip: 'text', 
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                        fontWeight: '700'}}>
-              Bobby
+        <section className="flex flex-col items-center text-center space-y-8"
+                 style={{ transform: `translateY(${scrollY * 0.03}px)` }}>
+          <button
+            onClick={() => setIsPhotoModalOpen(true)}
+            className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden shadow-2xl ring-4 ring-white/50 hover-lift"
+            aria-label="View profile photo"
+          >
+            <img
+              src={profileImage}
+              alt="Austin male companion Bobby LGBTQ-friendly professional services"
+              className="w-full h-full object-cover object-center"
+            />
+          </button>
+          <div className="space-y-4 max-w-2xl">
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight text-[#283A2C] leading-tight">
+              Genuine connection.<br />No pretenses.
             </h1>
-            <h2 className="text-gray-200 leading-relaxed mb-2 max-w-sm mx-auto text-xl font-medium">
-              Discreet professional companion.
-            </h2>
-            <p className="text-gray-300 leading-relaxed mb-8 max-w-sm mx-auto text-base">
+            <p className="text-xl md:text-2xl text-[#3E5F44] font-medium">
+              Austin private host & travel companion.
+            </p>
+            <p className="text-lg text-[#4A574A] max-w-xl mx-auto pt-4 leading-relaxed">
               Professional companion services specializing in authentic connections and boyfriend-style experiences. Available for dates, events, and getaways.
             </p>
-
-            {/* Primary CTA */}
-            <div className="flex justify-center mb-8">
-              <Button 
-                onClick={() => {
-                  triggerHaptic('medium');
-                  trackEvent('appointment_request', 'engagement', 'hero_cta');
-                  setIsScreeningFormOpen(true);
-                }}
-                className="glass-effect px-8 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/30 to-pink-600/30 border border-purple-400/50 hover:from-purple-600/40 hover:to-pink-600/40 text-lg"
-              >
-                <Calendar className="w-5 h-5" />
-                Book Now
-              </Button>
-            </div>
-
-            {/* Secondary Actions */}
-            <div className="flex justify-center gap-3 mb-8 flex-wrap">
-              <Button 
-                onClick={() => {
-                  triggerHaptic('light');
-                  handleSaveContact();
-                }}
-                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-transparent border border-white/20 hover:bg-white/10"
-              >
-                <User className="w-4 h-4" />
-                Save Contact
-              </Button>
-              <Button 
-                onClick={() => {
-                  triggerHaptic('light');
-                  trackEvent('review_modal_open', 'engagement', 'profile_review');
-                  setIsReviewModalOpen(true);
-                }}
-                className="glass-effect px-6 py-3 rounded-full font-medium hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-400/30 hover:from-purple-600/30 hover:to-blue-600/30"
-              >
-                <Star className="w-4 h-4" />
-                Leave Review
-              </Button>
-            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <Button
+              onClick={() => {
+                triggerHaptic('medium');
+                trackEvent('appointment_request', 'engagement', 'hero_cta');
+                setIsScreeningFormOpen(true);
+              }}
+              className="sm-btn-primary px-8 py-6 text-lg font-medium flex items-center justify-center gap-2 border-none h-auto"
+            >
+              Request Appointment <ArrowRight className="w-5 h-5" />
+            </Button>
+            <Button
+              onClick={() => {
+                triggerHaptic('light');
+                handleSaveContact();
+              }}
+              className="sm-btn-secondary px-8 py-6 text-lg font-medium border-none h-auto"
+            >
+              <User className="w-5 h-5 mr-2" />
+              Save Contact
+            </Button>
           </div>
         </section>
 
-        {/* Connect Section - Moved to top */}
-        <section className="py-8 px-4"
-                 style={{transform: `translateY(${scrollY * 0.05}px)`}}>
-          <div className="max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-center text-white">Connect</h2>
-            
-            {/* Liquid Glass Container */}
-            <div 
-              className="rounded-3xl p-6 backdrop-blur-xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.1)'
-              }}
-            >
-              <div className="space-y-1">
-                {socialLinks.map((link, index) => (
-                  <button
-                    key={link.platform}
-                    onClick={() => {
-                      triggerHaptic('light');
-                      handleLinkClick(link.platform, link.url);
-                    }}
-                    className="group flex items-center w-full py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/5"
-                  >
-                    {/* Accent Line */}
-                    <div 
-                      className="w-0.5 h-5 rounded-full mr-4 transition-all duration-300 group-hover:h-6"
-                      style={{
-                        background: link.neonColor,
-                        opacity: 0.4,
-                        boxShadow: `0 0 8px ${link.neonColor}40`
-                      }}
-                    />
-                    {/* Site Name */}
-                    <span className="text-white/80 text-lg font-medium tracking-wide transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
-                      {link.name}
-                    </span>
-                    {/* Subtle Arrow */}
-                    <span className="ml-auto text-white/20 text-sm transition-all duration-300 group-hover:text-white/50 group-hover:translate-x-1">
-                      ›
-                    </span>
-                  </button>
-                ))}
+        {/* Connect Section */}
+        <section className="sm-card p-8 md:p-14 text-center"
+                 style={{ transform: `translateY(${scrollY * 0.02}px)` }}>
+          <h2 className="text-2xl font-semibold mb-8 text-[#283A2C]">Connect</h2>
+          <div className="flex flex-wrap justify-center gap-3 md:gap-4">
+            {socialLinks.map((link) => (
+              <button
+                key={link.platform}
+                onClick={() => {
+                  triggerHaptic('light');
+                  handleLinkClick(link.platform, link.url);
+                }}
+                className="px-6 py-3 rounded-full bg-[#3E5F44]/10 hover:bg-[#3E5F44]/20 transition-colors font-medium text-[#3E5F44]"
+              >
+                {link.name}
+              </button>
+            ))}
+          </div>
+        </section>
 
-                {/* Divider */}
-                <div className="my-4 border-t border-white/10" />
-                
-                {/* Payment - Same Style */}
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-2 px-4">Tips</p>
-                {paymentLinks.map((payment) => (
-                  <button
-                    key={payment.platform}
-                    onClick={() => {
-                      triggerHaptic('light');
-                      handleLinkClick(payment.platform, payment.url);
-                    }}
-                    className="group flex items-center w-full py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/5"
-                  >
-                    <div 
-                      className="w-0.5 h-5 rounded-full mr-4 transition-all duration-300 group-hover:h-6"
-                      style={{
-                        background: payment.neonColor,
-                        opacity: 0.4,
-                        boxShadow: `0 0 8px ${payment.neonColor}40`
-                      }}
-                    />
-                    <span className="text-white/80 text-lg font-medium tracking-wide transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
-                      {payment.name}
-                    </span>
-                    <span className="ml-auto text-white/20 text-sm transition-all duration-300 group-hover:text-white/50 group-hover:translate-x-1">
-                      ›
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
+        {/* What to Expect */}
+        <section className="sm-card p-8 md:p-14">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#283A2C]">What to expect</h2>
+            <p className="text-[#6B7362] text-lg">Curated experiences tailored to you.</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            <ServiceCard
+              icon={<Heart className="w-6 h-6" />}
+              title="Dates & Plus-One"
+              desc="Need a charming plus-one for an event, or just want a perfect dinner date? I bring the charm, conversation, and the right energy."
+            />
+            <ServiceCard
+              icon={<MapPin className="w-6 h-6" />}
+              title="Weekend Getaways"
+              desc="A couple of days out of town to recharge. You pick the destination, I bring the company and the good vibes."
+            />
+            <ServiceCard
+              icon={<Lock className="w-6 h-6" />}
+              title="Private Time"
+              desc="Quiet evenings in, movie nights, or just relaxing. Unstructured, genuine downtime together."
+            />
+            <ServiceCard
+              icon={<Shield className="w-6 h-6" />}
+              title="Discreet & Professional"
+              desc="Your privacy is paramount. I operate with absolute discretion and professionalism from start to finish."
+            />
+          </div>
+          <div className="mt-12 text-center">
+            <p className="text-sm text-[#6B7362]">Rates quoted privately after screening.</p>
           </div>
         </section>
 
         {/* Partner in Crime Section */}
-        <section className="py-12 px-4"
-                 style={{transform: `translateY(${scrollY * 0.045}px)`}}>
-          <div className="max-w-md mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-center text-white">Partner in Crime</h2>
-            <div 
-              className="rounded-3xl p-6 backdrop-blur-xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
-                border: '1px solid rgba(255,255,255,0.1)'
-              }}
-            >
-              <div className="text-center mb-4">
-                <h3 className="text-xl font-semibold text-white tracking-wide">Nick</h3>
-                <p className="text-white/50 text-sm mt-1">Austin, TX</p>
-              </div>
-              <p className="text-white/60 text-sm leading-relaxed text-center mb-5">
-                Rugged, American, dom, daddy for good time
-              </p>
-              <div className="space-y-1">
-                <button
-                  onClick={() => {
-                    triggerHaptic('light');
-                    trackEvent('partner_link', 'outbound', 'rentmen_nick');
-                    window.open('https://rent.men/Nickbrodude', '_blank');
-                  }}
-                  className="group flex items-center w-full py-3 px-4 rounded-xl transition-all duration-300 hover:bg-white/5"
-                >
-                  <div 
-                    className="w-0.5 h-5 rounded-full mr-4 transition-all duration-300 group-hover:h-6"
-                    style={{
-                      background: '#e74c3c',
-                      opacity: 0.4,
-                      boxShadow: '0 0 8px rgba(231,76,60,0.4)'
-                    }}
-                  />
-                  <span className="text-white/80 text-lg font-medium tracking-wide transition-all duration-300 group-hover:text-white group-hover:translate-x-1">
-                    Rentmen
-                  </span>
-                  <span className="ml-auto text-white/20 text-sm transition-all duration-300 group-hover:text-white/50 group-hover:translate-x-1">
-                    ›
-                  </span>
-                </button>
-              </div>
-              <div className="mt-5 pt-4 border-t border-white/10 text-center">
-                <p className="text-white/40 text-xs">Ask about duo sessions when booking</p>
-              </div>
-            </div>
-          </div>
+        <section className="sm-card p-8 md:p-12 text-center">
+          <h2 className="text-2xl font-semibold mb-2 text-[#283A2C]">Partner in Crime</h2>
+          <h3 className="text-xl font-bold text-[#3E5F44] mt-6">Nick</h3>
+          <p className="text-[#6B7362] text-sm mt-1">Austin, TX</p>
+          <p className="text-[#4A574A] leading-relaxed mt-4 mb-6 max-w-md mx-auto">
+            Rugged, American, dom, daddy for good time
+          </p>
+          <button
+            onClick={() => {
+              triggerHaptic('light');
+              trackEvent('partner_link', 'outbound', 'rentmen_nick');
+              window.open('https://rent.men/Nickbrodude', '_blank');
+            }}
+            className="px-6 py-3 rounded-full bg-[#3E5F44]/10 hover:bg-[#3E5F44]/20 transition-colors font-medium text-[#3E5F44]"
+          >
+            Nick on Rentmen
+          </button>
+          <p className="text-[#6B7362] text-xs mt-6 pt-4 border-t border-[#3E5F44]/10">
+            Ask about duo sessions when booking
+          </p>
         </section>
 
-        {/* Interactive Gallery Section */}
-        <section className="py-12 px-4"
-                 style={{transform: `translateY(${scrollY * 0.04}px)`}}>
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8 text-center text-white">Gallery</h2>
-            <ImageGallery />
-          </div>
+        {/* Gallery */}
+        <section>
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#283A2C]">Gallery</h2>
+          <ImageGallery />
         </section>
 
         {/* Live Streams Section */}
-        <section className="py-12 px-4"
-                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6 text-center text-white">Live Streams</h2>
-            <Tabs defaultValue="chaturbate" className="w-full">
-              <TabsList className="grid grid-cols-2 mb-6 h-auto p-1 rounded-2xl"
-                style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  border: '1px solid rgba(255,255,255,0.1)'
-                }}>
-                <TabsTrigger value="chaturbate"
-                  className="rounded-xl py-2.5 data-[state=active]:bg-white/10 text-gray-400 data-[state=active]:text-white flex items-center justify-center gap-2 transition-all">
-                  {chaturbateIsLive && <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0" />}
-                  <span>Chaturbate</span>
-                </TabsTrigger>
-                <TabsTrigger value="stripchat"
-                  className="rounded-xl py-2.5 data-[state=active]:bg-white/10 text-gray-400 data-[state=active]:text-white flex items-center justify-center gap-2 transition-all">
-                  {stripchatIsLive && <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0" />}
-                  <span>Stripchat</span>
-                </TabsTrigger>
-              </TabsList>
+        <section>
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#283A2C]">Live Streams</h2>
+          <Tabs defaultValue="chaturbate" className="w-full">
+            <TabsList className="grid grid-cols-2 mb-6 h-auto p-1 rounded-full bg-[#3E5F44]/10 border-none">
+              <TabsTrigger value="chaturbate"
+                className="rounded-full py-2.5 text-[#6B7362] data-[state=active]:bg-[#FBF9F0] data-[state=active]:text-[#3E5F44] flex items-center justify-center gap-2 transition-all">
+                {chaturbateIsLive && <span className="w-2 h-2 rounded-full bg-green-600 animate-pulse shrink-0" />}
+                <span>Chaturbate</span>
+              </TabsTrigger>
+              <TabsTrigger value="stripchat"
+                className="rounded-full py-2.5 text-[#6B7362] data-[state=active]:bg-[#FBF9F0] data-[state=active]:text-[#3E5F44] flex items-center justify-center gap-2 transition-all">
+                {stripchatIsLive && <span className="w-2 h-2 rounded-full bg-green-600 animate-pulse shrink-0" />}
+                <span>Stripchat</span>
+              </TabsTrigger>
+            </TabsList>
 
-              {/* Chaturbate tab */}
-              <TabsContent value="chaturbate">
-                {(chaturbateIsLive || showChaturbateEmbed) ? (
-                  <div className="rounded-3xl overflow-hidden backdrop-blur-xl"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                    <iframe
-                      src="https://cbxyz.com/in/?tour=SHBY&campaign=2KzrM&track=embed&room=bobbydfw"
-                      className="w-full rounded-3xl"
-                      style={{ height: '500px', border: 'none' }}
-                      title="Live on Chaturbate"
-                      allow="camera; microphone"
-                    />
+            {/* Chaturbate tab */}
+            <TabsContent value="chaturbate">
+              {(chaturbateIsLive || showChaturbateEmbed) ? (
+                <div className="sm-card overflow-hidden">
+                  <iframe
+                    src="https://cbxyz.com/in/?tour=SHBY&campaign=2KzrM&track=embed&room=bobbydfw"
+                    className="w-full"
+                    style={{ height: '500px', border: 'none' }}
+                    title="Live on Chaturbate"
+                    allow="camera; microphone"
+                  />
+                </div>
+              ) : (
+                <div className="sm-card p-8 text-center">
+                  <Radio className="w-10 h-10 text-[#6B7362] mx-auto mb-4" />
+                  <p className="text-[#283A2C] font-semibold mb-1">Currently offline on Chaturbate</p>
+                  <p className="text-[#6B7362] text-sm mb-6">Follow me to get notified when I go live</p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button
+                      onClick={() => setShowChaturbateEmbed(true)}
+                      className="sm-btn-primary border-none"
+                    >
+                      Watch Live
+                    </Button>
+                    <a
+                      href="https://chaturbate.com/bobbydfw/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-full text-sm text-[#3E5F44] bg-[#EFE9D3] hover:bg-[#E6DEC2] transition-colors font-medium"
+                    >
+                      View Profile ↗
+                    </a>
                   </div>
-                ) : (
-                  <div className="rounded-3xl p-8 text-center backdrop-blur-xl"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                    <Radio className="w-10 h-10 text-gray-500 mx-auto mb-4" />
-                    <p className="text-white font-semibold mb-1">Currently offline on Chaturbate</p>
-                    <p className="text-gray-400 text-sm mb-6">Follow me to get notified when I go live</p>
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <Button
-                        onClick={() => setShowChaturbateEmbed(true)}
-                        className="bg-gradient-to-r from-orange-500/30 to-amber-500/30 border border-orange-400/40 hover:from-orange-500/50 hover:to-amber-500/50 text-white rounded-xl"
-                      >
-                        Watch Live
-                      </Button>
-                      <a
-                        href="https://chaturbate.com/bobbydfw/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm text-gray-300 hover:text-white border border-white/10 hover:border-white/20 transition-colors"
-                      >
-                        View Profile ↗
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </TabsContent>
+                </div>
+              )}
+            </TabsContent>
 
-              {/* Stripchat tab */}
-              <TabsContent value="stripchat">
-                {(stripchatIsLive || showStripchatEmbed) ? (
-                  <div className="rounded-3xl overflow-hidden backdrop-blur-xl"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)',
-                      boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.1), 0 20px 40px rgba(0,0,0,0.3)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                    <iframe
-                      src="https://stripchat.com/embed/rentbobbydfw"
-                      className="w-full rounded-3xl"
-                      style={{ height: '500px', border: 'none' }}
-                      title="Live on Stripchat"
-                      allow="camera; microphone"
-                    />
+            {/* Stripchat tab */}
+            <TabsContent value="stripchat">
+              {(stripchatIsLive || showStripchatEmbed) ? (
+                <div className="sm-card overflow-hidden">
+                  <iframe
+                    src="https://stripchat.com/embed/rentbobbydfw"
+                    className="w-full"
+                    style={{ height: '500px', border: 'none' }}
+                    title="Live on Stripchat"
+                    allow="camera; microphone"
+                  />
+                </div>
+              ) : (
+                <div className="sm-card p-8 text-center">
+                  <Radio className="w-10 h-10 text-[#6B7362] mx-auto mb-4" />
+                  <p className="text-[#283A2C] font-semibold mb-1">Currently offline on Stripchat</p>
+                  <p className="text-[#6B7362] text-sm mb-6">Follow me to get notified when I go live</p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button
+                      onClick={() => setShowStripchatEmbed(true)}
+                      className="sm-btn-primary border-none"
+                    >
+                      Watch Live
+                    </Button>
+                    <a
+                      href="https://stripchat.com/rentbobbydfw"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center px-4 py-2 rounded-full text-sm text-[#3E5F44] bg-[#EFE9D3] hover:bg-[#E6DEC2] transition-colors font-medium"
+                    >
+                      View Profile ↗
+                    </a>
                   </div>
-                ) : (
-                  <div className="rounded-3xl p-8 text-center backdrop-blur-xl"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%)',
-                      border: '1px solid rgba(255,255,255,0.1)'
-                    }}>
-                    <Radio className="w-10 h-10 text-gray-500 mx-auto mb-4" />
-                    <p className="text-white font-semibold mb-1">Currently offline on Stripchat</p>
-                    <p className="text-gray-400 text-sm mb-6">Follow me to get notified when I go live</p>
-                    <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                      <Button
-                        onClick={() => setShowStripchatEmbed(true)}
-                        className="bg-gradient-to-r from-purple-500/30 to-pink-500/30 border border-purple-400/40 hover:from-purple-500/50 hover:to-pink-500/50 text-white rounded-xl"
-                      >
-                        Watch Live
-                      </Button>
-                      <a
-                        href="https://stripchat.com/rentbobbydfw"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm text-gray-300 hover:text-white border border-white/10 hover:border-white/20 transition-colors"
-                      >
-                        View Profile ↗
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </TabsContent>
-            </Tabs>
-          </div>
+                </div>
+              )}
+            </TabsContent>
+          </Tabs>
         </section>
 
-        {/* Reviews Section - Scroll-Triggered Showcase */}
-        <section id="reviews-section" className="py-16 px-4 relative overflow-hidden"
-                 style={{transform: `translateY(${scrollY * 0.02}px)`}}>
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl font-bold text-center text-white mb-8"
-                style={{
-                  opacity: Math.min(1, (scrollY - 300) / 200),
-                  transform: `translateY(${Math.max(0, 30 - (scrollY - 300) / 8)}px)`
-                }}>
-              Testimonials
-            </h2>
-            
-            {/* Leave a Review Section - Above existing reviews */}
-            <div className="flex justify-center mb-12">
-              <div className="bg-black/80 backdrop-blur-md p-8 rounded-3xl border-2 border-yellow-500/30 shadow-2xl max-w-2xl w-full text-center"
-                   style={{
-                     background: 'linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(30,30,30,0.95) 100%)',
-                     boxShadow: '0 25px 50px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.1)'
-                   }}>
-                <div className="text-yellow-400 text-3xl mb-4">⭐⭐⭐⭐⭐</div>
-                <h4 className="text-white text-xl font-bold mb-3">Share Your Experience</h4>
-                <p className="text-gray-200 text-base mb-6 leading-relaxed">
-                  Help others discover quality companion services by sharing your authentic experience locally and during travel.
-                </p>
-                <Button 
-                  onClick={() => {
-                    triggerHaptic('medium');
-                    setIsReviewModalOpen(true);
-                  }}
-                  className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none px-8 py-3 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                >
-                  ⭐ Leave Your Review
-                </Button>
-              </div>
-            </div>
-            
-            {/* Dynamic Reviews from Database */}
-            {reviewsLoading ? (
-              <div className="flex justify-center mb-12">
-                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl">
-                  <div className="animate-pulse">
-                    <div className="h-4 bg-white/20 rounded mb-4"></div>
-                    <div className="h-20 bg-white/10 rounded mb-4"></div>
-                    <div className="h-4 bg-white/20 rounded w-1/2"></div>
-                  </div>
-                </div>
-              </div>
-            ) : reviews && reviews.length > 0 ? (
-              <div className="space-y-6 mb-12">
-                <div className="text-center mb-6">
-                  <h3 className="text-white text-xl font-bold">Client Reviews ({reviews.length})</h3>
-                  <p className="text-gray-300">Real experiences from verified clients</p>
-                </div>
-                
+        {/* Reviews Section */}
+        <section id="reviews-section" className="sm-card p-8 md:p-14">
+          <h2 className="text-3xl font-bold text-center mb-4 text-[#283A2C]">Client Experiences</h2>
+          <p className="text-[#6B7362] text-center mb-12">Real experiences from verified clients</p>
 
-                
-                {reviews.map((review: any, index: number) => {
-                  // Use public rating instead of calculated average
-                  const publicRating = review.publicRating || review.publicrating || 5; // fallback for existing reviews
-                  
-                  return (
-                    <div key={review.id} className="flex justify-center">
-                      <div className="bg-black/70 backdrop-blur-md p-6 rounded-2xl border border-yellow-500/30 shadow-xl max-w-md w-full"
-                           style={{
-                             background: 'linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(20,20,20,0.9) 100%)',
-                             boxShadow: '0 15px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1)',
-                             opacity: 1,
-                             transform: `translateY(0px) scale(1)`,
-                             animationDelay: `${index * 0.15}s`
-                           }}>
-                        
-                        {/* Header with public rating */}
-                        <div className="text-center mb-4">
-                          <div className="flex items-center justify-center gap-2 mb-2">
-                            <div className="flex text-yellow-400 text-xl">
-                              {"★".repeat(publicRating)}{"☆".repeat(5 - publicRating)}
-                            </div>
-                            <span className="text-yellow-300 font-semibold">{publicRating}/5</span>
-                          </div>
-                          <div className="bg-green-500/20 border border-green-500/30 px-3 py-1 rounded-full inline-block">
-                            <span className="text-green-300 text-xs font-medium">✓ Verified</span>
-                          </div>
+          {reviewsLoading ? (
+            <div className="animate-pulse space-y-4 max-w-xl mx-auto">
+              <div className="h-4 bg-[#3E5F44]/10 rounded"></div>
+              <div className="h-20 bg-[#3E5F44]/5 rounded"></div>
+              <div className="h-4 bg-[#3E5F44]/10 rounded w-1/2"></div>
+            </div>
+          ) : reviews && reviews.length > 0 ? (
+            <div className="space-y-8 max-w-2xl mx-auto">
+              {reviews.map((review: any, index: number) => {
+                const publicRating = review.publicRating || review.publicrating || 5;
+                return (
+                  <div key={review.id}>
+                    {index > 0 && <div className="w-full h-px bg-[#3E5F44]/10 mb-8" />}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center gap-2">
+                        <div className="flex text-[#3E5F44]">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className={`w-4 h-4 ${i < publicRating ? 'fill-current' : 'opacity-25'}`} />
+                          ))}
                         </div>
-                        
-                        {/* Full Comment */}
-                        <div className="mb-4">
-                          <p className="text-white text-base leading-relaxed text-center italic">
-                            "{review.additionalComments || review.publicComment || review.publiccomment || 'Great experience overall!'}"
-                          </p>
-                        </div>
-                        
-                        {/* Service Types */}
-                        <div className="flex flex-wrap gap-2 mb-4 justify-center">
-                          {review.serviceTypes?.slice(0, 2).map((serviceType: string, i: number) => (
-                            <span key={i} className="bg-blue-500/20 border border-blue-500/30 px-2 py-1 rounded-full text-blue-300 text-xs">
+                        <span className="text-xs font-medium text-[#3E5F44] bg-[#3E5F44]/10 px-2.5 py-0.5 rounded-full">
+                          ✓ Verified
+                        </span>
+                      </div>
+                      <p className="text-lg text-[#33443A] leading-relaxed italic">
+                        "{review.publicComment || review.publiccomment || 'Great experience overall!'}"
+                      </p>
+                      {review.serviceTypes && review.serviceTypes.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {review.serviceTypes.slice(0, 2).map((serviceType: string, i: number) => (
+                            <span key={i} className="bg-[#EFE9D3] px-2.5 py-1 rounded-full text-[#3E5F44] text-xs font-medium">
                               {serviceType}
                             </span>
                           ))}
                         </div>
-                        
-                        <div className="flex justify-between items-center pt-4 border-t border-white/10">
-                          <div className="text-white font-medium text-lg">{review.name}</div>
-                          <div className="text-gray-400 text-sm">
-                            {new Date(review.createdAt).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
-                            })}
-                          </div>
-                        </div>
+                      )}
+                      <div className="flex justify-between items-center">
+                        <span className="font-semibold text-[#283A2C]">— {review.name}</span>
+                        <span className="text-[#6B7362] text-sm">
+                          {new Date(review.createdAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </span>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="flex justify-center mb-12">
-                <div className="glass-effect p-8 rounded-2xl border border-white/20 max-w-2xl text-center">
-                  <h4 className="text-white text-lg font-semibold mb-4">No Reviews Yet</h4>
-                  <p className="text-gray-300 mb-6">Be the first to share your experience!</p>
-                  <Button 
-                    onClick={() => setIsReviewModalOpen(true)}
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white border-none px-6 py-3 rounded-full"
-                  >
-                    <Star className="w-4 h-4 mr-2" />
-                    Leave First Review
-                  </Button>
-                </div>
-              </div>
-            )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center text-[#6B7362] mb-4">No reviews yet — be the first to share your experience.</p>
+          )}
+
+          <div className="mt-12 text-center">
+            <Button
+              onClick={() => {
+                triggerHaptic('medium');
+                trackEvent('review_modal_open', 'engagement', 'reviews_section');
+                setIsReviewModalOpen(true);
+              }}
+              className="sm-btn-secondary px-8 py-3 font-medium border-none h-auto"
+            >
+              <Star className="w-4 h-4 mr-2" />
+              Share Your Experience
+            </Button>
           </div>
         </section>
 
         {/* FAQ Section - SEO Optimized */}
-        <section className="py-16 px-4"
-                 style={{transform: `translateY(${scrollY * 0.03}px)`}}>
-          <div className="max-w-4xl mx-auto">
-            <FAQAccordion />
-          </div>
+        <section>
+          <FAQAccordion />
         </section>
 
         {/* Call to Action */}
-        <section className="py-16 px-4">
-          <div className="max-w-md mx-auto text-center">
-            <div className="glass-effect p-8 rounded-3xl border border-white/20">
-              <h3 className="text-xl font-semibold text-white mb-4">Book Premium Companion Services</h3>
-              <p className="text-gray-300 mb-6">
-                Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections. Available for dates, events, and weekend getaways. Premium companion experiences tailored to your needs.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button 
-                  onClick={() => setIsContactModalOpen(true)}
-                  className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Get in Touch
-                </Button>
-                <Button 
-                  onClick={() => setIsQRModalOpen(true)}
-                  className="glass-effect px-6 py-3 rounded-full font-medium hover-lift bg-transparent border border-white/20 hover:bg-white/10"
-                >
-                  <QrCode className="w-4 h-4 mr-2" style={{color: 'hsl(280, 100%, 60%)'}} />
-                  Share Profile
-                </Button>
-              </div>
-            </div>
+        <section className="sm-card p-8 md:p-14 text-center" style={{ backgroundColor: '#3E5F44' }}>
+          <h2 className="text-2xl md:text-3xl font-bold text-[#FBF9F0] mb-4">Ready when you are.</h2>
+          <p className="text-[#DDD6B9] mb-8 max-w-xl mx-auto leading-relaxed">
+            Professional companion Bobby offers engaging conversation, thoughtful companionship, and authentic connections. Available for dates, events, and weekend getaways.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button
+              onClick={() => {
+                triggerHaptic('medium');
+                trackEvent('appointment_request', 'engagement', 'footer_cta');
+                setIsScreeningFormOpen(true);
+              }}
+              className="px-8 py-6 rounded-full font-medium text-lg bg-[#FBF9F0] text-[#3E5F44] hover:bg-[#EFE9D3] border-none h-auto"
+            >
+              <Calendar className="w-5 h-5 mr-2" />
+              Request Appointment
+            </Button>
+            <Button
+              onClick={() => {
+                triggerHaptic('light');
+                setIsContactModalOpen(true);
+              }}
+              className="px-8 py-6 rounded-full font-medium text-lg bg-transparent text-[#DDD6B9] hover:bg-white/10 border border-[#DDD6B9]/40 h-auto"
+            >
+              <MessageCircle className="w-5 h-5 mr-2" />
+              Get in Touch
+            </Button>
           </div>
         </section>
+      </main>
 
-        {/* Footer Tabs */}
-        <footer className="py-8 px-4 border-t border-white/10 mt-16"
-                style={{transform: `translateY(${scrollY * -0.02}px)`}}>
-          <div className="max-w-4xl mx-auto">
-            <Tabs defaultValue="privacy" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 glass-effect bg-white/10 border border-white/20">
-                <TabsTrigger 
-                  value="privacy" 
-                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
-                >
-                  Privacy Policy
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="terms" 
-                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
-                >
-                  Terms of Use
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="faq" 
-                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
-                >
-                  FAQ
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="support" 
-                  className="text-white data-[state=active]:bg-white/20 data-[state=active]:text-white"
-                >
-                  Support
-                </TabsTrigger>
-              </TabsList>
+      {/* Footer */}
+      <footer className="w-full border-t py-12 px-4 md:px-6 text-center" style={{ backgroundColor: '#3E5F44', borderColor: 'rgba(62, 95, 68, 0.15)' }}>
+        <div className="max-w-4xl mx-auto">
+          <Tabs defaultValue="privacy" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 h-auto p-1 rounded-full bg-[#DDD6B9]/15 border-none">
+              <TabsTrigger
+                value="privacy"
+                className="rounded-full py-2 text-xs sm:text-sm text-[#DDD6B9] data-[state=active]:bg-[#FBF9F0] data-[state=active]:text-[#3E5F44]"
+              >
+                Privacy
+              </TabsTrigger>
+              <TabsTrigger
+                value="terms"
+                className="rounded-full py-2 text-xs sm:text-sm text-[#DDD6B9] data-[state=active]:bg-[#FBF9F0] data-[state=active]:text-[#3E5F44]"
+              >
+                Terms
+              </TabsTrigger>
+              <TabsTrigger
+                value="faq"
+                className="rounded-full py-2 text-xs sm:text-sm text-[#DDD6B9] data-[state=active]:bg-[#FBF9F0] data-[state=active]:text-[#3E5F44]"
+              >
+                FAQ
+              </TabsTrigger>
+              <TabsTrigger
+                value="support"
+                className="rounded-full py-2 text-xs sm:text-sm text-[#DDD6B9] data-[state=active]:bg-[#FBF9F0] data-[state=active]:text-[#3E5F44]"
+              >
+                Support
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="privacy" className="mt-6">
-                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Privacy Policy</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    This site does not collect personal information or track users beyond essential, non-identifying functionality. External links may direct you to third-party content with their own privacy practices. By using this site, you acknowledge and accept those terms. Discretion is encouraged when viewing or sharing adult-oriented content.
-                  </p>
-                </div>
-              </TabsContent>
+            <TabsContent value="privacy" className="mt-6">
+              <div className="rounded-3xl p-6 text-left" style={{ backgroundColor: 'rgba(251, 249, 240, 0.08)' }}>
+                <h3 className="text-lg font-semibold text-[#FBF9F0] mb-4">Privacy Policy</h3>
+                <p className="text-[#DDD6B9] text-sm leading-relaxed">
+                  This site does not collect personal information or track users beyond essential, non-identifying functionality. External links may direct you to third-party content with their own privacy practices. By using this site, you acknowledge and accept those terms. Discretion is encouraged when viewing or sharing adult-oriented content.
+                </p>
+              </div>
+            </TabsContent>
 
-              <TabsContent value="terms" className="mt-6">
-                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Terms of Use</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    By accessing this site, you confirm that you are of legal age in your jurisdiction and understand that some content may be intended for mature audiences. All materials are for personal, non-commercial use only. Redistribution, impersonation, or harassment of any kind is strictly prohibited. Use at your own discretion.
-                  </p>
-                </div>
-              </TabsContent>
+            <TabsContent value="terms" className="mt-6">
+              <div className="rounded-3xl p-6 text-left" style={{ backgroundColor: 'rgba(251, 249, 240, 0.08)' }}>
+                <h3 className="text-lg font-semibold text-[#FBF9F0] mb-4">Terms of Use</h3>
+                <p className="text-[#DDD6B9] text-sm leading-relaxed">
+                  By accessing this site, you confirm that you are of legal age in your jurisdiction and understand that some content may be intended for mature audiences. All materials are for personal, non-commercial use only. Redistribution, impersonation, or harassment of any kind is strictly prohibited. Use at your own discretion.
+                </p>
+              </div>
+            </TabsContent>
 
-              <TabsContent value="faq" className="mt-6">
-                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-white mb-6">Frequently Asked Questions</h3>
-                  <FAQAccordion />
-                </div>
-              </TabsContent>
+            <TabsContent value="faq" className="mt-6">
+              <div className="rounded-3xl p-6 text-left bg-[#FBF9F0]">
+                <FAQAccordion />
+              </div>
+            </TabsContent>
 
-              <TabsContent value="support" className="mt-6">
-                <div className="glass-effect bg-white/5 border border-white/10 rounded-lg p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    For general questions or link-related issues, you're welcome to reach out via the contact method provided. This site is independently maintained, so response times may vary — but respectful communication is always appreciated.
-                  </p>
-                </div>
-              </TabsContent>
-            </Tabs>
+            <TabsContent value="support" className="mt-6">
+              <div className="rounded-3xl p-6 text-left" style={{ backgroundColor: 'rgba(251, 249, 240, 0.08)' }}>
+                <h3 className="text-lg font-semibold text-[#FBF9F0] mb-4">Support</h3>
+                <p className="text-[#DDD6B9] text-sm leading-relaxed">
+                  For general questions or link-related issues, you're welcome to reach out via the contact method provided. This site is independently maintained, so response times may vary — but respectful communication is always appreciated.
+                </p>
+              </div>
+            </TabsContent>
+          </Tabs>
 
-            {/* Copyright */}
-            <div className="pt-8 text-center">
-              <p className="text-gray-500 text-sm">
-                © 2025 Bobby. All rights reserved.
-              </p>
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="px-4 py-2 rounded-lg text-xs font-bold tracking-widest uppercase" style={{ backgroundColor: 'rgba(221, 214, 185, 0.15)', color: '#DDD6B9' }}>
+              Must be 21+
             </div>
+            <p className="text-xs" style={{ color: 'rgba(221, 214, 185, 0.6)' }}>
+              © {new Date().getFullYear()} Bobby. All rights reserved.
+            </p>
           </div>
-        </footer>
+        </div>
+      </footer>
 
-        {/* Sticky Floating Action Buttons */}
-        <div 
-          className={`fixed bottom-6 right-6 z-50 flex flex-col gap-3 transition-all duration-300 ${
-            scrollY > 400 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
-          }`}
+      {/* Sticky Floating Action Buttons */}
+      <div
+        className={`fixed bottom-6 right-6 z-50 flex flex-col gap-3 transition-all duration-300 ${
+          scrollY > 400 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+      >
+        <Button
+          onClick={() => {
+            triggerHaptic('light');
+            trackEvent('quick_chat_open', 'engagement', 'floating_chat');
+            setIsQuickChatOpen(true);
+          }}
+          className="p-4 rounded-full inline-flex items-center justify-center bg-[#FBF9F0] text-[#3E5F44] hover:bg-[#EFE9D3] shadow-xl border border-[#3E5F44]/15 h-auto"
+          title="Quick Chat"
         >
-          {/* Quick Chat Button */}
-          <Button 
+          <MessageCircle className="w-6 h-6" />
+        </Button>
+
+        <Button
+          onClick={() => {
+            triggerHaptic('medium');
+            trackEvent('appointment_request', 'engagement', 'sticky_cta');
+            setIsScreeningFormOpen(true);
+          }}
+          className="sm-btn-primary px-6 py-4 font-semibold inline-flex items-center gap-2 shadow-xl border-none h-auto"
+        >
+          <Calendar className="w-5 h-5" />
+          Book Now
+        </Button>
+      </div>
+
+      {/* Quick Actions Sidebar for Desktop */}
+      <div
+        className={`fixed left-6 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block transition-all duration-300 ${
+          scrollY > 200 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
+        }`}
+      >
+        <div className="flex flex-col gap-3">
+          <Button
             onClick={() => {
               triggerHaptic('light');
-              trackEvent('quick_chat_open', 'engagement', 'floating_chat');
               setIsQuickChatOpen(true);
             }}
-            className="glass-effect p-4 rounded-full font-semibold hover-lift inline-flex items-center justify-center bg-gradient-to-r from-blue-600/40 to-cyan-600/40 border border-blue-400/60 hover:from-blue-600/50 hover:to-cyan-600/50 text-white shadow-2xl group"
-            style={{
-              backdropFilter: 'blur(20px) saturate(180%)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.3)'
-            }}
+            className="p-3 rounded-full bg-[#FBF9F0] text-[#3E5F44] hover:bg-[#EFE9D3] shadow-lg border border-[#3E5F44]/15 h-auto"
             title="Quick Chat"
           >
-            <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            <MessageCircle className="w-5 h-5" />
           </Button>
-
-          {/* Book Now Button */}
-          <Button 
+          <Button
             onClick={() => {
-              triggerHaptic('medium');
-              trackEvent('appointment_request', 'engagement', 'sticky_cta');
-              setIsScreeningFormOpen(true);
+              triggerHaptic('light');
+              setIsQRModalOpen(true);
             }}
-            className="glass-effect px-6 py-4 rounded-full font-semibold hover-lift inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/40 to-pink-600/40 border border-purple-400/60 hover:from-purple-600/50 hover:to-pink-600/50 text-white shadow-2xl"
-            style={{
-              backdropFilter: 'blur(20px) saturate(180%)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(168, 85, 247, 0.3)'
-            }}
+            className="p-3 rounded-full bg-[#FBF9F0] text-[#3E5F44] hover:bg-[#EFE9D3] shadow-lg border border-[#3E5F44]/15 h-auto"
+            title="QR Code"
           >
-            <Calendar className="w-5 h-5" />
-            Book Now
+            <QrCode className="w-5 h-5" />
           </Button>
-        </div>
-
-        {/* Quick Actions Sidebar for Desktop */}
-        <div 
-          className={`fixed left-6 top-1/2 transform -translate-y-1/2 z-40 hidden lg:block transition-all duration-300 ${
-            scrollY > 200 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
-          }`}
-        >
-          <div className="flex flex-col gap-3">
-            <Button 
-              onClick={() => {
-                triggerHaptic('light');
-                setIsQuickChatOpen(true);
-              }}
-              className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
-              title="Quick Chat"
-            >
-              <MessageCircle className="w-5 h-5 text-gray-300 group-hover:text-white" />
-            </Button>
-            <Button 
-              onClick={() => {
-                triggerHaptic('light');
-                setIsQRModalOpen(true);
-              }}
-              className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
-              title="QR Code"
-            >
-              <QrCode className="w-5 h-5 text-gray-300 group-hover:text-white" />
-            </Button>
-            <Button 
-              onClick={() => {
-                triggerHaptic('light');
-                setIsReviewModalOpen(true);
-              }}
-              className="glass-effect p-3 rounded-full hover-lift bg-transparent border border-white/20 hover:bg-white/10 group"
-              title="Leave Review"
-            >
-              <Star className="w-5 h-5 text-gray-300 group-hover:text-white" />
-            </Button>
-          </div>
+          <Button
+            onClick={() => {
+              triggerHaptic('light');
+              setIsReviewModalOpen(true);
+            }}
+            className="p-3 rounded-full bg-[#FBF9F0] text-[#3E5F44] hover:bg-[#EFE9D3] shadow-lg border border-[#3E5F44]/15 h-auto"
+            title="Leave Review"
+          >
+            <Star className="w-5 h-5" />
+          </Button>
         </div>
       </div>
 
-      <ContactModal 
-        isOpen={isContactModalOpen} 
-        onClose={() => setIsContactModalOpen(false)} 
-      />
-      
-      <QRModal 
-        isOpen={isQRModalOpen} 
-        onClose={() => setIsQRModalOpen(false)} 
-      />
-      
-      <ScreeningForm 
-        isOpen={isScreeningFormOpen} 
-        onClose={() => setIsScreeningFormOpen(false)} 
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
       />
 
-      <ReviewModal 
-        isOpen={isReviewModalOpen} 
-        onClose={() => setIsReviewModalOpen(false)} 
+      <QRModal
+        isOpen={isQRModalOpen}
+        onClose={() => setIsQRModalOpen(false)}
       />
 
-      <QuickChat 
-        isOpen={isQuickChatOpen} 
-        onClose={() => setIsQuickChatOpen(false)} 
+      <ScreeningForm
+        isOpen={isScreeningFormOpen}
+        onClose={() => setIsScreeningFormOpen(false)}
+      />
+
+      <ReviewModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+      />
+
+      <QuickChat
+        isOpen={isQuickChatOpen}
+        onClose={() => setIsQuickChatOpen(false)}
       />
 
       {/* Photo Modal */}
       <Dialog open={isPhotoModalOpen} onOpenChange={setIsPhotoModalOpen}>
-        <DialogContent className="max-w-2xl bg-black/90 border border-white/20">
-          <img 
-            src={profileImage} 
-            alt="Discreet companion Bobby offering travel and social event services" 
+        <DialogContent className="max-w-2xl bg-[#FBF9F0] border border-[#3E5F44]/15">
+          <img
+            src={profileImage}
+            alt="Discreet companion Bobby offering travel and social event services"
             className="w-full h-auto rounded-lg"
           />
         </DialogContent>
       </Dialog>
+    </div>
+  );
+}
+
+function ServiceCard({ icon, title, desc }: { icon: ReactNode; title: string; desc: string }) {
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="w-12 h-12 rounded-2xl bg-[#3E5F44]/10 flex items-center justify-center text-[#3E5F44]">
+        {icon}
+      </div>
+      <h3 className="text-xl font-bold text-[#283A2C]">{title}</h3>
+      <p className="text-[#6B7362] leading-relaxed">{desc}</p>
     </div>
   );
 }

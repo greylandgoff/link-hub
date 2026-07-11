@@ -200,7 +200,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           {icon}
-          <Label className="text-white font-medium">{label}</Label>
+          <Label className="text-[#283A2C] font-medium">{label}</Label>
         </div>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
@@ -211,7 +211,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
               className="transition-colors hover:scale-110 transform duration-200"
             >
               <Star 
-                className={`w-6 h-6 ${star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
+                className={`w-6 h-6 ${star <= rating ? 'fill-yellow-400 text-yellow-400' : 'text-[#6B7362]/40'}`}
               />
             </button>
           ))}
@@ -238,32 +238,32 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
   if (submissionStep === 'success') {
     return (
       <Dialog open={isOpen} onOpenChange={onClose}>
-        <DialogContent className="max-w-lg bg-black/95 border border-green-500/50 backdrop-blur-xl">
+        <DialogContent className="max-w-lg bg-[#FBF9F0] border border-[#3E5F44]/30">
           <div className="text-center space-y-6 p-6">
-            <div className="mx-auto w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center">
-              <CheckCircle className="w-8 h-8 text-green-400" />
+            <div className="mx-auto w-16 h-16 bg-[#3E5F44]/15 rounded-full flex items-center justify-center">
+              <CheckCircle className="w-8 h-8 text-[#3E5F44]" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-white">Database Confirmed!</h3>
-              <p className="text-gray-300">
+              <h3 className="text-xl font-bold text-[#283A2C]">Database Confirmed!</h3>
+              <p className="text-[#6B7362]">
                 Review #{reviewId} successfully stored and queued for approval.
               </p>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center justify-center gap-2 text-green-400 text-sm">
+              <div className="flex items-center justify-center gap-2 text-[#3E5F44] text-sm">
                 <CheckCircle className="w-4 h-4" />
                 <span>Stored in database</span>
               </div>
-              <div className="flex items-center justify-center gap-2 text-green-400 text-sm">
+              <div className="flex items-center justify-center gap-2 text-[#3E5F44] text-sm">
                 <CheckCircle className="w-4 h-4" />
                 <span>Email notification sent</span>
               </div>
-              <div className="flex items-center justify-center gap-2 text-green-400 text-sm">
+              <div className="flex items-center justify-center gap-2 text-[#3E5F44] text-sm">
                 <CheckCircle className="w-4 h-4" />
                 <span>Queued for approval</span>
               </div>
             </div>
-            <p className="text-gray-400 text-sm">
+            <p className="text-[#6B7362] text-sm">
               This window will close automatically...
             </p>
           </div>
@@ -276,19 +276,19 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
   if (submissionStep === 'submitting') {
     return (
       <Dialog open={isOpen} onOpenChange={() => {}}>
-        <DialogContent className="max-w-lg bg-black/95 border border-purple-500/50 backdrop-blur-xl">
+        <DialogContent className="max-w-lg bg-[#FBF9F0] border border-[#3E5F44]/30">
           <div className="text-center space-y-6 p-6">
-            <div className="mx-auto w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center animate-pulse">
-              <Star className="w-8 h-8 text-purple-400 animate-spin" />
+            <div className="mx-auto w-16 h-16 bg-[#3E5F44]/15 rounded-full flex items-center justify-center animate-pulse">
+              <Star className="w-8 h-8 text-[#3E5F44] animate-spin" />
             </div>
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-white">Submitting Review...</h3>
-              <p className="text-gray-300">
+              <h3 className="text-xl font-bold text-[#283A2C]">Submitting Review...</h3>
+              <p className="text-[#6B7362]">
                 Storing your feedback in the database
               </p>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full animate-pulse w-3/4"></div>
+            <div className="w-full bg-[#EFE9D3] rounded-full h-2">
+              <div className="bg-[#3E5F44] h-2 rounded-full animate-pulse w-3/4"></div>
             </div>
           </div>
         </DialogContent>
@@ -298,9 +298,9 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl bg-black/95 border border-white/20 max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl bg-[#FBF9F0] border border-[#3E5F44]/15 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-white text-2xl font-bold flex items-center gap-2">
+          <DialogTitle className="text-[#283A2C] text-2xl font-bold flex items-center gap-2">
             <Star className="w-6 h-6 text-yellow-400" />
             Share Your Experience
           </DialogTitle>
@@ -309,27 +309,27 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
         <form onSubmit={handleSubmit} className="space-y-6 p-2">
           {/* Contact Information */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-[#283A2C] flex items-center gap-2">
               <User className="w-5 h-5" />
               Contact Information
             </h3>
             
             <div>
-              <Label htmlFor="name" className="text-white">
+              <Label htmlFor="name" className="text-[#283A2C]">
                 Your Name *
               </Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder:text-[#6B7362] focus:border-[#3E5F44]"
                 placeholder="Enter your name"
                 required
               />
             </div>
 
             <div>
-              <Label htmlFor="email" className="text-white">
+              <Label htmlFor="email" className="text-[#283A2C]">
                 Email Address *
               </Label>
               <Input
@@ -337,7 +337,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder:text-[#6B7362] focus:border-[#3E5F44]"
                 placeholder="Enter your email"
                 required
               />
@@ -346,11 +346,11 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
           {/* Service Experience Ratings - Private Feedback */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-[#283A2C] flex items-center gap-2">
               <Star className="w-5 h-5" />
               Detailed Feedback
             </h3>
-            <p className="text-gray-400 text-sm italic">👁️ Bobby's eyes only - Private feedback for improvement</p>
+            <p className="text-[#6B7362] text-sm italic">👁️ Bobby's eyes only - Private feedback for improvement</p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {renderStarRating("appearance", "Appearance", <Heart className="w-4 h-4 text-pink-400" />)}
@@ -364,7 +364,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
           {/* Service Types */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-[#283A2C]">
               Services Experienced
             </h3>
             <div className="grid grid-cols-2 gap-3">
@@ -374,9 +374,9 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
                     id={service}
                     checked={formData.serviceTypes.includes(service)}
                     onCheckedChange={(checked) => handleServiceTypeChange(service, !!checked)}
-                    className="border-white/30 data-[state=checked]:bg-blue-600"
+                    className="border-[#3E5F44]/40 data-[state=checked]:bg-[#3E5F44]"
                   />
-                  <Label htmlFor={service} className="text-white text-sm">
+                  <Label htmlFor={service} className="text-[#283A2C] text-sm">
                     {service}
                   </Label>
                 </div>
@@ -386,20 +386,20 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
           {/* Yes/No Questions */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white">
+            <h3 className="text-lg font-semibold text-[#283A2C]">
               Overall Experience
             </h3>
             
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label className="text-white">Would you book again?</Label>
+                <Label className="text-[#283A2C]">Would you book again?</Label>
                 <div className="flex gap-2">
                   <Button
                     type="button"
                     variant={formData.wouldBookAgain ? "default" : "outline"}
                     size="sm"
                     onClick={() => setFormData({ ...formData, wouldBookAgain: true })}
-                    className={formData.wouldBookAgain ? "bg-green-600 hover:bg-green-700" : "border-white/20 text-white"}
+                    className={formData.wouldBookAgain ? "bg-[#3E5F44] hover:bg-[#33503A] text-[#FBF9F0]" : "border-[#3E5F44]/20 text-[#283A2C]"}
                   >
                     Yes
                   </Button>
@@ -408,7 +408,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
                     variant={!formData.wouldBookAgain ? "default" : "outline"}
                     size="sm"
                     onClick={() => setFormData({ ...formData, wouldBookAgain: false })}
-                    className={!formData.wouldBookAgain ? "bg-red-600 hover:bg-red-700" : "border-white/20 text-white"}
+                    className={!formData.wouldBookAgain ? "bg-red-600 hover:bg-red-700 text-white" : "border-[#3E5F44]/20 text-[#283A2C]"}
                   >
                     No
                   </Button>
@@ -416,14 +416,14 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
               </div>
 
               <div className="flex items-center justify-between">
-                <Label className="text-white">Was the booking process smooth?</Label>
+                <Label className="text-[#283A2C]">Was the booking process smooth?</Label>
                 <div className="flex gap-2">
                   <Button
                     type="button"
                     variant={formData.bookingProcessSmooth ? "default" : "outline"}
                     size="sm"
                     onClick={() => setFormData({ ...formData, bookingProcessSmooth: true })}
-                    className={formData.bookingProcessSmooth ? "bg-green-600 hover:bg-green-700" : "border-white/20 text-white"}
+                    className={formData.bookingProcessSmooth ? "bg-[#3E5F44] hover:bg-[#33503A] text-[#FBF9F0]" : "border-[#3E5F44]/20 text-[#283A2C]"}
                   >
                     Yes
                   </Button>
@@ -432,7 +432,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
                     variant={!formData.bookingProcessSmooth ? "default" : "outline"}
                     size="sm"
                     onClick={() => setFormData({ ...formData, bookingProcessSmooth: false })}
-                    className={!formData.bookingProcessSmooth ? "bg-red-600 hover:bg-red-700" : "border-white/20 text-white"}
+                    className={!formData.bookingProcessSmooth ? "bg-red-600 hover:bg-red-700 text-white" : "border-[#3E5F44]/20 text-[#283A2C]"}
                   >
                     No
                   </Button>
@@ -440,14 +440,14 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
               </div>
 
               <div className="flex items-center justify-between">
-                <Label className="text-white">Did the experience match the description?</Label>
+                <Label className="text-[#283A2C]">Did the experience match the description?</Label>
                 <div className="flex gap-2">
                   <Button
                     type="button"
                     variant={formData.matchedDescription ? "default" : "outline"}
                     size="sm"
                     onClick={() => setFormData({ ...formData, matchedDescription: true })}
-                    className={formData.matchedDescription ? "bg-green-600 hover:bg-green-700" : "border-white/20 text-white"}
+                    className={formData.matchedDescription ? "bg-[#3E5F44] hover:bg-[#33503A] text-[#FBF9F0]" : "border-[#3E5F44]/20 text-[#283A2C]"}
                   >
                     Yes
                   </Button>
@@ -456,7 +456,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
                     variant={!formData.matchedDescription ? "default" : "outline"}
                     size="sm"
                     onClick={() => setFormData({ ...formData, matchedDescription: false })}
-                    className={!formData.matchedDescription ? "bg-red-600 hover:bg-red-700" : "border-white/20 text-white"}
+                    className={!formData.matchedDescription ? "bg-red-600 hover:bg-red-700 text-white" : "border-[#3E5F44]/20 text-[#283A2C]"}
                   >
                     No
                   </Button>
@@ -467,14 +467,14 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
 
           {/* Public Review */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-[#283A2C] flex items-center gap-2">
               <Star className="w-5 h-5 text-yellow-400" />
               Public Review
             </h3>
-            <p className="text-gray-400 text-sm">🌟 This will appear on the website for other clients</p>
+            <p className="text-[#6B7362] text-sm">🌟 This will appear on the website for other clients</p>
             
             <div>
-              <Label htmlFor="publicRating" className="text-white">
+              <Label htmlFor="publicRating" className="text-[#283A2C]">
                 Overall Rating *
               </Label>
               <div className="flex gap-1 mt-2">
@@ -486,7 +486,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
                     className="transition-colors hover:scale-110 transform duration-200"
                   >
                     <Star 
-                      className={`w-8 h-8 ${star <= (formData.publicRating || 0) ? 'fill-yellow-400 text-yellow-400' : 'text-gray-400'}`}
+                      className={`w-8 h-8 ${star <= (formData.publicRating || 0) ? 'fill-yellow-400 text-yellow-400' : 'text-[#6B7362]/40'}`}
                     />
                   </button>
                 ))}
@@ -494,33 +494,33 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
             </div>
             
             <div>
-              <Label htmlFor="publicComment" className="text-white">
+              <Label htmlFor="publicComment" className="text-[#283A2C]">
                 Short Public Comment *
               </Label>
               <Textarea
                 id="publicComment"
                 value={formData.publicComment || ''}
                 onChange={(e) => setFormData({ ...formData, publicComment: e.target.value })}
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[80px]"
+                className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder:text-[#6B7362] focus:border-[#3E5F44] min-h-[80px]"
                 placeholder="Brief comment for website (1-2 sentences max)"
                 maxLength={150}
                 required
               />
-              <p className="text-gray-500 text-xs mt-1">{(formData.publicComment || '').length}/150 characters</p>
+              <p className="text-[#6B7362] text-xs mt-1">{(formData.publicComment || '').length}/150 characters</p>
             </div>
           </div>
           
           {/* Private Additional Comments */}
           <div>
-            <Label htmlFor="comments" className="text-white flex items-center gap-2">
+            <Label htmlFor="comments" className="text-[#283A2C] flex items-center gap-2">
               Additional Private Feedback
-              <span className="text-gray-400 text-xs italic">👁️ Bobby's eyes only</span>
+              <span className="text-[#6B7362] text-xs italic">👁️ Bobby's eyes only</span>
             </Label>
             <Textarea
               id="comments"
               value={formData.additionalComments}
               onChange={(e) => setFormData({ ...formData, additionalComments: e.target.value })}
-              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 min-h-[100px]"
+              className="bg-white border-[#3E5F44]/20 text-[#283A2C] placeholder:text-[#6B7362] focus:border-[#3E5F44] min-h-[100px]"
               placeholder="Private feedback, suggestions, or critiques for Bobby's improvement..."
             />
           </div>
@@ -531,14 +531,14 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
               type="button"
               onClick={onClose}
               variant="outline"
-              className="flex-1 border-white/20 text-white hover:bg-white/10"
+              className="flex-1 rounded-full bg-[#EFE9D3] border-none text-[#3E5F44] hover:bg-[#E6DEC2]"
             >
               Cancel
             </Button>
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-none"
+              className="flex-1 rounded-full bg-[#3E5F44] hover:bg-[#33503A] text-[#FBF9F0] border-none"
             >
               {isSubmitting ? (
                 "Submitting..."

@@ -62,45 +62,33 @@ export function FAQAccordion() {
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* SEO-friendly H2 section title */}
-      <h2 className="text-2xl font-bold text-center text-white mb-8">
+      <h2 className="text-3xl font-bold text-center text-[#283A2C] mb-8">
         Frequently Asked Questions
       </h2>
       
       {/* Accordion items */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         {faqData.map((item, index) => (
           <div 
             key={index}
-            className={`
-              glass-effect 
-              border border-white/20 
-              rounded-2xl 
-              overflow-hidden 
-              transition-all 
-              duration-300 
-              hover:border-purple-400/40
-              ${openIndex === index ? 'bg-gradient-to-r from-purple-900/20 to-pink-900/20' : 'bg-black/40'}
-            `}
-            style={{
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-            }}
+            className="sm-card overflow-hidden transition-all duration-300 hover:shadow-md"
           >
             <button
               onClick={() => toggleItem(index)}
-              className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-white/5 transition-all duration-200 group"
+              className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-[#3E5F44]/5 transition-all duration-200 group"
               tabIndex={0}
               aria-expanded={openIndex === index}
               aria-controls={`faq-answer-${index}`}
             >
               {/* SEO-friendly H3 for questions */}
-              <h3 className="text-white font-semibold text-base md:text-lg group-hover:text-purple-300 transition-colors pr-4">
+              <h3 className="text-[#283A2C] font-semibold text-base md:text-lg group-hover:text-[#3E5F44] transition-colors pr-4">
                 {item.question}
               </h3>
               <div className={`
                 transition-all 
                 duration-300 
-                ${openIndex === index ? 'rotate-180 text-purple-400' : 'text-gray-400 group-hover:text-purple-400'}
+                text-[#3E5F44]
+                ${openIndex === index ? 'rotate-180' : ''}
               `}>
                 <ChevronDown className="w-5 h-5" />
               </div>
@@ -120,7 +108,7 @@ export function FAQAccordion() {
               }}
             >
               <div className="px-6 pb-5">
-                <p className="text-gray-200 leading-relaxed">
+                <p className="text-[#6B7362] leading-relaxed">
                   {item.answer}
                 </p>
               </div>
@@ -131,10 +119,10 @@ export function FAQAccordion() {
 
       {/* Additional SEO text */}
       <div className="mt-8 text-center">
-        <p className="text-gray-400 text-sm">
+        <p className="text-[#6B7362] text-sm">
           Have more questions about companion services in Austin? 
           <button 
-            className="text-purple-400 hover:text-purple-300 ml-2 underline transition-colors"
+            className="text-[#3E5F44] hover:text-[#33503A] ml-2 underline transition-colors"
             onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Contact me directly

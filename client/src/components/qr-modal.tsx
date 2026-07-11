@@ -81,18 +81,18 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="glass-effect bg-gray-900/95 border border-white/20 text-white max-w-sm mx-4">
+      <DialogContent className="bg-[#FBF9F0] border border-[#3E5F44]/15 text-[#283A2C] max-w-sm mx-4">
         <DialogHeader>
           <div className="flex justify-between items-center">
-            <DialogTitle className="text-xl font-bold text-white flex items-center gap-2">
-              <QrCode className="w-5 h-5 animate-neon-pulse" style={{color: 'hsl(320, 100%, 60%)'}} />
+            <DialogTitle className="text-xl font-bold text-[#283A2C] flex items-center gap-2">
+              <QrCode className="w-5 h-5" style={{color: '#3E5F44'}} />
               Share Profile
             </DialogTitle>
             <Button
               onClick={onClose}
               variant="ghost"
               size="icon"
-              className="text-gray-400 hover:text-white h-8 w-8"
+              className="text-[#6B7362] hover:text-[#283A2C] h-8 w-8"
             >
               <X className="h-5 w-5" />
             </Button>
@@ -102,10 +102,10 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
         <div className="space-y-6">
           {/* QR Code Display */}
           <div className="flex justify-center">
-            <div className="glass-effect p-4 rounded-2xl border border-white/20">
+            <div className="bg-white p-4 rounded-2xl border border-[#3E5F44]/15">
               {isLoading ? (
                 <div className="w-48 h-48 flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-2 border-white/20 border-t-white"></div>
+                  <div className="animate-spin rounded-full h-12 w-12 border-2 border-[#3E5F44]/20 border-t-[#3E5F44]"></div>
                 </div>
               ) : qrCodeUrl ? (
                 <img 
@@ -114,7 +114,7 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
                   className="w-48 h-48 rounded-lg"
                 />
               ) : (
-                <div className="w-48 h-48 flex items-center justify-center text-gray-400">
+                <div className="w-48 h-48 flex items-center justify-center text-[#6B7362]">
                   Failed to load QR code
                 </div>
               )}
@@ -123,7 +123,7 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
 
           {/* Instructions */}
           <div className="text-center">
-            <p className="text-gray-300 text-sm mb-4">
+            <p className="text-[#6B7362] text-sm mb-4">
               Scan this QR code with any camera to quickly visit Bobby's profile
             </p>
           </div>
@@ -133,7 +133,7 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
             <Button
               onClick={downloadQRCode}
               disabled={!qrCodeUrl}
-              className="flex-1 glass-effect bg-transparent border border-white/20 hover:bg-white/10 font-medium"
+              className="flex-1 rounded-full bg-[#EFE9D3] border-none text-[#3E5F44] hover:bg-[#E6DEC2] font-medium"
             >
               <Download className="w-4 h-4 mr-2" />
               Download
@@ -141,7 +141,7 @@ export function QRModal({ isOpen, onClose }: QRModalProps) {
             <Button
               onClick={shareQRCode}
               disabled={!qrCodeUrl}
-              className="flex-1 glass-effect bg-transparent border border-white/20 hover:bg-white/10 font-medium"
+              className="flex-1 rounded-full bg-[#3E5F44] text-[#FBF9F0] hover:bg-[#33503A] font-medium"
             >
               <Share className="w-4 h-4 mr-2" />
               Share

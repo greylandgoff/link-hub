@@ -4,17 +4,21 @@
 A sophisticated personal landing page with Apple-inspired parallax scrolling and earth-tone design that serves as a central hub for directing visitors to various social media profiles and platforms.
 
 ## User Preferences
-- Design: Apple-inspired parallax scrolling effects
-- Colors: Muted earth tones, no crazy colors
-- Style: Sleek and stylish, minimal approach
+- Design: "Soft Minimal" light theme (approved via canvas mockup, July 2026)
+- Colors: Sand #DDD6B9 background, cream #FBF9F0 cards, forest green #3E5F44 accents, ink #283A2C text, muted #6B7362
+- Fonts: Unbounded (headlines) + Jost (body)
+- Style: Sleek and stylish, minimal approach; soft rounded cards (32px radius), pill buttons
 - Images: Prefer bleek/minimal imagery as stylistic choice
+
+## Contact Info
+- Phone (SMS/vCard): (817) 791-8598 — updated July 2026, used in contact modal and /api/contact-card vCard
 
 ## Project Architecture
 - Frontend: React with Vite
-- Styling: Tailwind CSS with custom earth-tone color palette
-- Effects: Parallax scrolling similar to Apple websites
+- Styling: Tailwind CSS + Soft Minimal utility classes in index.css (.sm-card, .sm-btn-primary, .sm-btn-secondary, .sm-logo)
+- Effects: Subtle parallax translations on scroll
 - Features:
-  - Social media links (OnlyFans, Rentmen, Twitter, CashApp, Apple Cash)
+  - Social media links (OnlyFans, Rentmen, Hunqz, Chaturbate, Stripchat, Twitter, CashApp)
   - Contact card sharing functionality
   - Contact form for text/email communication
   - Responsive design
@@ -107,14 +111,16 @@ A sophisticated personal landing page with Apple-inspired parallax scrolling and
 - REMOVED INTERNATIONAL TRAVEL REFERENCES: Updated site content to be more accessible by replacing international travel messaging with "dates, events, and getaways" (December 23, 2025)
 - ENHANCED SCREENING FORM: Added phone number field to screening form, separated screening data into individual database fields (notes, travel_request, arrival_airport, hotel_booked, interests_boundaries) instead of combining into single message (December 23, 2025)
 - IMPROVED ADMIN PANEL DISPLAY: Updated admin panel to show screening data in separate color-coded snippets instead of messy combined special requests field (December 23, 2025)
+- SOFT MINIMAL REDESIGN GRADUATED: Replaced dark neon theme with approved "Soft Minimal" light theme (sand/cream/forest green, Unbounded + Jost fonts) across home page, 404, SEO page, and all modals/overlays; all functionality preserved and verified via e2e test (July 11, 2026)
+- PHONE NUMBER UPDATED: Changed contact/SMS/vCard phone to (817) 791-8598 in contact modal and server vCard endpoint (July 11, 2026)
 
 ## Features
-1. **Social Media Integration**: Links to OnlyFans, Rentmen, Twitter, CashApp, Apple Cash
+1. **Social Media Integration**: Links to OnlyFans, Rentmen, Hunqz, Chaturbate, Stripchat, Twitter, CashApp
 2. **Contact Card Sharing**: Save contact information to phone
 3. **Contact Form**: Send text or email through contact tab with phone field option
 4. **QR Code Sharing**: Generate and share QR codes for easy profile access
-5. **Neon MSN Butterfly Design**: Vibrant colors on black background with frosted glass
-6. **Parallax Effects**: Apple-inspired scrolling animations
-7. **Dynamic Background Texture Generator**: Interactive particle system with mood-based palettes
-8. **JSON Webhook Notifications**: Clean IFTTT integration for instant contact alerts
-9. **Comprehensive Footer**: Privacy Policy, Terms of Use, and Support information
+5. **Soft Minimal Design**: Sand/cream palette with forest green accents, rounded cards, pill buttons
+6. **Parallax Effects**: Subtle scroll-based translations
+7. **Live Streams**: Chaturbate/Stripchat status polling with embedded players
+8. **Reviews System**: Verified client reviews with star ratings and admin approval
+9. **Comprehensive Footer**: Privacy Policy, Terms of Use, FAQ, and Support tabs
